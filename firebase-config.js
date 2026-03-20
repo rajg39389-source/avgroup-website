@@ -18,7 +18,7 @@ const firebaseConfig = {
    After uploading, REGISTER on the website using this exact email.
    You will automatically be sent to the Admin Dashboard.
 */
-const ADMIN_EMAIL = "guptaraj291@gmail.com";
+const ADMIN_EMAIL = "guptaraj2921@gmail.com";
 
 /* DO NOT EDIT BELOW THIS LINE */
 export { firebaseConfig, ADMIN_EMAIL };
