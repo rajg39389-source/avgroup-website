@@ -11,11 +11,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:wght@300;400;500&family=Oswald:wght@600;700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="style.css"/>
 <style>
-.admin-layout{display:flex;flex-direction:row;min-height:100svh;padding-top:calc(70px + var(--sat))}
-.admin-main{flex:1;min-width:0;overflow-x:hidden}
-.admin-sidebar{width:240px;min-width:240px;flex-shrink:0;background:#030810;border-right:1px solid var(--border);padding:1.5rem 1.2rem;position:sticky;top:calc(70px + var(--sat));height:calc(100vh - 70px - var(--sat));overflow-y:auto;z-index:1}
-@media(max-width:900px){.admin-sidebar{display:none}.admin-layout{flex-direction:column}}
-.admin-main{padding:2rem max(2rem,3vw);background:var(--navy)}
+.admin-layout{display:block;min-height:100svh;padding-top:calc(70px + var(--sat));padding-left:240px}
+@media(max-width:900px){.admin-layout{padding-left:0}}
+.admin-sidebar{width:240px;background:#030810;border-right:1px solid var(--border);padding:1.5rem 1.2rem;position:fixed;top:calc(70px + var(--sat));left:0;bottom:0;overflow-y:auto;z-index:100}
+@media(max-width:900px){.admin-sidebar{display:none}}
+.admin-main{padding:2rem max(2rem,3vw);background:var(--navy);min-height:calc(100vh - 70px - var(--sat))}
 .admin-brand{display:flex;align-items:center;gap:.7rem;margin-bottom:2rem;padding-bottom:1.2rem;border-bottom:1px solid var(--border2)}
 .admin-brand img{width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--gold)}
 .admin-brand-text{font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--white);line-height:1}
