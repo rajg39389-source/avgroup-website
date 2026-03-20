@@ -16,10 +16,29 @@
 <link rel="stylesheet" href="style.css"/>
 <style>
 /* ── SERVICES-SPECIFIC ── */
-.serv-nav{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:3rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border2)}
-.serv-nav a{font-family:'Rajdhani',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:.45rem .9rem;border:1px solid var(--border2);min-height:var(--touch);display:flex;align-items:center;transition:all .3s}
-@media(hover:hover){.serv-nav a:hover{color:var(--blue);border-color:var(--blue);background:var(--blue-dim)}}
-.serv-nav a:active{color:var(--blue);border-color:var(--blue)}
+.serv-nav{
+  display:flex;gap:.6rem;flex-wrap:wrap;
+  margin-bottom:3rem;padding:1.5rem;
+  background:var(--card);border:1px solid var(--border);
+  border-left:4px solid var(--gold);
+}
+.serv-nav-label{
+  width:100%;font-family:'Rajdhani',sans-serif;font-size:.7rem;font-weight:700;
+  letter-spacing:3px;text-transform:uppercase;color:var(--gold);
+  margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem;
+}
+.serv-nav a{
+  font-family:'Rajdhani',sans-serif;font-size:.78rem;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;
+  color:var(--white);text-decoration:none;
+  padding:.6rem 1.2rem;
+  border:1px solid var(--border);
+  background:var(--navy2);
+  min-height:var(--touch);display:flex;align-items:center;
+  transition:all .3s;
+}
+@media(hover:hover){.serv-nav a:hover{color:#000;border-color:var(--gold);background:var(--gold)}}
+.serv-nav a:active{color:#000;background:var(--gold)}
 
 .cat-block{margin-bottom:4rem}
 .cat-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap;padding-bottom:1rem;border-bottom:1px solid var(--border2)}
@@ -105,10 +124,15 @@
 <section class="sec">
   <!-- Quick Nav -->
   <nav class="serv-nav fi" aria-label="Jump to service category">
-    <a href="#sec1">01 Security</a><a href="#sec2">02 Housekeeping</a>
-    <a href="#sec3">03 HR & Manpower</a><a href="#sec4">04 Professional Security</a>
-    <a href="#sec5">05 CCTV</a><a href="#sec6">06 Intelligence</a>
-    <a href="#sec7">07 Facility</a><a href="#sec8">08 Construction</a>
+    <div class="serv-nav-label">🔍 Jump to a Service Category:</div>
+    <a href="#sec1">🛡️ Security Guards</a>
+    <a href="#sec2">🧹 Housekeeping</a>
+    <a href="#sec3">👥 HR & Manpower</a>
+    <a href="#sec4">🏙️ Professional Security</a>
+    <a href="#sec5">📷 CCTV</a>
+    <a href="#sec6">🔍 Intelligence</a>
+    <a href="#sec7">🔧 Facility</a>
+    <a href="#sec8">🏗️ Construction</a>
   </nav>
 
   <!-- 01 SECURITY -->

@@ -193,12 +193,18 @@
           <p>Book trained security guards, bouncers, gunmen, and facility staff directly from your dashboard. Quick, reliable, and professional.</p>
         </div>
       </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(180px,100%),1fr));gap:1rem;margin-bottom:2rem">
-        <div class="info-card" style="cursor:pointer" onclick="showPanel('browse',document.querySelector('.snav-item:nth-child(2)'))">
-          <div style="font-size:2rem;margin-bottom:.5rem">👮</div>
-          <div style="font-family:'Oswald',sans-serif;font-size:1.1rem;color:var(--white);margin-bottom:.2rem">Book a Service</div>
-          <div style="font-size:.8rem;color:var(--muted)">Browse &amp; book servicemen</div>
+
+      <!-- BIG BROWSE BUTTON -->
+      <div onclick="showPanel('browse',document.querySelector('.snav-item:nth-child(2)'))" style="cursor:pointer;background:linear-gradient(135deg,var(--gold-dark),var(--gold));padding:2rem;margin-bottom:1.5rem;display:flex;align-items:center;gap:1.5rem;border-radius:2px;box-shadow:0 8px 30px var(--gold-glow)">
+        <span style="font-size:3rem;flex-shrink:0">👮</span>
+        <div>
+          <div style="font-family:'Oswald',sans-serif;font-size:1.5rem;font-weight:700;color:#000;margin-bottom:.3rem">BROWSE &amp; BOOK SERVICEMEN</div>
+          <div style="font-size:.88rem;color:rgba(0,0,0,.7)">Tap here to see all available security guards, bouncers, gunmen &amp; more — with prices</div>
         </div>
+        <span style="font-size:2rem;margin-left:auto;color:#000">→</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(180px,100%),1fr));gap:1rem;margin-bottom:2rem">
         <div class="info-card" style="cursor:pointer" onclick="showPanel('bookings',document.querySelector('.snav-item:nth-child(3)'))">
           <div style="font-size:2rem;margin-bottom:.5rem">📋</div>
           <div style="font-family:'Oswald',sans-serif;font-size:1.1rem;color:var(--white);margin-bottom:.2rem">My Bookings</div>
@@ -241,10 +247,10 @@
 
 <!-- Mobile tabs -->
 <nav class="mob-tabs">
-  <a href="#" class="mob-tab active" onclick="showPanel('home',this)" id="mt-home"><span class="mt-icon">🏠</span><span class="mt-label">Home</span></a>
-  <a href="#" class="mob-tab" onclick="showPanel('browse',this)" id="mt-browse"><span class="mt-icon">👮</span><span class="mt-label">Browse</span></a>
-  <a href="#" class="mob-tab" onclick="showPanel('bookings',this)" id="mt-bookings"><span class="mt-icon">📋</span><span class="mt-label">Bookings</span></a>
-  <a href="#" class="mob-tab" onclick="showPanel('profile',this)" id="mt-profile"><span class="mt-icon">👤</span><span class="mt-label">Profile</span></a>
+  <a href="#" class="mob-tab active" onclick="showPanel('home',this)"><span class="mt-icon">🏠</span><span class="mt-label">Home</span></a>
+  <a href="#" class="mob-tab" onclick="showPanel('browse',this)" style="background:rgba(224,155,26,.1)"><span class="mt-icon">👮</span><span class="mt-label" style="color:var(--gold)">Book Now</span></a>
+  <a href="#" class="mob-tab" onclick="showPanel('bookings',this)"><span class="mt-icon">📋</span><span class="mt-label">Bookings</span></a>
+  <a href="#" class="mob-tab" onclick="showPanel('profile',this)"><span class="mt-icon">👤</span><span class="mt-label">Profile</span></a>
   <a href="#" class="mob-tab" onclick="doLogout()"><span class="mt-icon">🚪</span><span class="mt-label">Logout</span></a>
 </nav>
 
@@ -339,18 +345,32 @@
 
   // ── LOAD SERVICEMEN ──
   async function loadServicemen(){
+    const loadEl = document.getElementById('smLoading');
+    const gridEl = document.getElementById('smGrid');
     try {
+      loadEl.style.display='flex';
       const snap = await getDocs(collection(db,'servicemen'));
       const all  = snap.docs.map(d=>({id:d.id,...d.data()}));
-      // Category tabs
-      const cats = ['All',...new Set(all.map(s=>s.category))];
-      const tabsEl = document.getElementById('catTabs');
-      tabsEl.innerHTML = cats.map(c=>`<button class="cat-tab${c==='All'?' active':''}" onclick="filterCat('${c}',this)">${c}</button>`).join('');
       window._allServicemen = all;
+      loadEl.style.display='none';
+
+      if(!all.length){
+        gridEl.innerHTML=`<div class="no-items" style="grid-column:1/-1">
+          <span class="ni-icon">👮</span>
+          <strong style="color:var(--white);display:block;margin-bottom:.5rem">No Servicemen Added Yet</strong>
+          <p style="font-size:.82rem">The admin has not added any servicemen profiles yet.<br>Please contact us on WhatsApp: <a href="https://wa.me/919137063012" style="color:var(--green)">+91 91370 63012</a></p>
+        </div>`;
+        document.getElementById('catTabs').innerHTML='';
+        return;
+      }
+
+      // Category tabs
+      const cats = ['All',...new Set(all.map(s=>s.category).filter(Boolean))];
+      document.getElementById('catTabs').innerHTML = cats.map(c=>`<button class="cat-tab${c==='All'?' active':''}" onclick="filterCat('${c}',this)">${c}</button>`).join('');
       renderServicemen(all);
-      document.getElementById('smLoading').style.display='none';
     } catch(e){
-      document.getElementById('smLoading').innerHTML='<span style="color:var(--red)">Error loading servicemen. Check Firebase setup.</span>';
+      console.error('Servicemen load error:',e);
+      loadEl.innerHTML='<span style="color:var(--red)">Could not load servicemen. Please refresh the page.</span>';
     }
   }
 
