@@ -217,6 +217,9 @@
         <div class="fg"><label>Ex-Serviceman?</label>
           <select id="sm_exsvc"><option value="false">No</option><option value="true">Yes — Ex Army/Police</option></select>
         </div>
+        <div class="fg"><label>Price Per Day (₹) *</label><input type="number" id="sm_price_day" placeholder="e.g. 800" min="0"/></div>
+        <div class="fg"><label>Price Per Month (₹) *</label><input type="number" id="sm_price_month" placeholder="e.g. 18000" min="0"/></div>
+        <div class="fg full-col"><label>Price Per Event (₹)</label><input type="number" id="sm_price_event" placeholder="e.g. 2000 (for bouncers, events)" min="0"/></div>
         <div class="fg full-col"><label>About / Description</label><input type="text" id="sm_about" placeholder="Brief background, skills, specialization..."/></div>
         <div class="fg full-col" style="display:flex;align-items:center;gap:.8rem">
           <input type="checkbox" id="sm_avail" checked style="width:20px;height:20px;accent-color:var(--gold)"/>
@@ -412,12 +415,16 @@
     if(!name||!cat||!role||!exp){ err.textContent='Please fill all required fields.'; err.classList.add('show'); return; }
     btn.disabled=true; btn.innerHTML='<span class="spinner"></span>Adding...';
     try {
+      const priceDay   = document.getElementById('sm_price_day').value||'0';
+      const priceMonth = document.getElementById('sm_price_month').value||'0';
+      const priceEvent = document.getElementById('sm_price_event').value||'0';
       const docRef = await addDoc(collection(db,'servicemen'),{
         name, category:cat, role, experience:exp,
         photoUrl:photo||'', exServiceman:exsvc, about:about||'',
+        priceDay, priceMonth, priceEvent,
         available:avail, createdAt:serverTimestamp()
       });
-      allServicemen.push({id:docRef.id,name,category:cat,role,experience:exp,photoUrl:photo||'',exServiceman:exsvc,about,available:avail});
+      allServicemen.push({id:docRef.id,name,category:cat,role,experience:exp,photoUrl:photo||'',exServiceman:exsvc,about,priceDay,priceMonth,priceEvent,available:avail});
       renderSmMgmt();
       document.getElementById('st-sm').textContent = allServicemen.length;
       ok.textContent='✅ '+name+' added successfully!';

@@ -80,6 +80,10 @@
 .sm-avail.yes{color:var(--green)}
 .sm-avail.no{color:var(--red)}
 .sm-avail-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.sm-prices{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.8rem}
+.price-tag{background:rgba(224,155,26,.1);border:1px solid var(--border);padding:.25rem .6rem;display:flex;flex-direction:column;align-items:center;flex:1;min-width:70px}
+.price-tag .p-amt{font-family:'Oswald',sans-serif;font-size:.95rem;font-weight:700;color:var(--gold);line-height:1}
+.price-tag .p-lbl{font-family:'Rajdhani',sans-serif;font-size:.58rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-top:.1rem}
 .btn-book{
   width:100%;font-family:'Rajdhani',sans-serif;font-size:.8rem;font-weight:700;
   letter-spacing:2px;text-transform:uppercase;
@@ -369,6 +373,11 @@
           <div class="sm-role">${sm.role}</div>
           <div class="sm-meta"><span class="sm-tag">${sm.category}</span>${sm.exServiceman?'<span class="sm-tag">Ex-Serviceman</span>':''}</div>
           <div class="sm-exp">📅 ${sm.experience||'2+'} years experience</div>
+          <div class="sm-prices">
+            ${sm.priceDay?`<div class="price-tag"><span class="p-amt">₹${Number(sm.priceDay).toLocaleString('en-IN')}</span><span class="p-lbl">Per Day</span></div>`:''}
+            ${sm.priceMonth?`<div class="price-tag"><span class="p-amt">₹${Number(sm.priceMonth).toLocaleString('en-IN')}</span><span class="p-lbl">Per Month</span></div>`:''}
+            ${sm.priceEvent?`<div class="price-tag"><span class="p-amt">₹${Number(sm.priceEvent).toLocaleString('en-IN')}</span><span class="p-lbl">Per Event</span></div>`:''}
+          </div>
           <div class="sm-avail ${sm.available!==false?'yes':'no'}">
             <span class="sm-avail-dot"></span>${sm.available!==false?'Available':'Currently Unavailable'}
           </div>
