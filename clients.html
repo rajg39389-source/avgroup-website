@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover,maximum-scale=5.0"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="theme-color" content="#060d1f"/>
+<meta name="format-detection" content="telephone=no,email=no,address=no"/>
+<title>Clients & Projects – AV Group | Mumbai Security Company</title>
+<meta name="description" content="AV Group serves corporate offices, hospitals, malls, events, industrial units, and residential societies across Mumbai. Trusted by 50+ clients. Explore our client sectors."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+<style>
+/* ── CLIENTS-SPECIFIC ── */
+.sector-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr));gap:1.2rem;margin-top:2.5rem}
+.sector-card{background:var(--card);border:1px solid var(--border);padding:clamp(1.4rem,3vw,2rem);position:relative;overflow:hidden;transition:border-color .3s,transform .3s}
+.sector-card::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--blue)}
+@media(hover:hover){.sector-card:hover{border-color:var(--blue);transform:translateY(-4px);box-shadow:0 8px 24px rgba(27,110,243,.2)}}
+@media(hover:none){.sector-card:active{border-color:var(--blue)}}
+.sector-icon{font-size:2.2rem;margin-bottom:1rem;display:block}
+.sector-card h3{font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--white);margin-bottom:.5rem}
+.sector-card p{font-size:.82rem;font-weight:300;color:var(--muted);line-height:1.8;margin-bottom:.8rem}
+.sector-services{display:flex;flex-wrap:wrap;gap:.4rem}
+.svc-chip{font-family:'Rajdhani',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:var(--blue-dim);color:var(--blue);border:1px solid var(--border);padding:.2rem .5rem}
+
+.client-mosaic{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(150px,45%),1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-top:2rem}
+.client-cell{background:var(--navy2);padding:1.6rem 1rem;display:flex;align-items:center;justify-content:center;text-align:center;transition:background .3s;min-height:90px}
+@media(hover:hover){.client-cell:hover{background:var(--card)}}
+@media(hover:none){.client-cell:active{background:var(--card)}}
+.client-cell-inner{display:flex;flex-direction:column;align-items:center;gap:.4rem}
+.c-icon{font-size:1.5rem}
+.c-name{font-family:'Rajdhani',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+
+.case-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:1.5rem;margin-top:2.5rem}
+.case-card{background:var(--card);border:1px solid var(--border);overflow:hidden;transition:border-color .3s,transform .3s}
+@media(hover:hover){.case-card:hover{border-color:var(--blue);transform:translateY(-3px)}}
+.case-header{background:linear-gradient(135deg,#0c1635,#111d38);padding:1.5rem;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:1rem}
+.case-icon{font-size:2rem;flex-shrink:0}
+.case-header h4{font-family:'Oswald',sans-serif;font-size:1rem;font-weight:600;color:var(--white);margin-bottom:.2rem}
+.case-header .sector{font-family:'Rajdhani',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--blue)}
+.case-body{padding:1.5rem}
+.case-body p{font-size:.82rem;font-weight:300;color:var(--muted);line-height:1.8;margin-bottom:1rem}
+.case-results{display:flex;gap:.6rem;flex-wrap:wrap}
+.result-tag{font-family:'Rajdhani',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.25);padding:.2rem .55rem}
+
+.coverage-map{background:var(--card);border:1px solid var(--border);padding:2.5rem;text-align:center;position:relative;overflow:hidden}
+.coverage-map::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 50%,rgba(27,110,243,.06),transparent)}
+.coverage-map h3{font-family:'Oswald',sans-serif;font-size:1.2rem;font-weight:600;color:var(--white);margin-bottom:.5rem;position:relative}
+.coverage-map p{font-size:.85rem;font-weight:300;color:var(--muted);margin-bottom:1.5rem;position:relative}
+.area-chips{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;position:relative}
+.area-chip{font-family:'Rajdhani',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;background:var(--blue-dim);color:var(--blue-lt);border:1px solid var(--border);padding:.3rem .8rem}
+
+.add-client-cta{border:1px dashed var(--border);padding:clamp(2rem,5vw,3.5rem);text-align:center;margin-top:2rem}
+.add-client-cta h3{font-family:'Oswald',sans-serif;font-size:1.3rem;font-weight:600;color:var(--white);margin-bottom:.5rem}
+.add-client-cta p{font-size:.86rem;color:var(--muted);margin-bottom:1.5rem;max-width:500px;margin-left:auto;margin-right:auto}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo"><div class="logo-dot" aria-hidden="true"></div><span class="logo-av">AV</span><span class="logo-grp">GROUP</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="clients.html" class="active">Clients</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="nav-wa">💬 WhatsApp</a>
+    <a href="contact.html" class="nav-cta">Get Quote</a>
+    <button class="hamburger" id="ham" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mob-menu" id="mobMenu">
+  <a href="index.html" onclick="closeMob()">Home</a><a href="about.html" onclick="closeMob()">About</a>
+  <a href="services.html" onclick="closeMob()">Services</a>
+  <a href="clients.html" class="mob-active" onclick="closeMob()">Clients</a>
+  <a href="contact.html" onclick="closeMob()">Contact</a>
+  <a href="https://wa.me/919137063012" target="_blank" class="mob-wa" onclick="closeMob()">💬 WhatsApp Us</a>
+  <a href="contact.html" class="mob-cta" onclick="closeMob()">Get a Free Quote →</a>
+</div>
+
+<div class="page-hero">
+  <div class="page-hero-bg" aria-hidden="true"></div>
+  <div class="page-hero-grid" aria-hidden="true"></div>
+  <div class="page-hero-content">
+    <div class="ph-eyebrow">Our Work</div>
+    <h1 class="ph-title">Clients &amp; <span class="acc">Projects</span></h1>
+    <p class="ph-sub">50+ Clients · 8+ Sectors · Mumbai Wide</p>
+    <p class="ph-desc">AV Group proudly serves businesses, institutions, and organizations across Mumbai — from corporate offices and industrial units to hospitals, malls, events, and residential communities. Trusted by 50+ active clients who rely on us every day.</p>
+    <div class="ph-bar">
+      <a href="contact.html" class="btn-blue">Become a Client →</a>
+      <a href="services.html" class="btn-ghost">View Services</a>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-strip" id="stats-strip">
+  <div class="stats-inner">
+    <div class="scount fi"><span class="scount-num" data-target="50">0</span><span class="scount-lbl">Active Clients</span></div>
+    <div class="scount fi fi-d1"><span class="scount-num" data-target="8">0</span><span class="scount-lbl">Industry Sectors</span></div>
+    <div class="scount fi fi-d2"><span class="scount-num" data-target="500">0</span><span class="scount-lbl">Personnel Deployed</span></div>
+    <div class="scount fi fi-d3"><span class="scount-num" data-target="5">0</span><span class="scount-lbl">Years of Service</span></div>
+  </div>
+</div>
+
+<!-- SECTORS WE SERVE -->
+<section class="sec">
+  <div class="sec-eyebrow">Industries We Protect</div>
+  <h2 class="sec-title">Sectors We <span class="acc">Serve</span></h2>
+  <div class="u-bar"></div>
+  <p class="sec-body">AV Group has hands-on experience across a wide range of industries. Our security and facility solutions are tailored to the specific needs, risks, and regulations of each sector.</p>
+  <div class="sector-grid fi">
+    <div class="sector-card">
+      <span class="sector-icon" aria-hidden="true">🏢</span>
+      <h3>Corporate Offices</h3>
+      <p>Professional security and facility management for corporate headquarters, business parks, co-working spaces, and commercial offices.</p>
+      <div class="sector-services"><span class="svc-chip">Security Guard</span><span class="svc-chip">Reception Security</span><span class="svc-chip">Access Control</span><span class="svc-chip">CCTV</span><span class="svc-chip">Housekeeping</span></div>
+    </div>
+    <div class="sector-card">
+      <span class="sector-icon" aria-hidden="true">🏭</span>
+      <h3>Industrial Units</h3>
+      <p>24 × 7 security for factories, warehouses, manufacturing plants, and logistics hubs. Material movement control, shift-change management, and perimeter protection.</p>
+      <div class="sector-services"><span class="svc-chip">Industrial Security</span><span class="svc-chip">Perimeter Guards</span><span class="svc-chip">CCTV</span><span class="svc-chip">Ex-Servicemen</span></div>
+    </div>
+    <div class="sector-card">
+      <span class="sector-icon" aria-hidden="true">🏥</span>
+      <h3>Hospitals &amp; Healthcare</h3>
+      <p>Sensitive environment security — patient area control, visitor management, emergency department security, and night duty guards for hospitals and clinics.</p>
+      <div class="sector-services"><span class="svc-chip">Security Guard</span><span class="svc-chip">Night Duty</span><span class="svc-chip">CCTV Monitoring</span><span class="svc-chip">Housekeeping</span></div>
+    </div>
+    <div class="sector-card">
+      <span class="sector-icon" aria-hidden="true">🛍️</span>
+      <h3>Retail &amp; Malls</h3>
+      <p>Loss prevention officers, mall security, parking area management, customer assistance guards, and anti-shoplifting surveillance for retail establishments.</p>
+      <div class="sector-services"><span class="svc-chip">Loss Prevention</span><span class="svc-chip">Mall Security</span><span class="svc-chip">CCTV</span><span class="svc-chip">Parking Guard</span></div>
+    </div>
+    <div class="sector-card">
+      <span class="sector-icon" aria-hidden="true">🎪</span>
+      <h3>Events &amp; Entertainment</h3>
+      <p>Professional event security for concerts, corporate events, weddings, exhibitions, and private parties. Bouncers, crowd control, VIP zones, and emergency response.</p>
+      <div class="sector-services"><span class="svc-chip">Bouncer</span><span class="svc-chip">Crowd Control</span><span class="svc-chip">VIP Security</span><span class="svc-chip">Event Management</span></div>
+    </div>
+    <div class="sector-card">
+      <span class="sector-icon" aria-hidden="true">🏠</span>
+      <h3>Residential Societies</h3>
+      <p>Reliable housing society security — gate management, visitor logging, night patrolling, society staff, and integrated CCTV for gated communities and apartments.</p>
+      <div class="sector-services"><span class="svc-chip">Gate Security</span><span class="svc-chip">Night Watch</span><span class="svc-chip">CCTV</span><span class="svc-chip">Housekeeping</span></div>
+    </div>
+    <div class="sector-card">
+      <span class="sector-icon" aria-hidden="true">🏗️</span>
+      <h3>Construction Sites</h3>
+      <p>Security for active construction sites — equipment theft prevention, night security, labour access management, and site perimeter control for project developers.</p>
+      <div class="sector-services"><span class="svc-chip">Site Security</span><span class="svc-chip">Night Guard</span><span class="svc-chip">Construction Workers</span></div>
+    </div>
+    <div class="sector-card">
+      <span class="sector-icon" aria-hidden="true">🏫</span>
+      <h3>Schools &amp; Institutions</h3>
+      <p>Safe environment security for educational institutions — entry/exit management, student safety monitoring, staff access control, and parent verification protocols.</p>
+      <div class="sector-services"><span class="svc-chip">Gate Security</span><span class="svc-chip">Student Safety</span><span class="svc-chip">CCTV</span><span class="svc-chip">Housekeeping</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CLIENT GRID -->
+<section class="sec sec-alt">
+  <div class="sec-eyebrow">Active Sites</div>
+  <h2 class="sec-title">Our <span class="acc">Client Base</span></h2>
+  <div class="u-bar"></div>
+  <p class="sec-body">AV Group currently serves 50+ active client sites across Mumbai. Client names and logos will be featured here with their consent. Below is a representative view of the types of clients we serve.</p>
+  <div class="client-mosaic fi">
+    <div class="client-cell"><div class="client-cell-inner"><span class="c-icon" aria-hidden="true">🏢</span><span class="c-name">Corporate Client A</span></div></div>
+    <div class="client-cell"><div class="client-cell-inner"><span class="c-icon" aria-hidden="true">🏭</span><span class="c-name">Industrial Unit B</span></div></div>
+    <div class="client-cell"><div class="client-cell-inner"><span class="c-icon" aria-hidden="true">🏥</span><span class="c-name">Hospital / Clinic C</span></div></div>
+    <div class="client-cell"><div class="client-cell-inner"><span class="c-icon" aria-hidden="true">🛍️</span><span class="c-name">Retail / Mall D</span></div></div>
+    <div class="client-cell"><div class="client-cell-inner"><span class="c-icon" aria-hidden="true">🎪</span><span class="c-name">Event Organiser E</span></div></div>
+    <div class="client-cell"><div class="client-cell-inner"><span class="c-icon" aria-hidden="true">🏠</span><span class="c-name">Residential Society F</span></div></div>
+    <div class="client-cell"><div class="client-cell-inner"><span class="c-icon" aria-hidden="true">🏗️</span><span class="c-name">Construction Site G</span></div></div>
+    <div class="client-cell"><div class="client-cell-inner"><span class="c-icon" aria-hidden="true">🏫</span><span class="c-name">School / College H</span></div></div>
+    <div class="client-cell"><div class="client-cell-inner"><span class="c-icon" aria-hidden="true">🏦</span><span class="c-name">Bank / Finance I</span></div></div>
+    <div class="client-cell"><div class="client-cell-inner"><span class="c-icon" aria-hidden="true">🚚</span><span class="c-name">Logistics Hub J</span></div></div>
+    <div class="client-cell"><div class="client-cell-inner"><span class="c-icon" aria-hidden="true">🍽️</span><span class="c-name">Restaurant / Club K</span></div></div>
+    <div class="client-cell"><div class="client-cell-inner"><span class="c-icon" aria-hidden="true">⚙️</span><span class="c-name">Manufacturing L</span></div></div>
+  </div>
+  <div class="add-client-cta fi">
+    <h3>Your Company Could Be Next</h3>
+    <p>Client names, logos, and testimonials will be prominently featured here. Join 50+ businesses that trust AV Group for their security and facility needs.</p>
+    <a href="contact.html" class="btn-blue">Contact Us Today →</a>
+  </div>
+</section>
+
+<!-- CASE STUDIES -->
+<section class="sec">
+  <div class="sec-eyebrow">How We've Helped</div>
+  <h2 class="sec-title">Project <span class="acc">Highlights</span></h2>
+  <div class="u-bar"></div>
+  <div class="case-grid fi">
+    <div class="case-card">
+      <div class="case-header"><span class="case-icon" aria-hidden="true">🏢</span><div><h4>Corporate Office Campus</h4><span class="sector">Andheri, Mumbai</span></div></div>
+      <div class="case-body">
+        <p>Deployed 12 trained security guards and 2 supervisors for a large corporate campus housing 500+ employees. Implemented access control protocols, visitor management system, and daily attendance reporting.</p>
+        <div class="case-results">
+          <span class="result-tag">✓ Zero Incidents Reported</span>
+          <span class="result-tag">✓ 12 Guards Deployed</span>
+          <span class="result-tag">✓ 24/7 Coverage</span>
+        </div>
+      </div>
+    </div>
+    <div class="case-card">
+      <div class="case-header"><span class="case-icon" aria-hidden="true">🎪</span><div><h4>Annual Corporate Event</h4><span class="sector">Bandra, Mumbai</span></div></div>
+      <div class="case-body">
+        <p>Provided event security for a 2,000-person corporate annual conference. Team of 20 bouncers and security personnel managed entry control, VIP areas, crowd flow, and emergency protocols.</p>
+        <div class="case-results">
+          <span class="result-tag">✓ 2,000 Attendees Managed</span>
+          <span class="result-tag">✓ VIP Zone Protected</span>
+          <span class="result-tag">✓ Zero Incidents</span>
+        </div>
+      </div>
+    </div>
+    <div class="case-card">
+      <div class="case-header"><span class="case-icon" aria-hidden="true">🏭</span><div><h4>Industrial Warehouse</h4><span class="sector">Navi Mumbai</span></div></div>
+      <div class="case-body">
+        <p>Round-the-clock 3-shift security for a large logistics warehouse. Deployed ex-servicemen guards for night shifts. CCTV installation with remote monitoring and daily shift report system implemented.</p>
+        <div class="case-results">
+          <span class="result-tag">✓ 3-Shift Coverage</span>
+          <span class="result-tag">✓ CCTV Installed</span>
+          <span class="result-tag">✓ Ex-Servicemen Staff</span>
+        </div>
+      </div>
+    </div>
+    <div class="case-card">
+      <div class="case-header"><span class="case-icon" aria-hidden="true">🏠</span><div><h4>Residential Society</h4><span class="sector">Thane, Mumbai</span></div></div>
+      <div class="case-body">
+        <p>Comprehensive security for a gated residential society with 200 apartments. 4 guards, 1 supervisor, visitor log management, night patrolling, and housekeeping services for common areas.</p>
+        <div class="case-results">
+          <span class="result-tag">✓ 200 Families Protected</span>
+          <span class="result-tag">✓ Visitor Management</span>
+          <span class="result-tag">✓ Housekeeping Included</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="sec sec-alt">
+  <div class="sec-eyebrow">Client Feedback</div>
+  <h2 class="sec-title">What Our Clients <span class="acc">Say</span></h2>
+  <div class="u-bar"></div>
+  <div class="grid-3 fi">
+    <article class="test-card">
+      <div class="test-stars" aria-label="5 stars">★★★★★</div>
+      <div class="test-q" aria-hidden="true">"</div>
+      <p class="test-text">AV Group has been guarding our corporate office for 14 months. Their guards are always punctual, well-uniformed, and professional. Zero security incidents in this period.</p>
+      <div class="test-author"><div class="test-av" aria-hidden="true">RM</div><div class="test-nm"><strong>Rajesh Mehta</strong><span>Corporate Office, Andheri</span></div></div>
+    </article>
+    <article class="test-card">
+      <div class="test-stars" aria-label="5 stars">★★★★★</div>
+      <div class="test-q" aria-hidden="true">"</div>
+      <p class="test-text">We needed last-minute security for our product launch event. AV Group responded within hours, deployed a full team, and managed everything flawlessly. Highly recommended!</p>
+      <div class="test-author"><div class="test-av" aria-hidden="true">PK</div><div class="test-nm"><strong>Priya Kapoor</strong><span>Event Organiser, Thane</span></div></div>
+    </article>
+    <article class="test-card">
+      <div class="test-stars" aria-label="5 stars">★★★★★</div>
+      <div class="test-q" aria-hidden="true">"</div>
+      <p class="test-text">Their CCTV team was professional and fast. Installation was complete in one day. The remote monitoring feature gives us peace of mind even when we're not at the warehouse.</p>
+      <div class="test-author"><div class="test-av" aria-hidden="true">AS</div><div class="test-nm"><strong>Anil Sharma</strong><span>Industrial Unit, Navi Mumbai</span></div></div>
+    </article>
+  </div>
+  <p style="text-align:center;margin-top:1.2rem;font-size:.75rem;color:var(--muted)">* Sample testimonials — real reviews will be added with client consent.</p>
+</section>
+
+<!-- COVERAGE AREA -->
+<section class="sec">
+  <div class="sec-eyebrow">Where We Operate</div>
+  <h2 class="sec-title">Coverage <span class="acc">Area</span></h2>
+  <div class="u-bar"></div>
+  <div class="coverage-map fi">
+    <h3>🗺️ Mumbai Metropolitan Region</h3>
+    <p>AV Group operates across all major areas of Mumbai and the surrounding metropolitan region. Rapid deployment available throughout the city.</p>
+    <div class="area-chips">
+      <span class="area-chip">Andheri</span><span class="area-chip">Bandra</span><span class="area-chip">Borivali</span>
+      <span class="area-chip">Dadar</span><span class="area-chip">Dharavi</span><span class="area-chip">Goregaon</span>
+      <span class="area-chip">Juhu</span><span class="area-chip">Kurla</span><span class="area-chip">Lower Parel</span>
+      <span class="area-chip">Malad</span><span class="area-chip">Mulund</span><span class="area-chip">Navi Mumbai</span>
+      <span class="area-chip">Powai</span><span class="area-chip">Thane</span><span class="area-chip">Vasai</span>
+      <span class="area-chip">Virar</span><span class="area-chip">Worli</span><span class="area-chip">+ All Mumbai</span>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-banner fi" style="margin-top:2rem">
+    <span class="cta-icon" aria-hidden="true">🤝</span>
+    <div class="cta-body">
+      <h3>Join Our Growing Client List</h3>
+      <p>Reach out today. We'll visit your site, understand your needs, and provide a customized security and facility solution — competitive pricing guaranteed.</p>
+    </div>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;flex-shrink:0;position:relative">
+      <a href="contact.html" class="btn-blue">Get Free Quote →</a>
+      <a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-green">💬 WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div class="f-brand"><span class="f-logo">AV <span>Group</span></span><p>Professional Security &amp; Facility Services. Trusted by 50+ clients across Mumbai.</p><a href="tel:+919137063012" class="f-phone">+91 91370 63012</a><span style="font-size:.76rem;color:var(--muted)">Vikas Chaurasiya — Management</span></div>
+    <div class="f-col"><h5>Quick Links</h5><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About Us</a></li><li><a href="services.html">Services</a></li><li><a href="clients.html">Clients</a></li><li><a href="contact.html">Contact Us</a></li></ul></div>
+    <div class="f-col"><h5>Security</h5><ul><li><a href="services.html">Security Guards</a></li><li><a href="services.html">Bouncers</a></li><li><a href="services.html">VIP Protection</a></li><li><a href="services.html">Corporate Security</a></li><li><a href="services.html">Event Security</a></li></ul></div>
+    <div class="f-col"><h5>Other Services</h5><ul><li><a href="services.html">CCTV Services</a></li><li><a href="services.html">Housekeeping</a></li><li><a href="services.html">Manpower Supply</a></li><li><a href="services.html">Investigation</a></li><li><a href="services.html">Construction</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p>© 2025 AV Group. All rights reserved. Mumbai, India.</p><div class="f-badges"><span class="f-badge">24 × 7</span><span class="f-badge">Licensed</span><span class="f-badge">Trained Staff</span></div></div>
+</footer>
+
+<a href="https://wa.me/919137063012" target="_blank" rel="noopener" id="wa-float" aria-label="Chat on WhatsApp">💬</a>
+<button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
+<script src="main.js"></script>
+</body>
+</html>

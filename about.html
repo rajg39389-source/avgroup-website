@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover,maximum-scale=5.0"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="theme-color" content="#060d1f"/>
+<meta name="format-detection" content="telephone=no,email=no,address=no"/>
+<title>About Us – AV Group | Security Company Mumbai</title>
+<meta name="description" content="Learn about AV Group — Mumbai's professional security and facility management company. Meet CEO Hemant Dubey, our mission, vision, values, and management team."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+<style>
+/* ── ABOUT-SPECIFIC ── */
+.about-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(2rem,6vw,5rem);align-items:start;margin-top:2.5rem}
+@media(max-width:900px){.about-grid{grid-template-columns:1fr}}
+.about-copy p{font-size:clamp(.88rem,2vw,.97rem);font-weight:300;color:var(--muted);line-height:1.9;margin-bottom:1.2rem}
+
+.mv-split{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem}
+@media(max-width:480px){.mv-split{grid-template-columns:1fr}}
+.mv-box{background:var(--card);border:1px solid var(--border);padding:1.5rem;position:relative;overflow:hidden}
+.mv-box::before{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:var(--blue)}
+.mv-box h4{font-family:'Rajdhani',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:.5rem}
+.mv-box p{font-size:.84rem;font-weight:300;color:var(--muted);line-height:1.8}
+
+.values-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(200px,100%),1fr));gap:1rem;margin-top:2.5rem}
+.val-card{background:var(--card);border:1px solid var(--border);padding:1.5rem;border-left:3px solid var(--blue);transition:border-color .3s,transform .3s}
+@media(hover:hover){.val-card:hover{border-color:var(--blue);border-left-color:var(--blue-lt);transform:translateY(-3px)}}
+.val-icon{font-size:1.5rem;margin-bottom:.6rem;display:block}
+.val-card h4{font-family:'Rajdhani',sans-serif;font-size:.88rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--white);margin-bottom:.4rem}
+.val-card p{font-size:.8rem;font-weight:300;color:var(--muted);line-height:1.7}
+
+.timeline{display:flex;flex-direction:column;gap:0;position:relative}
+.timeline::before{content:'';position:absolute;left:20px;top:0;bottom:0;width:1px;background:var(--border)}
+.tl-item{display:flex;gap:1.5rem;padding:1.5rem 0;position:relative}
+.tl-dot{width:40px;height:40px;border-radius:50%;background:var(--navy3);border:2px solid var(--blue);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'Oswald',sans-serif;font-size:.8rem;font-weight:700;color:var(--blue);position:relative;z-index:1}
+.tl-content h4{font-family:'Rajdhani',sans-serif;font-size:.88rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--white);margin-bottom:.3rem}
+.tl-content p{font-size:.82rem;font-weight:300;color:var(--muted);line-height:1.7}
+.tl-year{font-family:'Oswald',sans-serif;font-size:.72rem;font-weight:600;color:var(--blue);letter-spacing:1px}
+
+.cert-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(200px,100%),1fr));gap:1px;background:var(--border);border:1px solid var(--border)}
+.cert-cell{background:var(--navy2);padding:1.5rem;display:flex;flex-direction:column;gap:.5rem}
+.cert-cell .c-icon{font-size:1.5rem}
+.cert-cell h5{font-family:'Rajdhani',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--white)}
+.cert-cell p{font-size:.78rem;font-weight:300;color:var(--muted);line-height:1.7}
+
+.leadership-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(240px,100%),1fr));gap:1.5rem;margin-top:2.5rem}
+.leader-card{background:var(--card);border:1px solid var(--border);overflow:hidden;transition:border-color .3s,transform .3s}
+@media(hover:hover){.leader-card:hover{border-color:var(--blue);transform:translateY(-4px);box-shadow:0 8px 24px rgba(27,110,243,.2)}}
+.leader-banner{height:6px;background:linear-gradient(90deg,var(--blue),var(--blue-lt))}
+.leader-body{padding:2rem;text-align:center}
+.leader-ava{width:90px;height:90px;border-radius:50%;border:3px solid var(--blue);margin:0 auto 1.2rem;display:flex;align-items:center;justify-content:center;font-family:'Oswald',sans-serif;font-size:2rem;font-weight:700;color:var(--blue);background:var(--navy3);overflow:hidden;box-shadow:0 0 20px var(--blue-glow)}
+.leader-ava img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.leader-card h3{font-family:'Oswald',sans-serif;font-size:1.2rem;font-weight:600;color:var(--white);margin-bottom:.2rem}
+.leader-card .role{font-family:'Rajdhani',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:1rem}
+.leader-card p{font-size:.82rem;font-weight:300;color:var(--muted);line-height:1.8;margin-bottom:1rem}
+.leader-contact{display:flex;gap:.6rem;justify-content:center;flex-wrap:wrap}
+.leader-contact a{font-family:'Rajdhani',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--blue);text-decoration:none;border:1px solid var(--border);padding:.3rem .8rem;min-height:36px;display:flex;align-items:center}
+@media(hover:hover){.leader-contact a:hover{background:var(--blue-dim)}}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo"><div class="logo-dot" aria-hidden="true"></div><span class="logo-av">AV</span><span class="logo-grp">GROUP</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="clients.html">Clients</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="nav-wa">💬 WhatsApp</a>
+    <a href="contact.html" class="nav-cta">Get Quote</a>
+    <button class="hamburger" id="ham" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mob-menu" id="mobMenu">
+  <a href="index.html" onclick="closeMob()">Home</a>
+  <a href="about.html" class="mob-active" onclick="closeMob()">About</a>
+  <a href="services.html" onclick="closeMob()">Services</a>
+  <a href="clients.html" onclick="closeMob()">Clients</a>
+  <a href="contact.html" onclick="closeMob()">Contact</a>
+  <a href="https://wa.me/919137063012" target="_blank" class="mob-wa" onclick="closeMob()">💬 WhatsApp Us</a>
+  <a href="contact.html" class="mob-cta" onclick="closeMob()">Get a Free Quote →</a>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-bg" aria-hidden="true"></div>
+  <div class="page-hero-grid" aria-hidden="true"></div>
+  <div class="page-hero-content">
+    <div class="ph-eyebrow">About Us</div>
+    <h1 class="ph-title">Who We <span class="acc">Are</span></h1>
+    <p class="ph-sub">Trusted · Trained · Professional</p>
+    <p class="ph-desc">AV Group is Mumbai's premier professional security and facility management company — built on discipline, integrity, and a relentless commitment to excellence. We protect what matters most to you.</p>
+    <div class="ph-bar">
+      <a href="contact.html" class="btn-blue">Hire Us Today →</a>
+      <a href="services.html" class="btn-ghost">Our Services</a>
+    </div>
+  </div>
+</div>
+
+<!-- COMPANY OVERVIEW -->
+<section class="sec">
+  <div class="about-grid">
+    <div class="fi">
+      <div class="sec-eyebrow">Our Story</div>
+      <h2 class="sec-title">Built on <span class="acc">Trust</span></h2>
+      <div class="u-bar"></div>
+      <div class="about-copy">
+        <p>AV Group was founded with a single, clear purpose: to provide businesses, institutions, and individuals with security and facility services they can genuinely depend on — every hour of every day.</p>
+        <p>Based in Mumbai, Maharashtra, we have grown from a focused security services provider into a full-spectrum facility and manpower solutions company. Our portfolio spans security guards, trained bouncers, VIP protection, CCTV installation, housekeeping, HR & manpower, intelligence, and construction services.</p>
+        <p>What sets us apart is the quality of our people. Every AV Group personnel undergoes strict background verification, physical fitness assessment, and professional training before deployment. Many of our senior security staff are ex-army, ex-police, or from paramilitary backgrounds — bringing real-world operational experience to every assignment.</p>
+        <p>We are fully compliant with the Private Security Agencies Regulation Act (PSARA) and all applicable government regulations. Our operations are transparent, accountable, and client-focused at every level.</p>
+      </div>
+      <div class="mv-split">
+        <div class="mv-box"><h4>Our Mission</h4><p>To provide reliable, professional, and cost-effective security and facility services that protect lives, assets, and business continuity for every client we serve — without exception.</p></div>
+        <div class="mv-box"><h4>Our Vision</h4><p>To be recognized as the most trusted and professional security and facility management company in Maharashtra — expanding across India — known for integrity and excellence.</p></div>
+      </div>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap">
+        <a href="services.html" class="btn-blue">View All Services →</a>
+        <a href="contact.html" class="btn-ghost">Contact Us</a>
+      </div>
+    </div>
+    <div class="fi fi-d1">
+      <div style="display:flex;flex-direction:column;gap:.8rem">
+        <div class="feature-row"><span class="icon" aria-hidden="true">🏅</span><div class="txt"><strong>Ex-Servicemen Personnel</strong><span>Ex-army, ex-police, and paramilitary professionals deployed for high-security and critical assignments.</span></div></div>
+        <div class="feature-row"><span class="icon" aria-hidden="true">🔐</span><div class="txt"><strong>PSARA Compliant</strong><span>All security operations strictly adhere to the Private Security Agencies Regulation Act and state licensing norms.</span></div></div>
+        <div class="feature-row"><span class="icon" aria-hidden="true">📱</span><div class="txt"><strong>Technology-Integrated</strong><span>We combine human security with CCTV, electronic access control, and monitoring systems for layered protection.</span></div></div>
+        <div class="feature-row"><span class="icon" aria-hidden="true">🤝</span><div class="txt"><strong>Customized Security Plans</strong><span>Every client receives a tailor-made security plan based on detailed site assessment and risk evaluation.</span></div></div>
+        <div class="feature-row"><span class="icon" aria-hidden="true">📊</span><div class="txt"><strong>Regular Audits &amp; Reviews</strong><span>We conduct scheduled supervision visits, attendance audits, and performance reviews for all deployed personnel.</span></div></div>
+        <div class="feature-row"><span class="icon" aria-hidden="true">🏙️</span><div class="txt"><strong>Multi-Sector Experience</strong><span>Serving corporate offices, hospitals, banks, malls, construction sites, events, residences, and industrial units.</span></div></div>
+        <div class="feature-row"><span class="icon" aria-hidden="true">🕐</span><div class="txt"><strong>24 × 7 Control Room</strong><span>Our operations team is always available — day, night, weekends, and holidays — for rapid response and coordination.</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CORE VALUES -->
+<section class="sec sec-alt">
+  <div class="sec-eyebrow">What We Stand For</div>
+  <h2 class="sec-title">Our Core <span class="acc">Values</span></h2>
+  <div class="u-bar"></div>
+  <p class="sec-body">Our values are not just words — they are the principles that guide every deployment, every interaction, and every decision we make as a company.</p>
+  <div class="values-grid fi">
+    <div class="val-card"><span class="val-icon" aria-hidden="true">🔰</span><h4>Integrity</h4><p>We operate with complete honesty and transparency. Our clients trust us with their most valuable assets — we honour that trust at every step.</p></div>
+    <div class="val-card"><span class="val-icon" aria-hidden="true">⚡</span><h4>Discipline</h4><p>Military-grade discipline defines our personnel. Punctuality, uniform standards, and rule compliance are non-negotiable at AV Group.</p></div>
+    <div class="val-card"><span class="val-icon" aria-hidden="true">🏆</span><h4>Excellence</h4><p>We never settle for average. Every guard, every deployment, and every client interaction reflects our commitment to the highest standards.</p></div>
+    <div class="val-card"><span class="val-icon" aria-hidden="true">🤝</span><h4>Reliability</h4><p>When you hire AV Group, you get what was promised — on time, every time. Our clients never wonder if we'll show up. We will.</p></div>
+    <div class="val-card"><span class="val-icon" aria-hidden="true">🛡️</span><h4>Safety First</h4><p>The safety of your people, premises, and assets is always our top priority. We plan, prepare, and act to prevent incidents before they occur.</p></div>
+    <div class="val-card"><span class="val-icon" aria-hidden="true">🌱</span><h4>Continuous Growth</h4><p>We invest in regular training, certification, and technology to keep our team sharp, current, and capable of handling evolving threats.</p></div>
+  </div>
+</section>
+
+<!-- MANAGEMENT TEAM -->
+<section class="sec">
+  <div class="sec-eyebrow">The People Behind AV Group</div>
+  <h2 class="sec-title">Management <span class="acc">Team</span></h2>
+  <div class="u-bar"></div>
+  <div class="leadership-grid fi">
+    <div class="leader-card">
+      <div class="leader-banner"></div>
+      <div class="leader-body">
+        <div class="leader-ava" aria-hidden="true">HD</div>
+        <h3>Hemant Dubey</h3>
+        <p class="role">Chief Executive Officer &amp; Founder</p>
+        <p>Mr. Hemant Dubey founded AV Group with a vision to transform the security services industry in Mumbai. With extensive expertise in security operations, personnel management, and facility services, he leads the company with discipline, strategic clarity, and a client-first approach. Under his leadership, AV Group has grown into a trusted multi-service provider serving 50+ clients across Mumbai.</p>
+        <div class="leader-contact">
+          <a href="contact.html">📩 Send Message</a>
+          <a href="tel:+919137063012">📞 Call</a>
+        </div>
+      </div>
+    </div>
+    <div class="leader-card">
+      <div class="leader-banner"></div>
+      <div class="leader-body">
+        <div class="leader-ava" aria-hidden="true">VC</div>
+        <h3>Vikas Chaurasiya</h3>
+        <p class="role">Management Team &amp; Client Relations</p>
+        <p>Mr. Vikas Chaurasiya is the primary point of contact for clients and oversees day-to-day operations, client acquisition, and relationship management. Known for his responsiveness, professionalism, and attention to client needs, Vikas ensures every client receives prompt support and seamless service delivery. He is available 24 × 7 for all client inquiries and operational matters.</p>
+        <div class="leader-contact">
+          <a href="https://wa.me/919137063012" target="_blank" rel="noopener">💬 WhatsApp</a>
+          <a href="tel:+919137063012">📞 +91 91370 63012</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPANY MILESTONES -->
+<section class="sec sec-alt">
+  <div class="sec-eyebrow">Our Journey</div>
+  <h2 class="sec-title">Company <span class="acc">Milestones</span></h2>
+  <div class="u-bar"></div>
+  <div class="grid-2 fi">
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot">1</div>
+        <div class="tl-content">
+          <span class="tl-year">Foundation</span>
+          <h4>AV Group Established</h4>
+          <p>Founded in Mumbai with a core team of trained security professionals and a vision to provide reliable, professional security services to local businesses.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">2</div>
+        <div class="tl-content">
+          <span class="tl-year">Expansion</span>
+          <h4>Services Portfolio Expanded</h4>
+          <p>Added housekeeping, facility management, CCTV installation, and HR & manpower services — becoming a full-spectrum facility solutions provider.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">3</div>
+        <div class="tl-content">
+          <span class="tl-year">Growth</span>
+          <h4>50+ Clients Milestone</h4>
+          <p>Crossed 50 active clients across Mumbai including corporate offices, industrial units, residential societies, malls, hospitals, and event organizations.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot">4</div>
+        <div class="tl-content">
+          <span class="tl-year">Today</span>
+          <h4>500+ Personnel Deployed</h4>
+          <p>Operating with 500+ trained security and facility personnel across Mumbai, with 24 × 7 operations and enterprise-grade security capabilities.</p>
+        </div>
+      </div>
+    </div>
+    <div class="fi fi-d1" style="display:flex;flex-direction:column;gap:1rem">
+      <div class="cert-grid">
+        <div class="cert-cell"><span class="c-icon" aria-hidden="true">📋</span><h5>PSARA Licensed</h5><p>Fully licensed under the Private Security Agencies Regulation Act — all operations are legally authorized and compliant.</p></div>
+        <div class="cert-cell"><span class="c-icon" aria-hidden="true">🏛️</span><h5>Government Registered</h5><p>Registered as a professional security and facility management company with all applicable government authorities in Maharashtra.</p></div>
+        <div class="cert-cell"><span class="c-icon" aria-hidden="true">🎖️</span><h5>Trained Personnel</h5><p>All security personnel undergo mandatory training programs covering physical fitness, law, first aid, communication, and crisis response.</p></div>
+        <div class="cert-cell"><span class="c-icon" aria-hidden="true">✅</span><h5>Background Verified</h5><p>Every AV Group employee passes a thorough background verification and character assessment before being placed with any client.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="sec">
+  <div class="cta-banner fi">
+    <span class="cta-icon" aria-hidden="true">🤝</span>
+    <div class="cta-body">
+      <h3>Let's Work Together</h3>
+      <p>Whether you need security guards for your office, bouncers for an event, CCTV installation, or complete facility management — AV Group is your partner. Get in touch today.</p>
+    </div>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;flex-shrink:0;position:relative">
+      <a href="contact.html" class="btn-blue">Contact Us →</a>
+      <a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-green">💬 WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div class="f-brand"><span class="f-logo">AV <span>Group</span></span><p>Professional Security &amp; Facility Services. Trusted by businesses and institutions across Mumbai.</p><a href="tel:+919137063012" class="f-phone">+91 91370 63012</a><span style="font-size:.76rem;color:var(--muted)">Vikas Chaurasiya — Management</span></div>
+    <div class="f-col"><h5>Quick Links</h5><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About Us</a></li><li><a href="services.html">Services</a></li><li><a href="clients.html">Clients</a></li><li><a href="contact.html">Contact Us</a></li></ul></div>
+    <div class="f-col"><h5>Security</h5><ul><li><a href="services.html">Security Guards</a></li><li><a href="services.html">Bouncers</a></li><li><a href="services.html">VIP Protection</a></li><li><a href="services.html">Corporate Security</a></li><li><a href="services.html">Event Security</a></li></ul></div>
+    <div class="f-col"><h5>Other Services</h5><ul><li><a href="services.html">CCTV Services</a></li><li><a href="services.html">Housekeeping</a></li><li><a href="services.html">Manpower Supply</a></li><li><a href="services.html">Investigation</a></li><li><a href="services.html">Construction</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p>© 2025 AV Group. All rights reserved. Mumbai, India.</p><div class="f-badges"><span class="f-badge">24 × 7</span><span class="f-badge">Licensed</span><span class="f-badge">Trained Staff</span></div></div>
+</footer>
+
+<a href="https://wa.me/919137063012" target="_blank" rel="noopener" id="wa-float" aria-label="Chat on WhatsApp">💬</a>
+<button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
+<script src="main.js"></script>
+</body>
+</html>

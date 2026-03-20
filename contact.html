@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover,maximum-scale=5.0"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="theme-color" content="#060d1f"/>
+<meta name="format-detection" content="telephone=no,email=no,address=no"/>
+<title>Contact Us – AV Group | Security Company Mumbai | +91 91370 63012</title>
+<meta name="description" content="Contact AV Group for security guards, bouncers, CCTV, housekeeping, and manpower services in Mumbai. Call or WhatsApp +91 91370 63012. Get a free quote today."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+<style>
+/* ── CONTACT-SPECIFIC ── */
+.contact-layout{display:grid;grid-template-columns:1fr 1.4fr;gap:clamp(2rem,6vw,5rem);margin-top:3rem;align-items:start}
+@media(max-width:900px){.contact-layout{grid-template-columns:1fr}}
+
+.cl-name{font-family:'Oswald',sans-serif;font-size:clamp(1.3rem,3vw,1.6rem);font-weight:600;color:var(--white);margin-bottom:.2rem}
+.cl-sub{font-family:'Rajdhani',sans-serif;font-size:.7rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:2rem}
+.cinfo-row{display:flex;align-items:flex-start;gap:.9rem;margin-bottom:1.3rem}
+.cinfo-ic{width:48px;height:48px;min-width:48px;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.cinfo-txt strong{font-family:'Rajdhani',sans-serif;font-size:.66rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);display:block;margin-bottom:.15rem}
+.cinfo-txt a,.cinfo-txt span{font-size:.92rem;color:var(--steel);text-decoration:none;line-height:1.5;display:block}
+@media(hover:hover){.cinfo-txt a:hover{color:var(--blue)}}
+.cinfo-txt .hint{font-size:.75rem;color:var(--muted);margin-top:.15rem}
+
+.quick-actions{display:flex;flex-direction:column;gap:.8rem;margin-top:2rem}
+.qa-btn{
+  display:flex;align-items:center;gap:1rem;
+  padding:1rem 1.2rem;min-height:var(--touch);
+  text-decoration:none;border:1px solid var(--border);
+  background:var(--card);
+  transition:border-color .3s,background .3s;
+}
+@media(hover:hover){.qa-btn:hover{border-color:var(--blue);background:var(--card2)}}
+@media(hover:none){.qa-btn:active{border-color:var(--blue)}}
+.qa-btn .qa-icon{font-size:1.4rem;flex-shrink:0}
+.qa-btn .qa-text strong{display:block;font-size:.86rem;font-weight:500;color:var(--white)}
+.qa-btn .qa-text span{font-size:.75rem;color:var(--muted)}
+.qa-btn.qa-wa{border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.06)}
+@media(hover:hover){.qa-btn.qa-wa:hover{border-color:var(--green);background:rgba(34,197,94,.12)}}
+.qa-btn.qa-call{border-color:rgba(27,110,243,.3)}
+
+.hours-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:.5rem}
+.hour-row{display:flex;justify-content:space-between;align-items:center;padding:.5rem .8rem;background:var(--navy3);border:1px solid var(--border2)}
+.hour-row span{font-size:.78rem;color:var(--muted);font-weight:300}
+.hour-row .hval{font-family:'Rajdhani',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:1px;color:var(--green)}
+
+.faq-list{display:flex;flex-direction:column;gap:.8rem;margin-top:2.5rem}
+.faq-item{background:var(--card);border:1px solid var(--border);overflow:hidden}
+.faq-q{
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  padding:1.1rem 1.3rem;cursor:pointer;
+  font-family:'Rajdhani',sans-serif;font-size:.9rem;font-weight:700;
+  letter-spacing:.5px;color:var(--white);
+  min-height:var(--touch);
+  list-style:none;
+  transition:color .3s;
+  -webkit-tap-highlight-color:transparent;
+}
+.faq-q:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
+.faq-q::marker,.faq-q::-webkit-details-marker{display:none}
+details[open] .faq-q{color:var(--blue)}
+.faq-arrow{transition:transform .3s;flex-shrink:0;font-size:.8rem}
+details[open] .faq-arrow{transform:rotate(180deg)}
+.faq-a{padding:0 1.3rem 1.2rem;font-size:.84rem;font-weight:300;color:var(--muted);line-height:1.8}
+
+.form-section{background:var(--card);border:1px solid var(--border);padding:clamp(1.5rem,4vw,2.5rem);position:relative;overflow:hidden}
+.form-section::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--blue),var(--blue-lt),transparent)}
+.form-section h3{font-family:'Oswald',sans-serif;font-size:1.2rem;font-weight:600;color:var(--white);margin-bottom:.3rem}
+.form-section .form-sub{font-size:.8rem;font-weight:300;color:var(--muted);margin-bottom:1.5rem;line-height:1.7}
+.submit-row{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.form-note{font-size:.74rem;color:var(--muted)}
+
+.emergency-box{
+  background:linear-gradient(135deg,rgba(230,57,70,.08),rgba(230,57,70,.03));
+  border:1px solid rgba(230,57,70,.3);
+  padding:1.5rem;margin-top:2rem;
+  display:flex;align-items:flex-start;gap:1rem;
+}
+.emergency-box .em-icon{font-size:1.6rem;flex-shrink:0}
+.emergency-box h4{font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--red);margin-bottom:.3rem}
+.emergency-box p{font-size:.82rem;font-weight:300;color:var(--muted);line-height:1.7}
+.emergency-box a{color:var(--red);font-weight:500}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo"><div class="logo-dot" aria-hidden="true"></div><span class="logo-av">AV</span><span class="logo-grp">GROUP</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li><li><a href="clients.html">Clients</a></li>
+    <li><a href="contact.html" class="active">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="nav-wa">💬 WhatsApp</a>
+    <a href="#inquiry" class="nav-cta">Get Quote</a>
+    <button class="hamburger" id="ham" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mob-menu" id="mobMenu">
+  <a href="index.html" onclick="closeMob()">Home</a><a href="about.html" onclick="closeMob()">About</a>
+  <a href="services.html" onclick="closeMob()">Services</a><a href="clients.html" onclick="closeMob()">Clients</a>
+  <a href="contact.html" class="mob-active" onclick="closeMob()">Contact</a>
+  <a href="https://wa.me/919137063012" target="_blank" class="mob-wa" onclick="closeMob()">💬 WhatsApp Us</a>
+  <a href="#inquiry" class="mob-cta" onclick="closeMob()">Send Inquiry →</a>
+</div>
+
+<div class="page-hero">
+  <div class="page-hero-bg" aria-hidden="true"></div>
+  <div class="page-hero-grid" aria-hidden="true"></div>
+  <div class="page-hero-content">
+    <div class="ph-eyebrow">Get In Touch</div>
+    <h1 class="ph-title">Contact <span class="acc">AV Group</span></h1>
+    <p class="ph-sub">Available 24 × 7 · Response Within 2–4 Hours</p>
+    <p class="ph-desc">Ready to hire? Have a question? Need an urgent security deployment? Our team is available 24 hours a day, 7 days a week. Call, WhatsApp, or fill out the form — we'll get back to you fast.</p>
+    <div class="ph-bar">
+      <a href="tel:+919137063012" class="btn-blue">📞 Call Now</a>
+      <a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-green">💬 WhatsApp</a>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTACT SECTION -->
+<section class="sec" id="inquiry">
+  <div class="contact-layout">
+
+    <!-- LEFT: Contact Info -->
+    <div class="fi">
+      <p class="cl-name">Vikas Chaurasiya</p>
+      <p class="cl-sub">Contact Person — Management Team</p>
+
+      <div class="cinfo-row">
+        <div class="cinfo-ic" aria-hidden="true">📞</div>
+        <div class="cinfo-txt">
+          <strong>Phone</strong>
+          <a href="tel:+919137063012">+91 91370 63012</a>
+          <span class="hint">Call anytime — 24 × 7 available</span>
+        </div>
+      </div>
+      <div class="cinfo-row">
+        <div class="cinfo-ic" aria-hidden="true">💬</div>
+        <div class="cinfo-txt">
+          <strong>WhatsApp</strong>
+          <a href="https://wa.me/919137063012" target="_blank" rel="noopener">+91 91370 63012</a>
+          <span class="hint">Fastest response — usually within minutes</span>
+        </div>
+      </div>
+      <div class="cinfo-row">
+        <div class="cinfo-ic" aria-hidden="true">✉️</div>
+        <div class="cinfo-txt">
+          <strong>Email</strong>
+          <a href="mailto:info@avgroup.in">info@avgroup.in</a>
+          <span class="hint">For formal inquiries and documentation</span>
+        </div>
+      </div>
+      <div class="cinfo-row">
+        <div class="cinfo-ic" aria-hidden="true">📍</div>
+        <div class="cinfo-txt">
+          <strong>Location</strong>
+          <span>Mumbai, Maharashtra, India</span>
+          <span class="hint">Serving all of Mumbai &amp; MMR</span>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="quick-actions">
+        <a href="https://wa.me/919137063012?text=Hello%20AV%20Group%2C%20I%20need%20a%20quote%20for%20security%20services." target="_blank" rel="noopener" class="qa-btn qa-wa">
+          <span class="qa-icon" aria-hidden="true">💬</span>
+          <div class="qa-text"><strong>WhatsApp for Quick Quote</strong><span>Tap to open chat — pre-filled message ready</span></div>
+        </a>
+        <a href="tel:+919137063012" class="qa-btn qa-call">
+          <span class="qa-icon" aria-hidden="true">📞</span>
+          <div class="qa-text"><strong>Call Directly</strong><span>+91 91370 63012 — Available 24 × 7</span></div>
+        </a>
+        <a href="mailto:info@avgroup.in?subject=Security%20Services%20Inquiry&body=Hello%20AV%20Group%2C%20I%20would%20like%20to%20inquire%20about%20your%20services." class="qa-btn">
+          <span class="qa-icon" aria-hidden="true">📧</span>
+          <div class="qa-text"><strong>Send Email</strong><span>info@avgroup.in — formal inquiries</span></div>
+        </a>
+      </div>
+
+      <!-- Availability -->
+      <div style="margin-top:2rem">
+        <div style="font-family:'Rajdhani',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:.8rem">AVAILABILITY</div>
+        <div class="hours-grid">
+          <div class="hour-row"><span>Monday–Friday</span><span class="hval">24 × 7</span></div>
+          <div class="hour-row"><span>Saturday</span><span class="hval">24 × 7</span></div>
+          <div class="hour-row"><span>Sunday</span><span class="hval">24 × 7</span></div>
+          <div class="hour-row"><span>Holidays</span><span class="hval">24 × 7</span></div>
+        </div>
+        <div class="avail-badge" style="margin-top:1rem"><span class="avail-dot" aria-hidden="true"></span>Always Available — No Exceptions</div>
+      </div>
+
+      <!-- Emergency -->
+      <div class="emergency-box">
+        <span class="em-icon" aria-hidden="true">🚨</span>
+        <div>
+          <h4>Emergency Security Requirement?</h4>
+          <p>Need security personnel urgently? Call us directly at <a href="tel:+919137063012">+91 91370 63012</a> or WhatsApp now. We can deploy trained security personnel within hours for emergency requirements across Mumbai.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Inquiry Form -->
+    <div class="fi fi-d1" id="form-section">
+      <div class="form-section">
+        <h3>Send an Inquiry</h3>
+        <p class="form-sub">Fill in the details below and our team will get back to you within 2–4 hours with a customized quote and service plan tailored to your needs.</p>
+        <form class="cform" id="cform" novalidate aria-label="Inquiry form">
+          <div class="frow">
+            <div class="fg">
+              <label for="inp-name">Full Name <span class="req" aria-hidden="true">*</span></label>
+              <input type="text" id="inp-name" name="name" placeholder="Your full name" required autocomplete="name"/>
+            </div>
+            <div class="fg">
+              <label for="inp-phone">Phone Number <span class="req" aria-hidden="true">*</span></label>
+              <input type="tel" id="inp-phone" name="phone" placeholder="+91 XXXXX XXXXX" required autocomplete="tel"/>
+            </div>
+          </div>
+          <div class="frow">
+            <div class="fg">
+              <label for="inp-email">Email Address</label>
+              <input type="email" id="inp-email" name="email" placeholder="your@email.com" autocomplete="email"/>
+            </div>
+            <div class="fg">
+              <label for="inp-company">Company / Organization</label>
+              <input type="text" id="inp-company" name="company" placeholder="Your company name" autocomplete="organization"/>
+            </div>
+          </div>
+          <div class="fg">
+            <label for="inp-service">Service Required <span class="req" aria-hidden="true">*</span></label>
+            <select id="inp-service" name="service" required>
+              <option value="">— Select a Service —</option>
+              <optgroup label="🛡️ Security Services">
+                <option>Security Guard</option>
+                <option>Security Supervisor</option>
+                <option>Bouncer</option>
+                <option>Personal Bouncer</option>
+                <option>Gunman</option>
+                <option>Ex-Service Man Security</option>
+                <option>High Professional Security</option>
+              </optgroup>
+              <optgroup label="🏙️ Professional Security">
+                <option>Corporate Security</option>
+                <option>Event Security Management</option>
+                <option>Mall &amp; Retail Security</option>
+                <option>Industrial Security</option>
+                <option>VIP / Executive Protection</option>
+                <option>Risk Assessment</option>
+                <option>Electronic Security Systems</option>
+                <option>Integrated Facility Management</option>
+              </optgroup>
+              <optgroup label="📹 CCTV &amp; Intelligence">
+                <option>CCTV Installation</option>
+                <option>CCTV Monitoring</option>
+                <option>Investigation &amp; Risk Monitoring</option>
+              </optgroup>
+              <optgroup label="🏢 Facility &amp; Housekeeping">
+                <option>Office Cleaning / Housekeeping</option>
+                <option>Building Housekeeping</option>
+                <option>Industrial Cleaning</option>
+                <option>Facility Maintenance</option>
+              </optgroup>
+              <optgroup label="👥 Manpower &amp; HR">
+                <option>Manpower Supply</option>
+                <option>Office Staff</option>
+                <option>Industrial Workers</option>
+              </optgroup>
+              <optgroup label="🔧 Other Services">
+                <option>Plumber / Facility Services</option>
+                <option>Construction Work</option>
+                <option>Multiple Services</option>
+                <option>Other (describe below)</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="frow">
+            <div class="fg">
+              <label for="inp-count">Number of Personnel Required</label>
+              <input type="number" id="inp-count" name="count" placeholder="e.g. 5" min="1" autocomplete="off"/>
+            </div>
+            <div class="fg">
+              <label for="inp-location">Site Location</label>
+              <input type="text" id="inp-location" name="location" placeholder="Area, Mumbai" autocomplete="address-level2"/>
+            </div>
+          </div>
+          <div class="fg">
+            <label for="inp-timing">Timing &amp; Duration</label>
+            <input type="text" id="inp-timing" name="timing" placeholder="e.g. Starting immediately, 1 month contract" autocomplete="off"/>
+          </div>
+          <div class="fg">
+            <label for="inp-msg">Detailed Requirements <span class="req" aria-hidden="true">*</span></label>
+            <textarea id="inp-msg" name="message" rows="5" placeholder="Please describe your security needs — what you need protected, any specific requirements, shift timings, special instructions, or any questions you have for us..." required></textarea>
+          </div>
+          <div class="fg" style="flex-direction:row;align-items:flex-start;gap:.7rem">
+            <input type="checkbox" id="urgent" name="urgent" style="width:20px;height:20px;flex-shrink:0;margin-top:2px;accent-color:var(--blue);cursor:pointer"/>
+            <label for="urgent" style="font-family:'Rajdhani',sans-serif;font-size:.75rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);cursor:pointer;line-height:1.5">⚡ This is an urgent / emergency requirement</label>
+          </div>
+          <div class="submit-row">
+            <button type="submit" class="btn-submit">Send Inquiry →</button>
+            <span class="form-note">Response within 2–4 hours · 24 × 7 team</span>
+          </div>
+          <div class="success-msg" id="successMsg" role="alert" aria-live="assertive">
+            <p>✅ <strong>Inquiry received!</strong> Our team will contact you within 2–4 hours with a customized quote. For faster response, WhatsApp us at <a href="https://wa.me/919137063012" style="color:var(--green);font-weight:500">+91 91370 63012</a>.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec sec-alt">
+  <div class="sec-eyebrow">Common Questions</div>
+  <h2 class="sec-title">Frequently Asked <span class="acc">Questions</span></h2>
+  <div class="u-bar"></div>
+  <div class="faq-list fi">
+    <details class="faq-item">
+      <summary class="faq-q">How quickly can AV Group deploy security personnel?<span class="faq-arrow" aria-hidden="true">▾</span></summary>
+      <p class="faq-a">For standard deployments, we typically require 24–48 hours notice to deploy fully vetted and trained personnel. For emergency situations, we can often arrange deployment within a few hours. Contact us directly on WhatsApp or phone for urgent requirements.</p>
+    </details>
+    <details class="faq-item">
+      <summary class="faq-q">Are your security guards licensed and trained?<span class="faq-arrow" aria-hidden="true">▾</span></summary>
+      <p class="faq-a">Yes. All AV Group security personnel are background-verified, physically fit, and trained in security protocols, first aid, communication, and emergency response. Our operations are PSARA compliant and all armed personnel carry valid firearms licenses.</p>
+    </details>
+    <details class="faq-item">
+      <summary class="faq-q">Do you provide security services for one-time events?<span class="faq-arrow" aria-hidden="true">▾</span></summary>
+      <p class="faq-a">Absolutely. We provide event security for one-day corporate events, concerts, weddings, private parties, exhibitions, and more. We can deploy bouncers, crowd control officers, VIP protection, and event coordination security for any scale of event.</p>
+    </details>
+    <details class="faq-item">
+      <summary class="faq-q">What areas does AV Group cover in Mumbai?<span class="faq-arrow" aria-hidden="true">▾</span></summary>
+      <p class="faq-a">We serve all areas of Mumbai including Andheri, Bandra, Borivali, Dadar, Goregaon, Kurla, Lower Parel, Malad, Mulund, Powai, Worli, and the greater Mumbai metropolitan region including Navi Mumbai, Thane, Vasai, and Virar.</p>
+    </details>
+    <details class="faq-item">
+      <summary class="faq-q">Can I hire a personal bouncer for my own protection?<span class="faq-arrow" aria-hidden="true">▾</span></summary>
+      <p class="faq-a">Yes. We provide dedicated personal protection officers for individuals — business executives, public figures, or anyone requiring close personal security for daily routine, specific occasions, or travel within Mumbai.</p>
+    </details>
+    <details class="faq-item">
+      <summary class="faq-q">How are your services priced?<span class="faq-arrow" aria-hidden="true">▾</span></summary>
+      <p class="faq-a">Pricing depends on the type of service, number of personnel, shift timings, location, and contract duration. We provide customized, competitive quotes for every client. Contact us with your requirements and we'll send a detailed quote with no obligation.</p>
+    </details>
+    <details class="faq-item">
+      <summary class="faq-q">Do you provide housekeeping along with security services?<span class="faq-arrow" aria-hidden="true">▾</span></summary>
+      <p class="faq-a">Yes. AV Group offers integrated facility management — combining security, housekeeping, CCTV monitoring, and manpower services under one contract. This simplifies management, reduces cost, and ensures consistent quality across all facility functions.</p>
+    </details>
+    <details class="faq-item">
+      <summary class="faq-q">What information do I need to share to get a quote?<span class="faq-arrow" aria-hidden="true">▾</span></summary>
+      <p class="faq-a">Simply fill out the inquiry form above with your name, phone, type of service needed, location, and a brief description of your requirements. Alternatively, WhatsApp us with the same details. We'll call you back for a detailed discussion and site visit if required.</p>
+    </details>
+  </div>
+</section>
+
+<!-- BOTTOM CTA -->
+<section class="sec">
+  <div class="cta-banner fi">
+    <span class="cta-icon" aria-hidden="true">🛡️</span>
+    <div class="cta-body">
+      <h3>Still Have Questions?</h3>
+      <p>Our team is always available to answer any questions, provide a site visit, or give you a detailed quote. Don't hesitate — reach out via any channel that works for you.</p>
+    </div>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;flex-shrink:0;position:relative">
+      <a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-green">💬 WhatsApp Now</a>
+      <a href="tel:+919137063012" class="btn-blue">📞 Call Us</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div class="f-brand"><span class="f-logo">AV <span>Group</span></span><p>Professional Security &amp; Facility Services. Always available, always professional, always reliable.</p><a href="tel:+919137063012" class="f-phone">+91 91370 63012</a><span style="font-size:.76rem;color:var(--muted)">Vikas Chaurasiya — Management</span></div>
+    <div class="f-col"><h5>Quick Links</h5><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About Us</a></li><li><a href="services.html">Services</a></li><li><a href="clients.html">Clients</a></li><li><a href="contact.html">Contact Us</a></li></ul></div>
+    <div class="f-col"><h5>Security</h5><ul><li><a href="services.html">Security Guards</a></li><li><a href="services.html">Bouncers</a></li><li><a href="services.html">VIP Protection</a></li><li><a href="services.html">Corporate Security</a></li><li><a href="services.html">Event Security</a></li></ul></div>
+    <div class="f-col"><h5>Other Services</h5><ul><li><a href="services.html">CCTV Services</a></li><li><a href="services.html">Housekeeping</a></li><li><a href="services.html">Manpower Supply</a></li><li><a href="services.html">Investigation</a></li><li><a href="services.html">Construction</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p>© 2025 AV Group. All rights reserved. Mumbai, India.</p><div class="f-badges"><span class="f-badge">24 × 7</span><span class="f-badge">Licensed</span><span class="f-badge">Trained Staff</span></div></div>
+</footer>
+
+<a href="https://wa.me/919137063012" target="_blank" rel="noopener" id="wa-float" aria-label="Chat on WhatsApp">💬</a>
+<button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
+<script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover,maximum-scale=5.0"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="theme-color" content="#060d1f"/>
+<meta name="format-detection" content="telephone=no,email=no,address=no"/>
+<title>Our Services – AV Group | Security, CCTV, Housekeeping, Manpower Mumbai</title>
+<meta name="description" content="AV Group offers security guards, bouncers, VIP protection, CCTV, housekeeping, manpower, CCTV, investigation, and construction services in Mumbai. 24/7."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+<style>
+/* ── SERVICES-SPECIFIC ── */
+.serv-nav{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:3rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border2)}
+.serv-nav a{font-family:'Rajdhani',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:.45rem .9rem;border:1px solid var(--border2);min-height:var(--touch);display:flex;align-items:center;transition:all .3s}
+@media(hover:hover){.serv-nav a:hover{color:var(--blue);border-color:var(--blue);background:var(--blue-dim)}}
+.serv-nav a:active{color:var(--blue);border-color:var(--blue)}
+
+.cat-block{margin-bottom:4rem}
+.cat-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;flex-wrap:wrap;padding-bottom:1rem;border-bottom:1px solid var(--border2)}
+.cat-num{font-family:'Oswald',sans-serif;font-size:1.8rem;font-weight:700;color:rgba(27,110,243,.3);line-height:1;min-width:2.5rem}
+.cat-header h2{font-family:'Oswald',sans-serif;font-size:clamp(1.1rem,3vw,1.4rem);font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--white)}
+.cat-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
+.cat-desc{font-size:clamp(.84rem,2vw,.92rem);font-weight:300;color:var(--muted);line-height:1.9;margin-bottom:1.5rem;max-width:700px}
+
+.srv-detail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(240px,100%),1fr));gap:1rem}
+.sd-card{background:var(--card);border:1px solid var(--border);padding:1.5rem;position:relative;overflow:hidden;transition:border-color .3s,transform .3s}
+.sd-card::after{content:'';position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--blue);transition:width .3s}
+@media(hover:hover){.sd-card:hover{border-color:var(--blue);transform:translateY(-3px)}.sd-card:hover::after{width:100%}}
+@media(hover:none){.sd-card:active{border-color:var(--blue)}}
+.sd-card .sd-icon{font-size:1.8rem;margin-bottom:.7rem;display:block}
+.sd-card h4{font-family:'Rajdhani',sans-serif;font-size:.9rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--white);margin-bottom:.4rem}
+.sd-card p{font-size:.8rem;font-weight:300;color:var(--muted);line-height:1.8}
+.sd-card .sd-tag{margin-top:.8rem;display:inline-block;font-family:'Rajdhani',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:var(--blue-dim);color:var(--blue);border:1px solid var(--border);padding:.15rem .5rem}
+
+.srv-mini-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(170px,100%),1fr));gap:1px;background:var(--border);border:1px solid var(--border)}
+.srv-mini-tile{background:var(--navy2);padding:1rem;display:flex;align-items:center;gap:.7rem;transition:background .25s}
+@media(hover:hover){.srv-mini-tile:hover{background:var(--card)}}
+@media(hover:none){.srv-mini-tile:active{background:var(--card)}}
+.srv-mini-tile .m-icon{font-size:1.1rem;flex-shrink:0}
+.srv-mini-tile .m-name{font-size:.82rem;font-weight:500;color:var(--steel);line-height:1.3}
+
+.highlight-strip{background:linear-gradient(135deg,#070f26,#0c1635);border:1px solid var(--border);padding:clamp(1.2rem,3vw,2rem);display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;margin:2rem 0;position:relative;overflow:hidden}
+.highlight-strip::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 90% 50%,rgba(27,110,243,.08),transparent)}
+.hs-icon{font-size:2rem;flex-shrink:0;position:relative}
+.hs-body{flex:1;position:relative;min-width:180px}
+.hs-body h4{font-family:'Oswald',sans-serif;font-size:clamp(1rem,2.5vw,1.2rem);font-weight:600;color:var(--white);margin-bottom:.3rem}
+.hs-body p{font-size:.84rem;font-weight:300;color:var(--muted);line-height:1.7}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo"><div class="logo-dot" aria-hidden="true"></div><span class="logo-av">AV</span><span class="logo-grp">GROUP</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li><li><a href="about.html">About</a></li>
+    <li><a href="services.html" class="active">Services</a></li>
+    <li><a href="clients.html">Clients</a></li><li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="nav-wa">💬 WhatsApp</a>
+    <a href="contact.html" class="nav-cta">Get Quote</a>
+    <button class="hamburger" id="ham" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mob-menu" id="mobMenu">
+  <a href="index.html" onclick="closeMob()">Home</a><a href="about.html" onclick="closeMob()">About</a>
+  <a href="services.html" class="mob-active" onclick="closeMob()">Services</a>
+  <a href="clients.html" onclick="closeMob()">Clients</a><a href="contact.html" onclick="closeMob()">Contact</a>
+  <a href="https://wa.me/919137063012" target="_blank" class="mob-wa" onclick="closeMob()">💬 WhatsApp Us</a>
+  <a href="contact.html" class="mob-cta" onclick="closeMob()">Get a Free Quote →</a>
+</div>
+
+<div class="page-hero">
+  <div class="page-hero-bg" aria-hidden="true"></div>
+  <div class="page-hero-grid" aria-hidden="true"></div>
+  <div class="page-hero-content">
+    <div class="ph-eyebrow">What We Offer</div>
+    <h1 class="ph-title">Our <span class="acc">Services</span></h1>
+    <p class="ph-sub">8 Categories · 30+ Service Types · 24/7 Availability</p>
+    <p class="ph-desc">From trained security guards to CCTV installation, housekeeping to manpower supply — AV Group is your complete security and facility management partner in Mumbai. Every service delivered with discipline, reliability, and professionalism.</p>
+    <div class="ph-bar">
+      <a href="contact.html" class="btn-blue">Get a Free Quote →</a>
+      <a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-green">💬 WhatsApp</a>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-strip" id="stats-strip">
+  <div class="stats-inner">
+    <div class="scount fi"><span class="scount-num" data-target="30">0</span><span class="scount-lbl">Service Types</span></div>
+    <div class="scount fi fi-d1"><span class="scount-num" data-target="500">0</span><span class="scount-lbl">Personnel Deployed</span></div>
+    <div class="scount fi fi-d2"><span class="scount-num" data-target="50">0</span><span class="scount-lbl">Active Clients</span></div>
+    <div class="scount fi fi-d3"><span class="scount-num" data-target="5">0</span><span class="scount-lbl">Years Experience</span></div>
+  </div>
+</div>
+
+<!-- ALL SERVICES -->
+<section class="sec">
+  <!-- Quick Nav -->
+  <nav class="serv-nav fi" aria-label="Jump to service category">
+    <a href="#sec1">01 Security</a><a href="#sec2">02 Housekeeping</a>
+    <a href="#sec3">03 HR & Manpower</a><a href="#sec4">04 Professional Security</a>
+    <a href="#sec5">05 CCTV</a><a href="#sec6">06 Intelligence</a>
+    <a href="#sec7">07 Facility</a><a href="#sec8">08 Construction</a>
+  </nav>
+
+  <!-- 01 SECURITY -->
+  <div class="cat-block fi" id="sec1">
+    <div class="cat-header">
+      <span class="cat-num">01</span>
+      <h2>Security Services</h2>
+      <span class="badge-pill">CORE BUSINESS</span>
+      <div class="cat-line"></div>
+    </div>
+    <p class="cat-desc">Our flagship service. AV Group provides rigorously trained, background-verified security personnel for all types of premises and assignments. Every guard is equipped with the skills, discipline, and attitude to protect your people and property effectively.</p>
+    <div class="highlight-strip">
+      <span class="hs-icon" aria-hidden="true">🛡️</span>
+      <div class="hs-body"><h4>Why our security personnel stand out</h4><p>Many of our guards and supervisors are ex-army, ex-police, or from paramilitary backgrounds. They bring real operational experience, crisis-management skills, and unmatched discipline to every post.</p></div>
+      <a href="contact.html" class="btn-blue" style="flex-shrink:0;position:relative">Hire Now →</a>
+    </div>
+    <div class="srv-detail-grid">
+      <div class="sd-card"><span class="sd-icon" aria-hidden="true">👮</span><h4>Security Guard</h4><p>Uniformed, trained security guards for residential societies, offices, factories, hospitals, and all commercial premises. Available for 8-hour, 12-hour, or 24-hour duty cycles.</p><span class="sd-tag">Most Popular</span></div>
+      <div class="sd-card"><span class="sd-icon" aria-hidden="true">🎖️</span><h4>Security Supervisor</h4><p>Experienced supervisors who oversee guard teams, conduct rounds, maintain registers, and act as the first point of escalation. Essential for multi-guard deployments.</p></div>
+      <div class="sd-card"><span class="sd-icon" aria-hidden="true">💪</span><h4>Bouncer</h4><p>Powerful, trained bouncers for clubs, bars, restaurants, event venues, and entertainment spaces. Crowd management, entry control, and incident prevention specialists.</p><span class="sd-tag">High Demand</span></div>
+      <div class="sd-card"><span class="sd-icon" aria-hidden="true">🤵</span><h4>Personal Bouncer</h4><p>Dedicated personal protection officer for individuals requiring close personal security — for daily routine protection, travel accompaniment, or specific events.</p></div>
+      <div class="sd-card"><span class="sd-icon" aria-hidden="true">🔫</span><h4>Gunman</h4><p>Armed security personnel licensed to carry firearms, deployed for high-risk environments, cash transportation escorts, jewellery stores, and VIP premises.</p></div>
+      <div class="sd-card"><span class="sd-icon" aria-hidden="true">⭐</span><h4>Ex-Service Man Security</h4><p>Ex-military and ex-police security professionals with field combat and law enforcement experience. Ideal for critical infrastructure, banks, and sensitive premises.</p><span class="sd-tag">Premium</span></div>
+      <div class="sd-card"><span class="sd-icon" aria-hidden="true">🏆</span><h4>High Professional Security</h4><p>Elite-tier security service comparable to top national security companies. Full site assessment, post briefings, specialized training, and dedicated supervision included.</p><span class="sd-tag">Enterprise</span></div>
+    </div>
+  </div>
+
+  <!-- 02 HOUSEKEEPING -->
+  <div class="cat-block fi" id="sec2">
+    <div class="cat-header"><span class="cat-num">02</span><h2>Housekeeping Services</h2><div class="cat-line"></div></div>
+    <p class="cat-desc">Professional cleaning and housekeeping teams for offices, buildings, and industrial facilities. Our staff are trained in modern cleaning techniques, equipment operation, and hygiene standards to maintain spotless, healthy environments.</p>
+    <div class="srv-detail-grid">
+      <div class="sd-card"><span class="sd-icon" aria-hidden="true">🏢</span><h4>Office Cleaning</h4><p>Daily or periodic professional cleaning of offices — workstations, meeting rooms, washrooms, reception areas, cafeterias, and common spaces. Discreet and systematic.</p></div>
+      <div class="sd-card"><span class="sd-icon" aria-hidden="true">🏬</span><h4>Building Housekeeping</h4><p>Comprehensive housekeeping for residential societies, commercial buildings, and mixed-use complexes — lobbies, stairwells, corridors, parking areas, and common facilities.</p></div>
+      <div class="sd-card"><span class="sd-icon" aria-hidden="true">🏭</span><h4>Industrial Cleaning</h4><p>Heavy-duty industrial cleaning for factories, warehouses, and production facilities. Specialized equipment, chemical handling expertise, and safety compliance included.</p></div>
+      <div class="sd-card"><span class="sd-icon" aria-hidden="true">🔧</span><h4>Facility Maintenance</h4><p>Ongoing maintenance of building facilities including electrical fixture checks, plumbing basics, pest control coordination, and general upkeep to keep premises functional.</p></div>
+    </div>
+  </div>
+
+  <!-- 03 HR & MANPOWER -->
+  <div class="cat-block fi" id="sec3">
+    <div class="cat-header"><span class="cat-num">03</span><h2>HR &amp; Manpower Services</h2><div class="cat-line"></div></div>
+    <p class="cat-desc">Need reliable people fast? AV Group provides verified, trained manpower across various job roles — from office support staff to skilled industrial workers. We handle sourcing, verification, and on-boarding, so you get the right people without the hassle.</p>
+    <div class="srv-detail-grid">
+      <div class="sd-card"><span class="sd-icon" aria-hidden="true">👥</span><h4>Manpower Supply</h4><p>Flexible manpower supply for short-term projects, seasonal requirements, event staffing, and permanent placements. All personnel are background-verified and ready to work.</p><span class="sd-tag">Flexible</span></div>
+      <div class="sd-card"><span class="sd-icon" aria-hidden="true">💼</span><h4>Office Staff</h4><p>Trained office support staff — receptionists, data entry operators, office boys, housekeeping attendants, pantry staff, and administrative support personnel.</p></div>
+      <div class="sd-card"><span class="sd-icon" aria-hidden="true">⚙️</span><h4>Industrial Workers</h4><p>Skilled and semi-skilled industrial workers for factories, warehouses, construction sites, and manufacturing units. Available for daily, contract, or long-term engagements.</p></div>
+    </div>
+  </div>
+
+  <!-- 04 PROFESSIONAL SECURITY -->
+  <div class="cat-block fi" id="sec4">
+    <div class="cat-header"><span class="cat-num">04</span><h2>Additional Professional Security Services</h2><span class="badge-pill">ENTERPRISE</span><div class="cat-line"></div></div>
+    <p class="cat-desc">Enterprise-grade security solutions comparable to leading national security companies. Comprehensive, technology-assisted security programs for complex and high-value environments.</p>
+    <div class="srv-detail-grid">
+      <div class="sd-card"><span class="sd-icon" aria-hidden="true">🏙️</span><h4>Corporate Security</h4><p>End-to-end corporate campus security — access control, visitor management, perimeter security, CCTV monitoring, and dedicated security supervision for offices and business parks.</p></div>
+      <div class="sd-card"><span class="sd-icon" aria-hidden="true">🎪</span><h4>Event Security Management</h4><p>Comprehensive event security from planning to execution. Crowd management, entry/exit control, VIP protection zones, emergency response, and post-event sweep.</p><span class="sd-tag">Events</span></div>
+      <div class="sd-card"><span class="sd-icon" aria-hidden="true">🛍️</span><h4>Mall &amp; Retail Security</h4><p>Anti-shoplifting guards, loss prevention officers, customer assistance security, parking management, and integrated surveillance for retail stores and shopping malls.</p></div>
+      <div class="sd-card"><span class="sd-icon" aria-hidden="true">🏗️</span><h4>Industrial Security</h4><p>Round-the-clock security for industrial plants, factories, and warehouses. Entry/exit management, material movement control, and perimeter protection.</p></div>
+      <div class="sd-card"><span class="sd-icon" aria-hidden="true">👑</span><h4>VIP / Executive Protection</h4><p>Personal security detail for high-profile individuals — business executives, politicians, celebrities, and VIPs. Trained close protection officers with advance planning capabilities.</p><span class="sd-tag">Premium</span></div>
+      <div class="sd-card"><span class="sd-icon" aria-hidden="true">📊</span><h4>Risk Assessment</h4><p>Professional threat and vulnerability assessment for your premises. Identify security gaps, assess risk levels, and receive a detailed report with actionable recommendations.</p></div>
+      <div class="sd-card"><span class="sd-icon" aria-hidden="true">📹</span><h4>Electronic Security Systems</h4><p>Design and installation of integrated electronic security systems — CCTV, access control, intercoms, alarm systems, and monitoring infrastructure for total site security.</p></div>
+      <div class="sd-card"><span class="sd-icon" aria-hidden="true">🏛️</span><h4>Integrated Facility Management</h4><p>Comprehensive facility management combining security, housekeeping, maintenance, and manpower under a single point of management. Seamless and cost-effective.</p><span class="sd-tag">All-in-One</span></div>
+    </div>
+  </div>
+
+  <!-- 05 CCTV -->
+  <div class="cat-block fi" id="sec5">
+    <div class="cat-header"><span class="cat-num">05</span><h2>CCTV Services</h2><div class="cat-line"></div></div>
+    <p class="cat-desc">Modern surveillance is essential for every security strategy. AV Group provides professional CCTV installation and ongoing monitoring services, ensuring your premises are always under watchful eyes — even when you're not there.</p>
+    <div class="srv-detail-grid">
+      <div class="sd-card"><span class="sd-icon" aria-hidden="true">📷</span><h4>CCTV Installation</h4><p>Supply and installation of high-definition CCTV cameras — indoor, outdoor, IP-based, and analog systems. Site survey, cable routing, DVR/NVR setup, and remote viewing configuration included.</p><span class="sd-tag">Full Setup</span></div>
+      <div class="sd-card"><span class="sd-icon" aria-hidden="true">👁️</span><h4>CCTV Monitoring</h4><p>24 × 7 live monitoring of your CCTV feeds by our trained surveillance operators. Real-time alerts, incident logging, and immediate escalation to security personnel when anomalies are detected.</p><span class="sd-tag">24 × 7</span></div>
+    </div>
+  </div>
+
+  <!-- 06 INTELLIGENCE -->
+  <div class="cat-block fi" id="sec6">
+    <div class="cat-header"><span class="cat-num">06</span><h2>Intelligence Services</h2><div class="cat-line"></div></div>
+    <p class="cat-desc">When security goes beyond guards and cameras, you need intelligence. AV Group offers discreet investigation and risk monitoring services for businesses and individuals facing complex security challenges.</p>
+    <div class="srv-detail-grid">
+      <div class="sd-card"><span class="sd-icon" aria-hidden="true">🔍</span><h4>Investigation &amp; Risk Monitoring</h4><p>Discreet investigation services for employee misconduct, theft, fraud, or suspicious activities within your organization. Ongoing risk monitoring for individuals or premises under heightened threat.</p></div>
+    </div>
+  </div>
+
+  <!-- 07 FACILITY -->
+  <div class="cat-block fi" id="sec7">
+    <div class="cat-header"><span class="cat-num">07</span><h2>Facility Services</h2><div class="cat-line"></div></div>
+    <p class="cat-desc">Quick, reliable facility support to keep your premises running smoothly. AV Group connects you with skilled tradespeople for maintenance and repair needs.</p>
+    <div class="srv-detail-grid">
+      <div class="sd-card"><span class="sd-icon" aria-hidden="true">🔩</span><h4>Plumber Services</h4><p>Professional plumbing services for offices, residential societies, and commercial buildings. Pipe repairs, fixture installation, drainage issues, and emergency plumbing support.</p></div>
+    </div>
+  </div>
+
+  <!-- 08 CONSTRUCTION -->
+  <div class="cat-block fi" id="sec8">
+    <div class="cat-header"><span class="cat-num">08</span><h2>Construction Services</h2><div class="cat-line"></div></div>
+    <p class="cat-desc">Beyond security, AV Group provides reliable construction support. From minor office renovations to larger construction projects, we supply skilled manpower and project coordination.</p>
+    <div class="srv-detail-grid">
+      <div class="sd-card"><span class="sd-icon" aria-hidden="true">🏗️</span><h4>All Types of Construction Work</h4><p>Skilled construction manpower supply and project support — civil work, interior renovation, carpentry, painting, and general construction work for commercial and industrial projects.</p></div>
+    </div>
+  </div>
+
+  <!-- BOTTOM CTA -->
+  <div class="cta-banner fi">
+    <span class="cta-icon" aria-hidden="true">💬</span>
+    <div class="cta-body">
+      <h3>Not Sure Which Service You Need?</h3>
+      <p>Our team will help you identify the right solution for your specific requirements. Contact us for a free consultation and customized quote — no obligation.</p>
+    </div>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;flex-shrink:0;position:relative">
+      <a href="contact.html" class="btn-blue">Get Free Quote →</a>
+      <a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-green">💬 WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div class="f-brand"><span class="f-logo">AV <span>Group</span></span><p>Professional Security &amp; Facility Services across Mumbai. Trained, licensed, and always available.</p><a href="tel:+919137063012" class="f-phone">+91 91370 63012</a><span style="font-size:.76rem;color:var(--muted)">Vikas Chaurasiya — Management</span></div>
+    <div class="f-col"><h5>Quick Links</h5><ul><li><a href="index.html">Home</a></li><li><a href="about.html">About Us</a></li><li><a href="services.html">Services</a></li><li><a href="clients.html">Clients</a></li><li><a href="contact.html">Contact Us</a></li></ul></div>
+    <div class="f-col"><h5>Security</h5><ul><li><a href="services.html#sec1">Security Guards</a></li><li><a href="services.html#sec1">Bouncers</a></li><li><a href="services.html#sec4">VIP Protection</a></li><li><a href="services.html#sec4">Corporate Security</a></li><li><a href="services.html#sec4">Event Security</a></li></ul></div>
+    <div class="f-col"><h5>Other Services</h5><ul><li><a href="services.html#sec5">CCTV Services</a></li><li><a href="services.html#sec2">Housekeeping</a></li><li><a href="services.html#sec3">Manpower Supply</a></li><li><a href="services.html#sec6">Investigation</a></li><li><a href="services.html#sec8">Construction</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><p>© 2025 AV Group. All rights reserved. Mumbai, India.</p><div class="f-badges"><span class="f-badge">24 × 7</span><span class="f-badge">Licensed</span><span class="f-badge">Trained Staff</span></div></div>
+</footer>
+
+<a href="https://wa.me/919137063012" target="_blank" rel="noopener" id="wa-float" aria-label="Chat on WhatsApp">💬</a>
+<button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
+<script src="main.js"></script>
+</body>
+</html>
