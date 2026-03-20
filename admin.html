@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover,maximum-scale=5.0"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="theme-color" content="#060d1a"/>
+<title>Admin Dashboard – AV Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:wght@300;400;500&family=Oswald:wght@600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+<style>
+.admin-layout{display:grid;grid-template-columns:240px 1fr;min-height:100svh;padding-top:calc(70px + var(--sat))}
+@media(max-width:768px){.admin-layout{grid-template-columns:1fr}}
+.admin-sidebar{background:#030810;border-right:1px solid var(--border);padding:1.5rem 1.2rem;position:sticky;top:calc(70px + var(--sat));height:calc(100vh - 70px - var(--sat));overflow-y:auto}
+@media(max-width:768px){.admin-sidebar{display:none}}
+.admin-main{padding:2rem max(2rem,3vw);background:var(--navy)}
+.admin-brand{display:flex;align-items:center;gap:.7rem;margin-bottom:2rem;padding-bottom:1.2rem;border-bottom:1px solid var(--border2)}
+.admin-brand img{width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--gold)}
+.admin-brand-text{font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--white);line-height:1}
+.admin-brand-sub{font-family:'Rajdhani',sans-serif;font-size:.62rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
+.admin-nav{display:flex;flex-direction:column;gap:.3rem}
+.anav-item{display:flex;align-items:center;gap:.8rem;padding:.75rem 1rem;text-decoration:none;font-family:'Rajdhani',sans-serif;font-size:.82rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);border:1px solid transparent;transition:all .3s;min-height:var(--touch)}
+.anav-item:hover,.anav-item.active{color:var(--gold);border-color:var(--border);background:var(--card)}
+.anav-sep{height:1px;background:var(--border2);margin:.5rem 0}
+.anav-logout{color:var(--red)!important}
+
+/* mobile top tabs */
+.admin-mob-tabs{display:none;background:#030810;border-bottom:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;padding:.5rem 1rem;gap:.5rem}
+@media(max-width:768px){.admin-mob-tabs{display:flex}}
+.amt{font-family:'Rajdhani',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:.5rem 1rem;border:1px solid var(--border2);background:var(--card);cursor:pointer;white-space:nowrap;min-height:var(--touch);flex-shrink:0}
+.amt.active{background:var(--gold);color:#000;border-color:var(--gold)}
+
+/* panels */
+.panel{display:none}.panel.active{display:block}
+
+/* stats row */
+.stat-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(160px,100%),1fr));gap:1rem;margin-bottom:2rem}
+.stat-box{background:var(--card);border:1px solid var(--border);padding:1.4rem;text-align:center;position:relative;overflow:hidden}
+.stat-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold)}
+.stat-num{font-family:'Oswald',sans-serif;font-size:2.2rem;font-weight:700;color:var(--gold);display:block;line-height:1}
+.stat-lbl{font-family:'Rajdhani',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:.3rem;display:block}
+
+/* bookings table */
+.bk-table{width:100%;border-collapse:collapse}
+.bk-table th{font-family:'Rajdhani',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:.75rem 1rem;text-align:left;border-bottom:1px solid var(--border);background:var(--card);white-space:nowrap}
+.bk-table td{padding:.9rem 1rem;border-bottom:1px solid var(--border2);font-size:.82rem;color:var(--steel);vertical-align:top}
+.bk-table tr:hover td{background:rgba(224,155,26,.03)}
+.bk-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--border)}
+
+.status-badge{padding:.25rem .7rem;font-family:'Rajdhani',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;white-space:nowrap}
+.status-badge.pending{background:rgba(245,158,11,.1);color:#f59e0b;border:1px solid rgba(245,158,11,.3)}
+.status-badge.confirmed{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.3)}
+.status-badge.rejected{background:rgba(230,57,70,.1);color:var(--red);border:1px solid rgba(230,57,70,.3)}
+
+.action-btns{display:flex;gap:.4rem;flex-wrap:wrap}
+.btn-confirm-sm,.btn-reject-sm{font-family:'Rajdhani',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.3rem .7rem;border:none;cursor:pointer;min-height:32px;transition:opacity .2s}
+.btn-confirm-sm{background:var(--green);color:#000}
+.btn-reject-sm{background:var(--red);color:#fff}
+.btn-confirm-sm:hover,.btn-reject-sm:hover{opacity:.85}
+
+/* filter tabs */
+.filter-tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.2rem}
+.ftab{font-family:'Rajdhani',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:.35rem .9rem;border:1px solid var(--border2);background:var(--card);color:var(--muted);cursor:pointer;min-height:36px;transition:all .3s}
+.ftab.active,.ftab:hover{background:var(--gold);color:#000;border-color:var(--gold)}
+
+/* add serviceman form */
+.add-sm-form{display:grid;grid-template-columns:1fr 1fr;gap:1rem;max-width:700px}
+@media(max-width:600px){.add-sm-form{grid-template-columns:1fr}}
+.add-sm-form .fg label{font-family:'Rajdhani',sans-serif;font-size:.67rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.add-sm-form .fg input,.add-sm-form .fg select,.add-sm-form .fg textarea{background:var(--card);border:1px solid var(--border);color:var(--steel);padding:.75rem 1rem;font-size:16px;font-family:'DM Sans',sans-serif;outline:none;border-radius:0;-webkit-appearance:none;appearance:none;width:100%;transition:border-color .3s;min-height:var(--touch)}
+.add-sm-form .fg input:focus,.add-sm-form .fg select:focus{border-color:var(--gold)}
+.add-sm-form .fg select option{background:#0c1528}
+.add-sm-form .full-col{grid-column:1/-1}
+.btn-add-sm{font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:var(--gold);color:#000;padding:.85rem 2rem;border:none;cursor:pointer;box-shadow:0 4px 20px var(--gold-glow);transition:background .3s;min-height:var(--touch)}
+.btn-add-sm:hover{background:var(--gold-lt)}
+
+/* serviceman management cards */
+.sm-mgmt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(220px,100%),1fr));gap:1rem}
+.sm-mgmt-card{background:var(--card);border:1px solid var(--border);overflow:hidden}
+.sm-mgmt-photo{width:100%;height:150px;object-fit:cover;background:var(--navy3);display:flex;align-items:center;justify-content:center;font-size:3rem}
+.sm-mgmt-body{padding:1rem}
+.sm-mgmt-name{font-family:'Rajdhani',sans-serif;font-size:.95rem;font-weight:700;color:var(--white);margin-bottom:.2rem}
+.sm-mgmt-role{font-family:'Rajdhani',sans-serif;font-size:.65rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem}
+.sm-mgmt-actions{display:flex;gap:.4rem}
+.btn-toggle-avail{font-family:'Rajdhani',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.3rem .7rem;border:none;cursor:pointer;min-height:32px;flex:1}
+.btn-toggle-avail.avail{background:rgba(34,197,94,.15);color:var(--green);border:1px solid rgba(34,197,94,.3)}
+.btn-toggle-avail.unavail{background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.3)}
+.btn-delete-sm{font-family:'Rajdhani',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.3rem .7rem;background:rgba(230,57,70,.1);color:var(--red);border:1px solid rgba(230,57,70,.3);cursor:pointer;min-height:32px}
+
+/* users table */
+.users-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr));gap:1rem}
+.user-card{background:var(--card);border:1px solid var(--border);padding:1.2rem}
+.user-card-header{display:flex;align-items:center;gap:.8rem;margin-bottom:.8rem}
+.user-avatar{width:40px;height:40px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Oswald',sans-serif;font-size:.9rem;font-weight:700;color:#000;flex-shrink:0}
+.user-name{font-family:'Rajdhani',sans-serif;font-size:.9rem;font-weight:700;color:var(--white);margin-bottom:.1rem}
+.user-email{font-size:.72rem;color:var(--muted)}
+.user-meta{font-size:.76rem;color:var(--muted);line-height:1.7}
+
+.loading-spinner{display:flex;align-items:center;justify-content:center;padding:3rem;gap:.8rem;color:var(--muted);font-family:'Rajdhani',sans-serif;font-size:.85rem;letter-spacing:2px;text-transform:uppercase}
+.ls-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);animation:ldot 1.2s infinite}
+.ls-dot:nth-child(2){animation-delay:.2s}.ls-dot:nth-child(3){animation-delay:.4s}
+@keyframes ldot{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(0,0,0,.3);border-top-color:#000;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:.4rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+.success-toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:var(--green);color:#000;font-family:'Rajdhani',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:1px;padding:.8rem 1.5rem;z-index:3000;display:none;border-radius:2px;box-shadow:0 4px 20px rgba(34,197,94,.4)}
+.success-toast.show{display:block}
+.alert-msg{background:rgba(230,57,70,.1);border:1px solid rgba(230,57,70,.3);padding:.8rem 1rem;font-size:.82rem;color:#e63946;margin-bottom:1rem;display:none}
+.alert-msg.show{display:block}
+.ok-msg{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);padding:.8rem 1rem;font-size:.82rem;color:var(--green);margin-bottom:1rem;display:none}
+.ok-msg.show{display:block}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="Logo.jpeg" class="nav-logo-img" alt="AV Group"/>
+    <span class="nav-logo-text"><span class="logo-av">AV GROUP</span><span class="logo-grp">SECURITY</span></span>
+  </a>
+  <div style="display:flex;align-items:center;gap:.5rem;font-family:'Rajdhani',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:2px;color:var(--gold)">⚙️ ADMIN PANEL</div>
+  <div class="nav-right">
+    <button onclick="doLogout()" class="nav-cta" style="border:none;cursor:pointer">Logout</button>
+  </div>
+</nav>
+
+<!-- Mobile tabs -->
+<div class="admin-mob-tabs">
+  <button class="amt active" onclick="showPanel('overview',this)">📊 Overview</button>
+  <button class="amt" onclick="showPanel('bookings',this)">📋 Bookings</button>
+  <button class="amt" onclick="showPanel('servicemen',this)">👮 Servicemen</button>
+  <button class="amt" onclick="showPanel('addSm',this)">➕ Add Person</button>
+  <button class="amt" onclick="showPanel('users',this)">👥 Users</button>
+</div>
+
+<div class="admin-layout">
+  <!-- SIDEBAR -->
+  <aside class="admin-sidebar">
+    <div class="admin-brand">
+      <img src="Logo.jpeg" alt="AV Group"/>
+      <div><div class="admin-brand-text">AV Group</div><div class="admin-brand-sub">Admin Panel</div></div>
+    </div>
+    <nav class="admin-nav">
+      <a href="#" class="anav-item active" onclick="showPanel('overview',this)">📊 Overview</a>
+      <a href="#" class="anav-item" onclick="showPanel('bookings',this)">📋 All Bookings</a>
+      <a href="#" class="anav-item" onclick="showPanel('servicemen',this)">👮 Manage Servicemen</a>
+      <a href="#" class="anav-item" onclick="showPanel('addSm',this)">➕ Add Serviceman</a>
+      <a href="#" class="anav-item" onclick="showPanel('users',this)">👥 Registered Users</a>
+      <div class="anav-sep"></div>
+      <a href="index.html" class="anav-item">🌐 View Website</a>
+      <a href="#" class="anav-item anav-logout" onclick="doLogout()">🚪 Logout</a>
+    </nav>
+  </aside>
+
+  <main class="admin-main">
+
+    <!-- OVERVIEW -->
+    <div class="panel active" id="panel-overview">
+      <div style="margin-bottom:1.5rem">
+        <div class="sec-eyebrow" style="margin-bottom:.4rem">Admin Dashboard</div>
+        <h1 class="sec-title" style="font-size:1.8rem">Welcome, <span class="acc">Admin</span> 👋</h1>
+      </div>
+      <div class="stat-row">
+        <div class="stat-box"><span class="stat-num" id="st-total">-</span><span class="stat-lbl">Total Bookings</span></div>
+        <div class="stat-box"><span class="stat-num" id="st-pending">-</span><span class="stat-lbl">Pending</span></div>
+        <div class="stat-box"><span class="stat-num" id="st-confirmed">-</span><span class="stat-lbl">Confirmed</span></div>
+        <div class="stat-box"><span class="stat-num" id="st-users">-</span><span class="stat-lbl">Registered Users</span></div>
+        <div class="stat-box"><span class="stat-num" id="st-sm">-</span><span class="stat-lbl">Servicemen</span></div>
+      </div>
+
+      <!-- Recent bookings preview -->
+      <div class="sec-eyebrow" style="margin-bottom:.8rem">Recent Bookings</div>
+      <div class="loading-spinner" id="recentLoading"><span class="ls-dot"></span><span class="ls-dot"></span><span class="ls-dot"></span></div>
+      <div class="bk-table-wrap" id="recentTable"></div>
+      <div style="margin-top:1rem">
+        <button class="btn-add-sm" style="font-size:.75rem;padding:.6rem 1.2rem" onclick="showPanel('bookings',document.querySelector('.anav-item:nth-child(2)'))">View All Bookings →</button>
+      </div>
+    </div>
+
+    <!-- ALL BOOKINGS -->
+    <div class="panel" id="panel-bookings">
+      <h2 class="sec-title" style="font-size:1.8rem;margin-bottom:1.2rem">All <span class="acc">Bookings</span></h2>
+      <div class="filter-tabs" id="filterTabs">
+        <button class="ftab active" onclick="filterBookings('all',this)">All</button>
+        <button class="ftab" onclick="filterBookings('pending',this)">Pending</button>
+        <button class="ftab" onclick="filterBookings('confirmed',this)">Confirmed</button>
+        <button class="ftab" onclick="filterBookings('rejected',this)">Rejected</button>
+      </div>
+      <div class="loading-spinner" id="allBkLoading"><span class="ls-dot"></span><span class="ls-dot"></span><span class="ls-dot"></span></div>
+      <div class="bk-table-wrap" id="allBookingsTable"></div>
+    </div>
+
+    <!-- MANAGE SERVICEMEN -->
+    <div class="panel" id="panel-servicemen">
+      <h2 class="sec-title" style="font-size:1.8rem;margin-bottom:1.5rem">Manage <span class="acc">Servicemen</span></h2>
+      <div class="loading-spinner" id="smMgmtLoading"><span class="ls-dot"></span><span class="ls-dot"></span><span class="ls-dot"></span></div>
+      <div class="sm-mgmt-grid" id="smMgmtGrid"></div>
+    </div>
+
+    <!-- ADD SERVICEMAN -->
+    <div class="panel" id="panel-addSm">
+      <h2 class="sec-title" style="font-size:1.8rem;margin-bottom:1.5rem">Add New <span class="acc">Serviceman</span></h2>
+      <p style="font-size:.85rem;color:var(--muted);margin-bottom:1.5rem">Add a new serviceman profile. Users will be able to browse and book them from their dashboard.</p>
+      <div class="alert-msg" id="addSmErr"></div>
+      <div class="ok-msg"    id="addSmOk"></div>
+      <form class="add-sm-form" id="addSmForm" novalidate>
+        <div class="fg"><label>Full Name *</label><input type="text" id="sm_name" placeholder="e.g. Rajesh Kumar" required/></div>
+        <div class="fg"><label>Category *</label>
+          <select id="sm_cat" required>
+            <option value="">Select category</option>
+            <option>Security Guard</option><option>Bouncer</option><option>Gunman</option>
+            <option>Ex-Serviceman</option><option>Supervisor</option><option>VIP Protection</option>
+            <option>Housekeeping</option><option>CCTV</option>
+          </select>
+        </div>
+        <div class="fg"><label>Role / Designation *</label><input type="text" id="sm_role" placeholder="e.g. Senior Security Guard" required/></div>
+        <div class="fg"><label>Experience (years) *</label><input type="number" id="sm_exp" placeholder="e.g. 5" min="0" required/></div>
+        <div class="fg"><label>Photo URL (optional)</label><input type="url" id="sm_photo" placeholder="https://... (paste image link)"/></div>
+        <div class="fg"><label>Ex-Serviceman?</label>
+          <select id="sm_exsvc"><option value="false">No</option><option value="true">Yes — Ex Army/Police</option></select>
+        </div>
+        <div class="fg full-col"><label>About / Description</label><input type="text" id="sm_about" placeholder="Brief background, skills, specialization..."/></div>
+        <div class="fg full-col" style="display:flex;align-items:center;gap:.8rem">
+          <input type="checkbox" id="sm_avail" checked style="width:20px;height:20px;accent-color:var(--gold)"/>
+          <label for="sm_avail" style="font-family:'Rajdhani',sans-serif;font-size:.75rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted)">Currently Available for Booking</label>
+        </div>
+        <div class="full-col">
+          <button type="submit" class="btn-add-sm" id="addSmBtn">Add Serviceman →</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- USERS -->
+    <div class="panel" id="panel-users">
+      <h2 class="sec-title" style="font-size:1.8rem;margin-bottom:1.5rem">Registered <span class="acc">Users</span></h2>
+      <div class="loading-spinner" id="usersLoading"><span class="ls-dot"></span><span class="ls-dot"></span><span class="ls-dot"></span></div>
+      <div class="users-grid" id="usersGrid"></div>
+    </div>
+
+  </main>
+</div>
+
+<div class="success-toast" id="toast"></div>
+
+<script type="module">
+  import { initializeApp }     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut }
+                                from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, collection, getDocs, addDoc, doc, updateDoc,
+           deleteDoc, query, orderBy, limit, serverTimestamp }
+                                from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { firebaseConfig, ADMIN_EMAIL } from "./firebase-config.js";
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db   = getFirestore(app);
+  let allBookings=[], allServicemen=[], allUsers=[];
+
+  // ── AUTH GUARD ──
+  onAuthStateChanged(auth, async user=>{
+    if(!user){ window.location.href='login.html'; return; }
+    if(user.email !== ADMIN_EMAIL){ window.location.href='dashboard.html'; return; }
+    loadAll();
+  });
+
+  async function loadAll(){
+    await Promise.all([loadBookings(), loadServicemen(), loadUsers()]);
+  }
+
+  // ── LOAD BOOKINGS ──
+  async function loadBookings(){
+    try {
+      const snap = await getDocs(query(collection(db,'bookings'),orderBy('createdAt','desc')));
+      allBookings = snap.docs.map(d=>({id:d.id,...d.data()}));
+      updateStats();
+      renderRecentTable(allBookings.slice(0,8));
+      renderAllBookings('all');
+      document.getElementById('recentLoading').style.display='none';
+      document.getElementById('allBkLoading').style.display='none';
+    } catch(e){ console.error(e); }
+  }
+
+  function updateStats(){
+    document.getElementById('st-total').textContent     = allBookings.length;
+    document.getElementById('st-pending').textContent   = allBookings.filter(b=>b.status==='pending').length;
+    document.getElementById('st-confirmed').textContent = allBookings.filter(b=>b.status==='confirmed').length;
+    document.getElementById('st-users').textContent     = allUsers.length;
+    document.getElementById('st-sm').textContent        = allServicemen.length;
+  }
+
+  function bookingTableHTML(list){
+    if(!list.length) return '<div style="padding:2rem;text-align:center;color:var(--muted);font-size:.85rem">No bookings found.</div>';
+    return `<table class="bk-table">
+      <thead><tr>
+        <th>Status</th><th>Client Name</th><th>Phone</th>
+        <th>Serviceman</th><th>Role</th><th>Date</th>
+        <th>Duration</th><th>Location</th><th>Actions</th>
+      </tr></thead>
+      <tbody>${list.map(b=>`
+        <tr>
+          <td><span class="status-badge ${b.status}">${b.status.toUpperCase()}</span></td>
+          <td><strong style="color:var(--white)">${b.userName}</strong><br><span style="font-size:.72rem;color:var(--muted)">${b.userEmail}</span></td>
+          <td><a href="tel:${b.userPhone}" style="color:var(--gold)">${b.userPhone}</a></td>
+          <td style="color:var(--white)">${b.servicemanName}</td>
+          <td>${b.servicemanRole}</td>
+          <td>${b.startDate}</td>
+          <td>${b.duration}<br><span style="font-size:.72rem;color:var(--muted)">${b.shift}</span></td>
+          <td style="max-width:180px">${b.location}</td>
+          <td>
+            <div class="action-btns">
+              ${b.status!=='confirmed'?`<button class="btn-confirm-sm" onclick="updateStatus('${b.id}','confirmed')">✓ Confirm</button>`:''}
+              ${b.status!=='rejected'?`<button class="btn-reject-sm" onclick="updateStatus('${b.id}','rejected')">✕ Reject</button>`:''}
+              <a href="https://wa.me/${b.userPhone?.replace(/\D/g,'')}?text=Hello+${encodeURIComponent(b.userName)}%2C+your+booking+for+${encodeURIComponent(b.servicemanName)}+has+been+${b.status==='confirmed'?'CONFIRMED':'updated'}.+-+AV+Group" target="_blank" style="font-family:'Rajdhani',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.3rem .7rem;background:rgba(34,197,94,.15);color:var(--green);border:1px solid rgba(34,197,94,.3);text-decoration:none;min-height:32px;display:inline-flex;align-items:center">💬 WA</a>
+            </div>
+          </td>
+        </tr>`).join('')}
+      </tbody></table>`;
+  }
+
+  function renderRecentTable(list){ document.getElementById('recentTable').innerHTML = bookingTableHTML(list); }
+  function renderAllBookings(filter){
+    const list = filter==='all' ? allBookings : allBookings.filter(b=>b.status===filter);
+    document.getElementById('allBookingsTable').innerHTML = bookingTableHTML(list);
+  }
+
+  window.filterBookings = function(f,btn){
+    document.querySelectorAll('.ftab').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    renderAllBookings(f);
+  };
+
+  window.updateStatus = async function(id, status){
+    try {
+      await updateDoc(doc(db,'bookings',id), {status, updatedAt:serverTimestamp()});
+      allBookings = allBookings.map(b=>b.id===id?{...b,status}:b);
+      updateStats();
+      renderRecentTable(allBookings.slice(0,8));
+      const activeFilter = document.querySelector('.ftab.active')?.textContent?.toLowerCase()||'all';
+      renderAllBookings(activeFilter==='all'?'all':activeFilter);
+      showToast('Booking '+status+'!');
+    } catch(e){ alert('Error updating booking.'); }
+  };
+
+  // ── LOAD SERVICEMEN ──
+  async function loadServicemen(){
+    try {
+      const snap = await getDocs(collection(db,'servicemen'));
+      allServicemen = snap.docs.map(d=>({id:d.id,...d.data()}));
+      renderSmMgmt();
+      document.getElementById('smMgmtLoading').style.display='none';
+    } catch(e){ console.error(e); }
+  }
+
+  function renderSmMgmt(){
+    const grid = document.getElementById('smMgmtGrid');
+    if(!allServicemen.length){ grid.innerHTML='<div style="color:var(--muted);font-size:.85rem;padding:2rem">No servicemen added yet. Use the Add Serviceman tab to add the first one.</div>'; return; }
+    grid.innerHTML = allServicemen.map(sm=>`
+      <div class="sm-mgmt-card">
+        ${sm.photoUrl?`<img src="${sm.photoUrl}" class="sm-mgmt-photo" alt="${sm.name}" loading="lazy" onerror="this.style.display='none'">`:`<div class="sm-mgmt-photo">${getCatIcon(sm.category)}</div>`}
+        <div class="sm-mgmt-body">
+          <div class="sm-mgmt-name">${sm.name}</div>
+          <div class="sm-mgmt-role">${sm.role} · ${sm.category}</div>
+          <div style="font-size:.76rem;color:var(--muted);margin-bottom:.7rem">Exp: ${sm.experience||'-'} yrs${sm.exServiceman?' · Ex-Serviceman':''}</div>
+          <div class="sm-mgmt-actions">
+            <button class="btn-toggle-avail ${sm.available!==false?'avail':'unavail'}" onclick="toggleAvail('${sm.id}',${sm.available!==false})">
+              ${sm.available!==false?'✓ Available':'✗ Unavailable'}
+            </button>
+            <button class="btn-delete-sm" onclick="deleteSm('${sm.id}','${sm.name}')">🗑</button>
+          </div>
+        </div>
+      </div>`).join('');
+  }
+
+  function getCatIcon(cat){
+    const i={'Security Guard':'👮','Bouncer':'💪','Gunman':'🔫','Ex-Serviceman':'🎖️','Supervisor':'🎯','Housekeeping':'🧹','CCTV':'📷','VIP Protection':'👑'};
+    return i[cat]||'👤';
+  }
+
+  window.toggleAvail = async function(id, current){
+    try {
+      await updateDoc(doc(db,'servicemen',id),{available:!current});
+      allServicemen = allServicemen.map(s=>s.id===id?{...s,available:!current}:s);
+      renderSmMgmt();
+      showToast('Availability updated!');
+    } catch(e){ alert('Error updating.'); }
+  };
+
+  window.deleteSm = async function(id,name){
+    if(!confirm('Delete '+name+'? This cannot be undone.')) return;
+    try {
+      await deleteDoc(doc(db,'servicemen',id));
+      allServicemen = allServicemen.filter(s=>s.id!==id);
+      renderSmMgmt();
+      document.getElementById('st-sm').textContent = allServicemen.length;
+      showToast(name+' deleted.');
+    } catch(e){ alert('Error deleting.'); }
+  };
+
+  // ── ADD SERVICEMAN ──
+  document.getElementById('addSmForm').addEventListener('submit', async e=>{
+    e.preventDefault();
+    const err  = document.getElementById('addSmErr');
+    const ok   = document.getElementById('addSmOk');
+    const btn  = document.getElementById('addSmBtn');
+    const name = document.getElementById('sm_name').value.trim();
+    const cat  = document.getElementById('sm_cat').value;
+    const role = document.getElementById('sm_role').value.trim();
+    const exp  = document.getElementById('sm_exp').value;
+    const photo= document.getElementById('sm_photo').value.trim();
+    const exsvc= document.getElementById('sm_exsvc').value==='true';
+    const about= document.getElementById('sm_about').value.trim();
+    const avail= document.getElementById('sm_avail').checked;
+    err.classList.remove('show'); ok.classList.remove('show');
+    if(!name||!cat||!role||!exp){ err.textContent='Please fill all required fields.'; err.classList.add('show'); return; }
+    btn.disabled=true; btn.innerHTML='<span class="spinner"></span>Adding...';
+    try {
+      const docRef = await addDoc(collection(db,'servicemen'),{
+        name, category:cat, role, experience:exp,
+        photoUrl:photo||'', exServiceman:exsvc, about:about||'',
+        available:avail, createdAt:serverTimestamp()
+      });
+      allServicemen.push({id:docRef.id,name,category:cat,role,experience:exp,photoUrl:photo||'',exServiceman:exsvc,about,available:avail});
+      renderSmMgmt();
+      document.getElementById('st-sm').textContent = allServicemen.length;
+      ok.textContent='✅ '+name+' added successfully!';
+      ok.classList.add('show');
+      document.getElementById('addSmForm').reset();
+      document.getElementById('sm_avail').checked=true;
+    } catch(er){ err.textContent='Error adding. Try again.'; err.classList.add('show'); }
+    btn.disabled=false; btn.innerHTML='Add Serviceman →';
+  });
+
+  // ── LOAD USERS ──
+  async function loadUsers(){
+    try {
+      const snap = await getDocs(query(collection(db,'users'),orderBy('createdAt','desc')));
+      allUsers = snap.docs.map(d=>({id:d.id,...d.data()}));
+      document.getElementById('usersLoading').style.display='none';
+      document.getElementById('st-users').textContent = allUsers.length;
+      if(!allUsers.length){ document.getElementById('usersGrid').innerHTML='<div style="color:var(--muted);font-size:.85rem">No users registered yet.</div>'; return; }
+      document.getElementById('usersGrid').innerHTML = allUsers.map(u=>`
+        <div class="user-card">
+          <div class="user-card-header">
+            <div class="user-avatar">${(u.firstName||u.fullName||'?')[0].toUpperCase()}</div>
+            <div><div class="user-name">${u.fullName||'-'}</div><div class="user-email">${u.email}</div></div>
+          </div>
+          <div class="user-meta">
+            📞 ${u.phone||'-'}<br>
+            📍 ${u.city||'-'}<br>
+            🏢 ${u.company||'Individual'}<br>
+            📋 ${u.totalBookings||0} booking(s)<br>
+            🗓 Joined: ${u.createdAt?.toDate?.()?.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})||'-'}
+          </div>
+          <div style="margin-top:.8rem;display:flex;gap:.5rem;flex-wrap:wrap">
+            <a href="https://wa.me/${u.phone?.replace(/\D/g,'')}" target="_blank" style="font-family:'Rajdhani',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.3rem .7rem;background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.25);text-decoration:none;min-height:32px;display:inline-flex;align-items:center">💬 WhatsApp</a>
+            <a href="tel:${u.phone}" style="font-family:'Rajdhani',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.3rem .7rem;background:var(--gold-dim);color:var(--gold);border:1px solid var(--border);text-decoration:none;min-height:32px;display:inline-flex;align-items:center">📞 Call</a>
+          </div>
+        </div>`).join('');
+    } catch(e){ document.getElementById('usersLoading').innerHTML='<span style="color:var(--red)">Error loading users.</span>'; }
+  }
+
+  function showToast(msg){
+    const t=document.getElementById('toast');
+    t.textContent=msg; t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'),3000);
+  }
+
+  window.doLogout = async()=>{ await signOut(auth); window.location.href='index.html'; };
+
+  window.showPanel = function(name,el){
+    event?.preventDefault?.();
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    document.querySelectorAll('.anav-item,.amt').forEach(a=>a.classList.remove('active'));
+    document.getElementById('panel-'+name).classList.add('active');
+    if(el) el.classList.add('active');
+  };
+</script>
+</body>
+</html>

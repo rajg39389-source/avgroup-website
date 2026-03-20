@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover,maximum-scale=5.0"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="theme-color" content="#060d1a"/>
+<title>My Dashboard – AV Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:wght@300;400;500&family=Oswald:wght@600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+<style>
+.dash-layout{display:grid;grid-template-columns:260px 1fr;min-height:100svh;padding-top:calc(70px + var(--sat))}
+@media(max-width:768px){.dash-layout{grid-template-columns:1fr}}
+.dash-sidebar{background:var(--card);border-right:1px solid var(--border);padding:2rem 1.5rem;position:sticky;top:calc(70px + var(--sat));height:calc(100vh - 70px - var(--sat));overflow-y:auto;-webkit-overflow-scrolling:touch}
+@media(max-width:768px){.dash-sidebar{display:none}}
+.dash-main{padding:2rem max(2rem,3vw);background:var(--navy)}
+.sidebar-user{text-align:center;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border2)}
+.sidebar-avatar{width:64px;height:64px;border-radius:50%;background:var(--gold);border:2px solid var(--gold-dark);margin:0 auto .8rem;display:flex;align-items:center;justify-content:center;font-family:'Oswald',sans-serif;font-size:1.5rem;font-weight:700;color:#000}
+.sidebar-name{font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:var(--white);margin-bottom:.2rem}
+.sidebar-email{font-size:.72rem;color:var(--muted);word-break:break-all}
+.sidebar-nav{display:flex;flex-direction:column;gap:.3rem}
+.snav-item{
+  display:flex;align-items:center;gap:.8rem;
+  padding:.8rem 1rem;text-decoration:none;
+  font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:600;
+  letter-spacing:1px;text-transform:uppercase;color:var(--muted);
+  border:1px solid transparent;transition:all .3s;min-height:var(--touch);
+}
+.snav-item:hover,.snav-item.active{color:var(--gold);border-color:var(--border);background:var(--navy2)}
+.snav-item .sn-icon{font-size:1rem;flex-shrink:0}
+.snav-logout{color:var(--red)!important}
+.snav-logout:hover{border-color:rgba(230,57,70,.3)!important;background:rgba(230,57,70,.05)!important}
+
+/* Mobile tab bar */
+.mob-tabs{display:none;position:fixed;bottom:var(--sab);left:0;right:0;z-index:800;background:var(--card);border-top:1px solid var(--border);padding:.5rem 0}
+@media(max-width:768px){.mob-tabs{display:flex}}
+.mob-tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:.2rem;padding:.4rem;text-decoration:none;min-height:var(--touch)}
+.mob-tab .mt-icon{font-size:1.2rem}
+.mob-tab .mt-label{font-family:'Rajdhani',sans-serif;font-size:.58rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
+.mob-tab.active .mt-label{color:var(--gold)}
+
+/* Content panels */
+.panel{display:none}
+.panel.active{display:block}
+
+/* Welcome */
+.welcome-banner{background:linear-gradient(135deg,#0d1a0a,#0a1520);border:1px solid var(--border);padding:1.8rem;margin-bottom:2rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;position:relative;overflow:hidden}
+.welcome-banner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 90% 50%,rgba(224,155,26,.06),transparent)}
+.wb-icon{font-size:2.5rem;flex-shrink:0;position:relative}
+.wb-body{flex:1;position:relative}
+.wb-body h2{font-family:'Oswald',sans-serif;font-size:1.4rem;font-weight:700;color:var(--white);margin-bottom:.3rem}
+.wb-body p{font-size:.84rem;font-weight:300;color:var(--muted);line-height:1.7}
+
+/* Category tabs */
+.cat-tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.cat-tab{
+  font-family:'Rajdhani',sans-serif;font-size:.72rem;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;
+  padding:.45rem 1rem;min-height:var(--touch);
+  border:1px solid var(--border2);background:var(--card);color:var(--muted);
+  cursor:pointer;transition:all .3s;-webkit-tap-highlight-color:transparent;
+}
+.cat-tab.active,.cat-tab:hover{background:var(--gold);color:#000;border-color:var(--gold)}
+
+/* Serviceman cards */
+.sm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(220px,100%),1fr));gap:1.2rem}
+.sm-card{background:var(--card);border:1px solid var(--border);overflow:hidden;transition:border-color .3s,transform .3s}
+@media(hover:hover){.sm-card:hover{border-color:var(--gold);transform:translateY(-3px)}}
+.sm-photo{width:100%;height:180px;object-fit:cover;display:block;background:var(--navy3)}
+.sm-photo-placeholder{width:100%;height:180px;background:linear-gradient(135deg,var(--navy3),var(--navy2));display:flex;align-items:center;justify-content:center;font-size:3rem}
+.sm-body{padding:1.2rem}
+.sm-name{font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:var(--white);margin-bottom:.2rem}
+.sm-role{font-family:'Rajdhani',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem}
+.sm-meta{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.8rem}
+.sm-tag{font-family:'Rajdhani',sans-serif;font-size:.62rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;background:var(--gold-dim);color:var(--gold-lt);border:1px solid var(--border);padding:.2rem .5rem}
+.sm-exp{font-size:.78rem;color:var(--muted);margin-bottom:.8rem}
+.sm-avail{display:inline-flex;align-items:center;gap:.4rem;font-family:'Rajdhani',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:.9rem}
+.sm-avail.yes{color:var(--green)}
+.sm-avail.no{color:var(--red)}
+.sm-avail-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.btn-book{
+  width:100%;font-family:'Rajdhani',sans-serif;font-size:.8rem;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;
+  background:var(--gold);color:#000;padding:.7rem;border:none;
+  cursor:pointer;transition:background .3s;-webkit-appearance:none;
+  min-height:var(--touch);
+}
+.btn-book:hover{background:var(--gold-lt)}
+.btn-book:disabled{background:var(--muted);cursor:not-allowed}
+
+/* Booking modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:2000;display:none;align-items:center;justify-content:center;padding:1rem;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.modal-overlay.open{display:flex}
+.modal-box{background:var(--card);border:1px solid var(--border);width:100%;max-width:480px;max-height:90vh;overflow-y:auto;-webkit-overflow-scrolling:touch;position:relative}
+.modal-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold-dark),var(--gold),var(--gold-lt),transparent)}
+.modal-header{padding:1.5rem;border-bottom:1px solid var(--border2);display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.modal-title{font-family:'Oswald',sans-serif;font-size:1.1rem;font-weight:600;color:var(--white)}
+.modal-close{background:none;border:none;color:var(--muted);font-size:1.3rem;cursor:pointer;padding:.3rem;min-width:36px;min-height:36px;display:flex;align-items:center;justify-content:center}
+.modal-close:hover{color:var(--white)}
+.modal-body{padding:1.5rem}
+.modal-sm-info{display:flex;align-items:center;gap:1rem;background:var(--navy2);padding:1rem;margin-bottom:1.5rem;border:1px solid var(--border2)}
+.modal-sm-photo{width:52px;height:52px;border-radius:50%;object-fit:cover;background:var(--navy3);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0}
+.modal-sm-name{font-family:'Rajdhani',sans-serif;font-size:.95rem;font-weight:700;color:var(--white);margin-bottom:.2rem}
+.modal-sm-role{font-family:'Rajdhani',sans-serif;font-size:.65rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
+.bform{display:flex;flex-direction:column;gap:.9rem}
+.bform .fg label{font-family:'Rajdhani',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.bform .fg input,.bform .fg select,.bform .fg textarea{background:var(--navy2);border:1px solid var(--border);color:var(--steel);padding:.75rem 1rem;font-size:16px;font-family:'DM Sans',sans-serif;outline:none;border-radius:0;-webkit-appearance:none;appearance:none;width:100%;transition:border-color .3s}
+.bform .fg input:focus,.bform .fg select:focus,.bform .fg textarea:focus{border-color:var(--gold)}
+.bform .fg select option{background:#0c1528}
+.bform .fg textarea{min-height:80px;resize:vertical}
+.bfrow{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+@media(max-width:400px){.bfrow{grid-template-columns:1fr}}
+.btn-confirm{width:100%;font-family:'Rajdhani',sans-serif;font-size:.88rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:var(--gold);color:#000;padding:.9rem;border:none;cursor:pointer;box-shadow:0 4px 20px var(--gold-glow);transition:background .3s;min-height:var(--touch)}
+.btn-confirm:hover{background:var(--gold-lt)}
+.btn-confirm:disabled{background:var(--muted);cursor:not-allowed}
+
+/* Bookings list */
+.booking-card{background:var(--card);border:1px solid var(--border);padding:1.4rem;margin-bottom:1rem;display:flex;gap:1.2rem;flex-wrap:wrap;align-items:flex-start;transition:border-color .3s}
+.booking-card:hover{border-color:var(--border-t)}
+.bk-status{padding:.3rem .8rem;font-family:'Rajdhani',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;flex-shrink:0}
+.bk-status.pending{background:rgba(245,158,11,.1);color:#f59e0b;border:1px solid rgba(245,158,11,.3)}
+.bk-status.confirmed{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.3)}
+.bk-status.rejected{background:rgba(230,57,70,.1);color:var(--red);border:1px solid rgba(230,57,70,.3)}
+.bk-main{flex:1;min-width:200px}
+.bk-service{font-family:'Rajdhani',sans-serif;font-size:.95rem;font-weight:700;color:var(--white);margin-bottom:.2rem}
+.bk-person{font-size:.82rem;color:var(--gold);margin-bottom:.4rem}
+.bk-meta{font-size:.78rem;color:var(--muted);line-height:1.7}
+.no-items{text-align:center;padding:3rem 1rem;color:var(--muted);font-size:.9rem}
+.no-items .ni-icon{font-size:3rem;margin-bottom:1rem;display:block;opacity:.4}
+
+/* Loading */
+.loading-spinner{display:flex;align-items:center;justify-content:center;padding:3rem;gap:.8rem;color:var(--muted);font-family:'Rajdhani',sans-serif;font-size:.85rem;letter-spacing:2px;text-transform:uppercase}
+.ls-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);animation:ldot 1.2s infinite}
+.ls-dot:nth-child(2){animation-delay:.2s}
+.ls-dot:nth-child(3){animation-delay:.4s}
+@keyframes ldot{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(0,0,0,.3);border-top-color:#000;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:.4rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+.error-msg{background:rgba(230,57,70,.1);border:1px solid rgba(230,57,70,.3);padding:.8rem 1rem;font-size:.82rem;color:#e63946;margin-bottom:1rem;display:none;line-height:1.6}
+.error-msg.show{display:block}
+.success-msg{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);padding:.8rem 1rem;font-size:.82rem;color:var(--green);margin-bottom:1rem;display:none;line-height:1.6}
+.success-msg.show{display:block}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="Logo.jpeg" class="nav-logo-img" alt="AV Group"/>
+    <span class="nav-logo-text"><span class="logo-av">AV GROUP</span><span class="logo-grp">SECURITY</span></span>
+  </a>
+  <div style="flex:1"></div>
+  <div class="nav-right">
+    <span id="navUserName" style="font-family:'Rajdhani',sans-serif;font-size:.82rem;font-weight:600;color:var(--muted);letter-spacing:1px"></span>
+    <button onclick="doLogout()" class="nav-cta" style="border:none;cursor:pointer">Logout</button>
+  </div>
+</nav>
+
+<div class="dash-layout">
+  <!-- SIDEBAR -->
+  <aside class="dash-sidebar">
+    <div class="sidebar-user">
+      <div class="sidebar-avatar" id="sideAvatar">?</div>
+      <div class="sidebar-name" id="sideName">Loading...</div>
+      <div class="sidebar-email" id="sideEmail"></div>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="#" class="snav-item active" onclick="showPanel('home',this)"><span class="sn-icon">🏠</span>Home</a>
+      <a href="#" class="snav-item" onclick="showPanel('browse',this)"><span class="sn-icon">👮</span>Browse Servicemen</a>
+      <a href="#" class="snav-item" onclick="showPanel('bookings',this)"><span class="sn-icon">📋</span>My Bookings</a>
+      <a href="#" class="snav-item" onclick="showPanel('profile',this)"><span class="sn-icon">👤</span>My Profile</a>
+      <a href="index.html" class="snav-item"><span class="sn-icon">🌐</span>Main Website</a>
+      <a href="#" class="snav-item snav-logout" onclick="doLogout()"><span class="sn-icon">🚪</span>Logout</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="dash-main">
+
+    <!-- HOME PANEL -->
+    <div class="panel active" id="panel-home">
+      <div class="welcome-banner">
+        <span class="wb-icon">👋</span>
+        <div class="wb-body">
+          <h2 id="welcomeMsg">Welcome!</h2>
+          <p>Book trained security guards, bouncers, gunmen, and facility staff directly from your dashboard. Quick, reliable, and professional.</p>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(180px,100%),1fr));gap:1rem;margin-bottom:2rem">
+        <div class="info-card" style="cursor:pointer" onclick="showPanel('browse',document.querySelector('.snav-item:nth-child(2)'))">
+          <div style="font-size:2rem;margin-bottom:.5rem">👮</div>
+          <div style="font-family:'Oswald',sans-serif;font-size:1.1rem;color:var(--white);margin-bottom:.2rem">Book a Service</div>
+          <div style="font-size:.8rem;color:var(--muted)">Browse &amp; book servicemen</div>
+        </div>
+        <div class="info-card" style="cursor:pointer" onclick="showPanel('bookings',document.querySelector('.snav-item:nth-child(3)'))">
+          <div style="font-size:2rem;margin-bottom:.5rem">📋</div>
+          <div style="font-family:'Oswald',sans-serif;font-size:1.1rem;color:var(--white);margin-bottom:.2rem">My Bookings</div>
+          <div style="font-size:.8rem;color:var(--muted)" id="totalBookingsCard">View all your bookings</div>
+        </div>
+        <div class="info-card">
+          <div style="font-size:2rem;margin-bottom:.5rem">📞</div>
+          <div style="font-family:'Oswald',sans-serif;font-size:1.1rem;color:var(--white);margin-bottom:.2rem">Need Help?</div>
+          <div style="font-size:.8rem;color:var(--muted)"><a href="https://wa.me/919137063012" target="_blank" style="color:var(--green)">WhatsApp: +91 91370 63012</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BROWSE PANEL -->
+    <div class="panel" id="panel-browse">
+      <div class="sec-eyebrow" style="margin-bottom:.8rem">Available Personnel</div>
+      <h2 class="sec-title" style="font-size:1.8rem;margin-bottom:1rem">Browse &amp; <span class="acc">Book</span></h2>
+      <div class="cat-tabs" id="catTabs"></div>
+      <div class="loading-spinner" id="smLoading"><span class="ls-dot"></span><span class="ls-dot"></span><span class="ls-dot"></span><span style="margin-left:.5rem">Loading servicemen...</span></div>
+      <div class="sm-grid" id="smGrid"></div>
+    </div>
+
+    <!-- BOOKINGS PANEL -->
+    <div class="panel" id="panel-bookings">
+      <div class="sec-eyebrow" style="margin-bottom:.8rem">Booking History</div>
+      <h2 class="sec-title" style="font-size:1.8rem;margin-bottom:1.5rem">My <span class="acc">Bookings</span></h2>
+      <div class="loading-spinner" id="bkLoading"><span class="ls-dot"></span><span class="ls-dot"></span><span class="ls-dot"></span><span style="margin-left:.5rem">Loading bookings...</span></div>
+      <div id="bookingsList"></div>
+    </div>
+
+    <!-- PROFILE PANEL -->
+    <div class="panel" id="panel-profile">
+      <div class="sec-eyebrow" style="margin-bottom:.8rem">Account</div>
+      <h2 class="sec-title" style="font-size:1.8rem;margin-bottom:1.5rem">My <span class="acc">Profile</span></h2>
+      <div id="profileContent" class="info-card" style="max-width:500px"></div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Mobile tabs -->
+<nav class="mob-tabs">
+  <a href="#" class="mob-tab active" onclick="showPanel('home',this)" id="mt-home"><span class="mt-icon">🏠</span><span class="mt-label">Home</span></a>
+  <a href="#" class="mob-tab" onclick="showPanel('browse',this)" id="mt-browse"><span class="mt-icon">👮</span><span class="mt-label">Browse</span></a>
+  <a href="#" class="mob-tab" onclick="showPanel('bookings',this)" id="mt-bookings"><span class="mt-icon">📋</span><span class="mt-label">Bookings</span></a>
+  <a href="#" class="mob-tab" onclick="showPanel('profile',this)" id="mt-profile"><span class="mt-icon">👤</span><span class="mt-label">Profile</span></a>
+  <a href="#" class="mob-tab" onclick="doLogout()"><span class="mt-icon">🚪</span><span class="mt-label">Logout</span></a>
+</nav>
+
+<!-- BOOKING MODAL -->
+<div class="modal-overlay" id="bookModal" onclick="closeModal(event)">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <span class="modal-title">Book Serviceman</span>
+      <button class="modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-sm-info" id="modalSmInfo"></div>
+      <div class="error-msg" id="modalErr"></div>
+      <div class="success-msg" id="modalOk"></div>
+      <form class="bform" id="bookForm" novalidate>
+        <input type="hidden" id="bk_smId"/>
+        <input type="hidden" id="bk_smName"/>
+        <input type="hidden" id="bk_smRole"/>
+        <div class="bfrow">
+          <div class="fg"><label>Start Date <span style="color:var(--red)">*</span></label><input type="date" id="bk_date" required/></div>
+          <div class="fg"><label>Duration <span style="color:var(--red)">*</span></label>
+            <select id="bk_duration" required>
+              <option value="">Select</option>
+              <option>1 Day</option><option>3 Days</option><option>1 Week</option>
+              <option>2 Weeks</option><option>1 Month</option><option>3 Months</option>
+              <option>6 Months</option><option>1 Year</option><option>Ongoing</option>
+            </select>
+          </div>
+        </div>
+        <div class="fg"><label>Shift Timing <span style="color:var(--red)">*</span></label>
+          <select id="bk_shift" required>
+            <option value="">Select shift</option>
+            <option>Day Shift (8am–8pm)</option><option>Night Shift (8pm–8am)</option>
+            <option>Morning Shift (6am–2pm)</option><option>Evening Shift (2pm–10pm)</option>
+            <option>24 Hour Duty</option><option>Flexible</option>
+          </select>
+        </div>
+        <div class="fg"><label>Site Location <span style="color:var(--red)">*</span></label><input type="text" id="bk_location" placeholder="Full address / area, Mumbai" required/></div>
+        <div class="fg"><label>Your Contact Number <span style="color:var(--red)">*</span></label><input type="tel" id="bk_phone" placeholder="+91 XXXXX XXXXX" required/></div>
+        <div class="fg"><label>Special Instructions</label><textarea id="bk_notes" placeholder="Any specific requirements, uniform preference, post details..."></textarea></div>
+        <button type="submit" class="btn-confirm" id="confirmBtn">Confirm Booking →</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp }     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut }
+                                from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, collection, getDocs, addDoc, query,
+           where, orderBy, doc, getDoc, serverTimestamp, updateDoc, increment }
+                                from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { firebaseConfig }    from "./firebase-config.js";
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db   = getFirestore(app);
+  let currentUser = null, userProfile = null, currentCategory = 'All';
+
+  // ── AUTH GUARD ──
+  onAuthStateChanged(auth, async user => {
+    if(!user){ window.location.href='login.html'; return; }
+    currentUser = user;
+    const snap = await getDoc(doc(db,'users',user.uid));
+    if(snap.exists()) userProfile = snap.data();
+    if(userProfile?.role==='admin'){ window.location.href='admin.html'; return; }
+    renderUserUI();
+    loadServicemen();
+    loadBookings();
+  });
+
+  function renderUserUI(){
+    const name = userProfile?.fullName || currentUser.displayName || 'User';
+    const initials = name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
+    document.getElementById('sideAvatar').textContent  = initials;
+    document.getElementById('sideName').textContent    = name;
+    document.getElementById('sideEmail').textContent   = currentUser.email;
+    document.getElementById('welcomeMsg').textContent  = 'Welcome, '+name.split(' ')[0]+'! 👋';
+    document.getElementById('navUserName').textContent = name;
+    // Profile panel
+    document.getElementById('profileContent').innerHTML = `
+      <div style="display:flex;flex-direction:column;gap:.8rem">
+        <div><span style="font-family:'Rajdhani',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Full Name</span><br><span style="color:var(--white)">${userProfile?.fullName||'-'}</span></div>
+        <div><span style="font-family:'Rajdhani',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Email</span><br><span style="color:var(--white)">${currentUser.email}</span></div>
+        <div><span style="font-family:'Rajdhani',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Phone</span><br><span style="color:var(--white)">${userProfile?.phone||'-'}</span></div>
+        <div><span style="font-family:'Rajdhani',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">City</span><br><span style="color:var(--white)">${userProfile?.city||'-'}</span></div>
+        <div><span style="font-family:'Rajdhani',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Company</span><br><span style="color:var(--white)">${userProfile?.company||'-'}</span></div>
+        <div><span style="font-family:'Rajdhani',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Member Since</span><br><span style="color:var(--white)">${userProfile?.createdAt?.toDate?.()?.toLocaleDateString('en-IN')||'-'}</span></div>
+      </div>`;
+  }
+
+  // ── LOAD SERVICEMEN ──
+  async function loadServicemen(){
+    try {
+      const snap = await getDocs(collection(db,'servicemen'));
+      const all  = snap.docs.map(d=>({id:d.id,...d.data()}));
+      // Category tabs
+      const cats = ['All',...new Set(all.map(s=>s.category))];
+      const tabsEl = document.getElementById('catTabs');
+      tabsEl.innerHTML = cats.map(c=>`<button class="cat-tab${c==='All'?' active':''}" onclick="filterCat('${c}',this)">${c}</button>`).join('');
+      window._allServicemen = all;
+      renderServicemen(all);
+      document.getElementById('smLoading').style.display='none';
+    } catch(e){
+      document.getElementById('smLoading').innerHTML='<span style="color:var(--red)">Error loading servicemen. Check Firebase setup.</span>';
+    }
+  }
+
+  window.filterCat = function(cat, btn){
+    currentCategory = cat;
+    document.querySelectorAll('.cat-tab').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const filtered = cat==='All' ? window._allServicemen : window._allServicemen.filter(s=>s.category===cat);
+    renderServicemen(filtered);
+  };
+
+  function renderServicemen(list){
+    const grid = document.getElementById('smGrid');
+    if(!list.length){ grid.innerHTML='<div class="no-items"><span class="ni-icon">👮</span>No servicemen found in this category.</div>'; return; }
+    grid.innerHTML = list.map(sm=>`
+      <div class="sm-card">
+        ${sm.photoUrl ? `<img src="${sm.photoUrl}" class="sm-photo" alt="${sm.name}" loading="lazy"/>` : `<div class="sm-photo-placeholder">${getCatIcon(sm.category)}</div>`}
+        <div class="sm-body">
+          <div class="sm-name">${sm.name}</div>
+          <div class="sm-role">${sm.role}</div>
+          <div class="sm-meta"><span class="sm-tag">${sm.category}</span>${sm.exServiceman?'<span class="sm-tag">Ex-Serviceman</span>':''}</div>
+          <div class="sm-exp">📅 ${sm.experience||'2+'} years experience</div>
+          <div class="sm-avail ${sm.available!==false?'yes':'no'}">
+            <span class="sm-avail-dot"></span>${sm.available!==false?'Available':'Currently Unavailable'}
+          </div>
+          <button class="btn-book" ${sm.available===false?'disabled':''} onclick="openBookModal(${JSON.stringify(sm).replace(/"/g,'&quot;')})">
+            ${sm.available!==false?'Book Now →':'Unavailable'}
+          </button>
+        </div>
+      </div>`).join('');
+  }
+
+  function getCatIcon(cat){
+    const icons={'Security Guard':'👮','Bouncer':'💪','Gunman':'🔫','Ex-Serviceman':'🎖️','Supervisor':'🎯','Housekeeping':'🧹','CCTV':'📷','VIP Protection':'👑'};
+    return icons[cat]||'👤';
+  }
+
+  // ── BOOKING MODAL ──
+  window.openBookModal = function(sm){
+    document.getElementById('bk_smId').value   = sm.id;
+    document.getElementById('bk_smName').value = sm.name;
+    document.getElementById('bk_smRole').value = sm.role;
+    document.getElementById('bk_phone').value  = userProfile?.phone||'';
+    document.getElementById('bk_date').min     = new Date().toISOString().split('T')[0];
+    document.getElementById('modalSmInfo').innerHTML = `
+      <div class="modal-sm-photo">${sm.photoUrl?`<img src="${sm.photoUrl}" style="width:100%;height:100%;object-fit:cover;border-radius:50%"/>`:'👤'}</div>
+      <div><div class="modal-sm-name">${sm.name}</div><div class="modal-sm-role">${sm.role} · ${sm.category}</div></div>`;
+    document.getElementById('modalErr').classList.remove('show');
+    document.getElementById('modalOk').classList.remove('show');
+    document.getElementById('bookModal').classList.add('open');
+    document.body.style.overflow='hidden';
+  };
+
+  window.closeModal = function(e){
+    if(!e||e.target===document.getElementById('bookModal')){
+      document.getElementById('bookModal').classList.remove('open');
+      document.body.style.overflow='';
+      document.getElementById('bookForm').reset();
+    }
+  };
+
+  document.getElementById('bookForm').addEventListener('submit', async e=>{
+    e.preventDefault();
+    const smId    = document.getElementById('bk_smId').value;
+    const smName  = document.getElementById('bk_smName').value;
+    const smRole  = document.getElementById('bk_smRole').value;
+    const date    = document.getElementById('bk_date').value;
+    const duration= document.getElementById('bk_duration').value;
+    const shift   = document.getElementById('bk_shift').value;
+    const location= document.getElementById('bk_location').value.trim();
+    const phone   = document.getElementById('bk_phone').value.trim();
+    const notes   = document.getElementById('bk_notes').value.trim();
+    const btn     = document.getElementById('confirmBtn');
+    const err     = document.getElementById('modalErr');
+    const ok      = document.getElementById('modalOk');
+
+    if(!date||!duration||!shift||!location||!phone){
+      err.textContent='Please fill all required fields.'; err.classList.add('show'); return;
+    }
+    btn.disabled=true; btn.innerHTML='<span class="spinner"></span>Submitting...';
+    err.classList.remove('show'); ok.classList.remove('show');
+    try {
+      await addDoc(collection(db,'bookings'),{
+        userId:        currentUser.uid,
+        userName:      userProfile?.fullName||currentUser.displayName||'',
+        userEmail:     currentUser.email,
+        userPhone:     phone,
+        userCity:      userProfile?.city||'',
+        servicemanId:  smId,
+        servicemanName:smName,
+        servicemanRole:smRole,
+        startDate:     date,
+        duration,
+        shift,
+        location,
+        notes:         notes||'',
+        status:        'pending',
+        createdAt:     serverTimestamp()
+      });
+      // Increment user booking count
+      await updateDoc(doc(db,'users',currentUser.uid),{totalBookings:increment(1)});
+      ok.textContent='✅ Booking submitted! AV Group will confirm within 2-4 hours.';
+      ok.classList.add('show');
+      btn.innerHTML='Confirm Booking →'; btn.disabled=false;
+      setTimeout(()=>{ closeModal(); loadBookings(); showPanel('bookings',document.querySelector('.snav-item:nth-child(3)')); },2500);
+    } catch(er){
+      err.textContent='Booking failed. Please try again.'; err.classList.add('show');
+      btn.innerHTML='Confirm Booking →'; btn.disabled=false;
+    }
+  });
+
+  // ── LOAD BOOKINGS ──
+  async function loadBookings(){
+    if(!currentUser) return;
+    try {
+      const q    = query(collection(db,'bookings'), where('userId','==',currentUser.uid), orderBy('createdAt','desc'));
+      const snap = await getDocs(q);
+      const list = snap.docs.map(d=>({id:d.id,...d.data()}));
+      document.getElementById('bkLoading').style.display='none';
+      document.getElementById('totalBookingsCard').textContent = list.length+' booking'+(list.length!==1?'s':'');
+      if(!list.length){
+        document.getElementById('bookingsList').innerHTML='<div class="no-items"><span class="ni-icon">📋</span>No bookings yet. Browse servicemen to make your first booking!</div>';
+        return;
+      }
+      document.getElementById('bookingsList').innerHTML = list.map(b=>`
+        <div class="booking-card">
+          <div>
+            <span class="bk-status ${b.status}">${b.status.toUpperCase()}</span>
+            <div style="margin-top:.5rem;font-size:.72rem;color:var(--muted)">${b.createdAt?.toDate?.()?.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})||'--'}</div>
+          </div>
+          <div class="bk-main">
+            <div class="bk-service">${b.servicemanRole} — ${b.servicemanName}</div>
+            <div class="bk-person">📅 ${b.startDate} · ${b.duration} · ${b.shift}</div>
+            <div class="bk-meta">📍 ${b.location}<br>📞 ${b.userPhone}${b.notes?'<br>📝 '+b.notes:''}</div>
+          </div>
+        </div>`).join('');
+    } catch(e){
+      document.getElementById('bkLoading').innerHTML='<span style="color:var(--red)">Could not load bookings.</span>';
+    }
+  }
+
+  window.doLogout = async function(){
+    await signOut(auth);
+    window.location.href='index.html';
+  };
+
+  // ── PANEL SWITCHING ──
+  window.showPanel = function(name, el){
+    event?.preventDefault?.();
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    document.querySelectorAll('.snav-item,.mob-tab').forEach(a=>a.classList.remove('active'));
+    document.getElementById('panel-'+name).classList.add('active');
+    if(el) el.classList.add('active');
+  };
+</script>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover,maximum-scale=5.0"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="theme-color" content="#060d1a"/>
+<meta name="format-detection" content="telephone=no"/>
+<title>Login – AV Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:wght@300;400;500&family=Oswald:wght@600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+<style>
+.auth-page{
+  min-height:100svh;display:flex;align-items:center;justify-content:center;
+  padding:calc(80px + var(--sat)) max(5vw,16px) calc(2rem + var(--sab));
+  background:radial-gradient(ellipse 80% 60% at 50% 20%,rgba(224,155,26,.07) 0%,transparent 60%),var(--navy);
+  position:relative;overflow:hidden;
+}
+.auth-grid{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(224,155,26,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(224,155,26,.03) 1px,transparent 1px);
+  background-size:50px 50px;
+}
+.auth-box{
+  width:100%;max-width:440px;
+  background:var(--card);border:1px solid var(--border);
+  padding:clamp(1.8rem,5vw,3rem);
+  position:relative;z-index:2;
+}
+.auth-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold-dark),var(--gold),var(--gold-lt),transparent)}
+.auth-logo{display:flex;align-items:center;justify-content:center;gap:.8rem;margin-bottom:2rem}
+.auth-logo img{width:52px;height:52px;border-radius:50%;border:2px solid var(--gold);object-fit:cover}
+.auth-logo-text{font-family:'Rajdhani',sans-serif;font-size:1.3rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--white)}
+.auth-logo-text span{color:var(--gold)}
+.auth-title{font-family:'Oswald',sans-serif;font-size:1.8rem;font-weight:700;color:var(--white);text-align:center;margin-bottom:.3rem}
+.auth-sub{font-size:.84rem;font-weight:300;color:var(--muted);text-align:center;margin-bottom:2rem}
+.auth-form{display:flex;flex-direction:column;gap:1rem}
+.auth-form .fg label{font-family:'Rajdhani',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.auth-form .fg input{
+  background:var(--navy2);border:1px solid var(--border);color:var(--steel);
+  padding:.85rem 1rem;font-size:16px;font-family:'DM Sans',sans-serif;
+  outline:none;border-radius:0;-webkit-appearance:none;appearance:none;
+  width:100%;transition:border-color .3s,box-shadow .3s;
+}
+.auth-form .fg input:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-dim)}
+.auth-form .fg input::placeholder{color:var(--muted)}
+.pw-wrap{position:relative}
+.pw-wrap input{padding-right:3rem}
+.pw-toggle{
+  position:absolute;right:.8rem;top:50%;transform:translateY(-50%);
+  background:none;border:none;color:var(--muted);font-size:1.1rem;
+  cursor:pointer;padding:.3rem;-webkit-tap-highlight-color:transparent;
+}
+.btn-auth{
+  width:100%;font-family:'Rajdhani',sans-serif;font-size:.95rem;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;
+  background:var(--gold);color:#000;
+  padding:1rem;border:none;cursor:pointer;
+  box-shadow:0 4px 20px var(--gold-glow);
+  transition:background .3s;-webkit-appearance:none;
+  min-height:var(--touch);
+}
+.btn-auth:hover{background:var(--gold-lt)}
+.btn-auth:disabled{background:var(--muted);cursor:not-allowed;box-shadow:none}
+.auth-divider{display:flex;align-items:center;gap:1rem;margin:.5rem 0}
+.auth-divider span{font-size:.72rem;color:var(--muted);white-space:nowrap;font-family:'Rajdhani',sans-serif;letter-spacing:2px;text-transform:uppercase}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--border2)}
+.auth-switch{text-align:center;font-size:.84rem;color:var(--muted)}
+.auth-switch a{color:var(--gold);text-decoration:none;font-weight:500}
+.error-msg{background:rgba(230,57,70,.1);border:1px solid rgba(230,57,70,.3);padding:.8rem 1rem;font-size:.82rem;color:#e63946;display:none;line-height:1.6}
+.error-msg.show{display:block}
+.success-msg{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);padding:.8rem 1rem;font-size:.82rem;color:var(--green);display:none;line-height:1.6}
+.success-msg.show{display:block}
+.forgot-link{text-align:right;margin-top:-.5rem}
+.forgot-link a{font-size:.78rem;color:var(--muted);text-decoration:none;font-family:'Rajdhani',sans-serif;letter-spacing:1px}
+.forgot-link a:hover{color:var(--gold)}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(0,0,0,.3);border-top-color:#000;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:.4rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<!-- Simple top bar -->
+<nav id="navbar" style="justify-content:center">
+  <a href="index.html" class="nav-logo">
+    <img src="Logo.jpeg" class="nav-logo-img" alt="AV Group Logo"/>
+    <span class="nav-logo-text"><span class="logo-av">AV GROUP</span><span class="logo-grp">SECURITY</span></span>
+  </a>
+</nav>
+
+<div class="auth-page">
+  <div class="auth-grid" aria-hidden="true"></div>
+  <div class="auth-box">
+    <div class="auth-logo">
+      <img src="Logo.jpeg" alt="AV Group"/>
+      <span class="auth-logo-text">AV <span>GROUP</span></span>
+    </div>
+    <h1 class="auth-title">Welcome Back</h1>
+    <p class="auth-sub">Login to book security services &amp; manage your account</p>
+
+    <div class="error-msg"   id="errMsg"></div>
+    <div class="success-msg" id="okMsg"></div>
+
+    <form class="auth-form" id="loginForm" novalidate>
+      <div class="fg">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="your@email.com" required autocomplete="email"/>
+      </div>
+      <div class="fg">
+        <label for="password">Password</label>
+        <div class="pw-wrap">
+          <input type="password" id="password" name="password" placeholder="Enter your password" required autocomplete="current-password"/>
+          <button type="button" class="pw-toggle" onclick="togglePw('password')" aria-label="Show password">👁️</button>
+        </div>
+      </div>
+      <div class="forgot-link"><a href="#" onclick="forgotPassword()">Forgot password?</a></div>
+      <button type="submit" class="btn-auth" id="loginBtn">Login to My Account</button>
+    </form>
+
+    <div class="auth-divider"><span>OR</span></div>
+    <p class="auth-switch">Don't have an account? <a href="register.html">Register here →</a></p>
+    <p class="auth-switch" style="margin-top:.5rem"><a href="index.html">← Back to Website</a></p>
+  </div>
+</div>
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp }          from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail }
+                                     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { firebaseConfig, ADMIN_EMAIL } from "./firebase-config.js";
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db   = getFirestore(app);
+
+  const form     = document.getElementById('loginForm');
+  const loginBtn = document.getElementById('loginBtn');
+  const errMsg   = document.getElementById('errMsg');
+  const okMsg    = document.getElementById('okMsg');
+
+  function showErr(msg){ errMsg.textContent=msg; errMsg.classList.add('show'); okMsg.classList.remove('show') }
+  function showOk(msg) { okMsg.textContent=msg;  okMsg.classList.add('show');  errMsg.classList.remove('show') }
+  function setLoading(on){
+    loginBtn.disabled=on;
+    loginBtn.innerHTML=on?'<span class="spinner"></span>Logging in...':'Login to My Account';
+  }
+
+  form.addEventListener('submit', async(e)=>{
+    e.preventDefault();
+    const email    = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    if(!email||!password){ showErr('Please fill in all fields.'); return; }
+    setLoading(true);
+    try {
+      const cred = await signInWithEmailAndPassword(auth, email, password);
+      showOk('Login successful! Redirecting...');
+      // Check if admin
+      if(email === ADMIN_EMAIL){
+        setTimeout(()=>window.location.href='admin.html',1000);
+      } else {
+        setTimeout(()=>window.location.href='dashboard.html',1000);
+      }
+    } catch(err) {
+      const msgs = {
+        'auth/user-not-found':   'No account found with this email.',
+        'auth/wrong-password':   'Incorrect password. Please try again.',
+        'auth/invalid-email':    'Please enter a valid email address.',
+        'auth/too-many-requests':'Too many failed attempts. Try again later.',
+        'auth/invalid-credential':'Invalid email or password.'
+      };
+      showErr(msgs[err.code] || 'Login failed. Please try again.');
+      setLoading(false);
+    }
+  });
+
+  window.forgotPassword = async function(){
+    const email = document.getElementById('email').value.trim();
+    if(!email){ showErr('Enter your email address first, then click Forgot Password.'); return; }
+    try {
+      await sendPasswordResetEmail(auth, email);
+      showOk('Password reset email sent! Check your inbox.');
+    } catch(err){
+      showErr('Could not send reset email. Check the email address.');
+    }
+  };
+
+  window.togglePw = function(id){
+    const inp = document.getElementById(id);
+    inp.type = inp.type==='password' ? 'text' : 'password';
+  };
+
+  // Auto redirect if already logged in
+  auth.onAuthStateChanged(user=>{
+    if(user){
+      window.location.href = user.email===ADMIN_EMAIL ? 'admin.html' : 'dashboard.html';
+    }
+  });
+</script>
+</body>
+</html>

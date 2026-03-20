@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover,maximum-scale=5.0"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="theme-color" content="#060d1a"/>
+<meta name="format-detection" content="telephone=no"/>
+<title>Register – AV Group</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:wght@300;400;500&family=Oswald:wght@600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="style.css"/>
+<style>
+.auth-page{min-height:100svh;display:flex;align-items:center;justify-content:center;padding:calc(80px + var(--sat)) max(5vw,16px) calc(2rem + var(--sab));background:radial-gradient(ellipse 80% 60% at 50% 20%,rgba(224,155,26,.07) 0%,transparent 60%),var(--navy);position:relative;overflow:hidden}
+.auth-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(224,155,26,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(224,155,26,.03) 1px,transparent 1px);background-size:50px 50px}
+.auth-box{width:100%;max-width:480px;background:var(--card);border:1px solid var(--border);padding:clamp(1.8rem,5vw,3rem);position:relative;z-index:2}
+.auth-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold-dark),var(--gold),var(--gold-lt),transparent)}
+.auth-logo{display:flex;align-items:center;justify-content:center;gap:.8rem;margin-bottom:1.5rem}
+.auth-logo img{width:52px;height:52px;border-radius:50%;border:2px solid var(--gold);object-fit:cover}
+.auth-logo-text{font-family:'Rajdhani',sans-serif;font-size:1.3rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--white)}
+.auth-logo-text span{color:var(--gold)}
+.auth-title{font-family:'Oswald',sans-serif;font-size:1.8rem;font-weight:700;color:var(--white);text-align:center;margin-bottom:.3rem}
+.auth-sub{font-size:.84rem;font-weight:300;color:var(--muted);text-align:center;margin-bottom:2rem}
+.auth-form{display:flex;flex-direction:column;gap:1rem}
+.auth-form .fg label{font-family:'Rajdhani',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.auth-form .fg input,.auth-form .fg select{
+  background:var(--navy2);border:1px solid var(--border);color:var(--steel);
+  padding:.85rem 1rem;font-size:16px;font-family:'DM Sans',sans-serif;
+  outline:none;border-radius:0;-webkit-appearance:none;appearance:none;
+  width:100%;transition:border-color .3s,box-shadow .3s;
+}
+.auth-form .fg input:focus,.auth-form .fg select:focus{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-dim)}
+.auth-form .fg input::placeholder{color:var(--muted)}
+.auth-form .fg select option{background:#0c1528}
+.frow2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:480px){.frow2{grid-template-columns:1fr}}
+.pw-wrap{position:relative}
+.pw-wrap input{padding-right:3rem}
+.pw-toggle{position:absolute;right:.8rem;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);font-size:1.1rem;cursor:pointer;padding:.3rem;-webkit-tap-highlight-color:transparent}
+.btn-auth{width:100%;font-family:'Rajdhani',sans-serif;font-size:.95rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:var(--gold);color:#000;padding:1rem;border:none;cursor:pointer;box-shadow:0 4px 20px var(--gold-glow);transition:background .3s;-webkit-appearance:none;min-height:var(--touch)}
+.btn-auth:hover{background:var(--gold-lt)}
+.btn-auth:disabled{background:var(--muted);cursor:not-allowed;box-shadow:none}
+.auth-divider{display:flex;align-items:center;gap:1rem;margin:.5rem 0}
+.auth-divider span{font-size:.72rem;color:var(--muted);white-space:nowrap;font-family:'Rajdhani',sans-serif;letter-spacing:2px;text-transform:uppercase}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--border2)}
+.auth-switch{text-align:center;font-size:.84rem;color:var(--muted)}
+.auth-switch a{color:var(--gold);text-decoration:none;font-weight:500}
+.error-msg{background:rgba(230,57,70,.1);border:1px solid rgba(230,57,70,.3);padding:.8rem 1rem;font-size:.82rem;color:#e63946;display:none;line-height:1.6}
+.error-msg.show{display:block}
+.success-msg{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);padding:.8rem 1rem;font-size:.82rem;color:var(--green);display:none;line-height:1.6}
+.success-msg.show{display:block}
+.terms-row{display:flex;align-items:flex-start;gap:.7rem}
+.terms-row input[type=checkbox]{width:20px;height:20px;flex-shrink:0;margin-top:2px;accent-color:var(--gold);cursor:pointer}
+.terms-row label{font-size:.78rem;color:var(--muted);line-height:1.5;cursor:pointer}
+.terms-row a{color:var(--gold)}
+.pw-strength{height:3px;background:var(--border2);margin-top:.3rem;border-radius:2px;overflow:hidden}
+.pw-strength-bar{height:100%;width:0;transition:width .3s,background .3s;border-radius:2px}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(0,0,0,.3);border-top-color:#000;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:.4rem}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<nav id="navbar" style="justify-content:center">
+  <a href="index.html" class="nav-logo">
+    <img src="Logo.jpeg" class="nav-logo-img" alt="AV Group Logo"/>
+    <span class="nav-logo-text"><span class="logo-av">AV GROUP</span><span class="logo-grp">SECURITY</span></span>
+  </a>
+</nav>
+
+<div class="auth-page">
+  <div class="auth-grid" aria-hidden="true"></div>
+  <div class="auth-box">
+    <div class="auth-logo">
+      <img src="Logo.jpeg" alt="AV Group"/>
+      <span class="auth-logo-text">AV <span>GROUP</span></span>
+    </div>
+    <h1 class="auth-title">Create Account</h1>
+    <p class="auth-sub">Register to book AV Group security &amp; facility services</p>
+
+    <div class="error-msg"   id="errMsg"></div>
+    <div class="success-msg" id="okMsg"></div>
+
+    <form class="auth-form" id="regForm" novalidate>
+      <div class="frow2">
+        <div class="fg">
+          <label for="fname">First Name <span style="color:var(--red)">*</span></label>
+          <input type="text" id="fname" name="fname" placeholder="First name" required autocomplete="given-name"/>
+        </div>
+        <div class="fg">
+          <label for="lname">Last Name <span style="color:var(--red)">*</span></label>
+          <input type="text" id="lname" name="lname" placeholder="Last name" required autocomplete="family-name"/>
+        </div>
+      </div>
+      <div class="fg">
+        <label for="phone">Phone Number <span style="color:var(--red)">*</span></label>
+        <input type="tel" id="phone" name="phone" placeholder="+91 XXXXX XXXXX" required autocomplete="tel"/>
+      </div>
+      <div class="fg">
+        <label for="email">Email Address <span style="color:var(--red)">*</span></label>
+        <input type="email" id="email" name="email" placeholder="your@email.com" required autocomplete="email"/>
+      </div>
+      <div class="fg">
+        <label for="company">Company / Organization (Optional)</label>
+        <input type="text" id="company" name="company" placeholder="Your company name" autocomplete="organization"/>
+      </div>
+      <div class="fg">
+        <label for="city">City / Area <span style="color:var(--red)">*</span></label>
+        <input type="text" id="city" name="city" placeholder="e.g. Andheri, Mumbai" required autocomplete="address-level2"/>
+      </div>
+      <div class="fg">
+        <label for="password">Password <span style="color:var(--red)">*</span></label>
+        <div class="pw-wrap">
+          <input type="password" id="password" name="password" placeholder="Min. 6 characters" required autocomplete="new-password" oninput="checkStrength(this.value)"/>
+          <button type="button" class="pw-toggle" onclick="togglePw('password')" aria-label="Show password">👁️</button>
+        </div>
+        <div class="pw-strength"><div class="pw-strength-bar" id="pwBar"></div></div>
+      </div>
+      <div class="fg">
+        <label for="confirm">Confirm Password <span style="color:var(--red)">*</span></label>
+        <div class="pw-wrap">
+          <input type="password" id="confirm" name="confirm" placeholder="Repeat password" required autocomplete="new-password"/>
+          <button type="button" class="pw-toggle" onclick="togglePw('confirm')" aria-label="Show password">👁️</button>
+        </div>
+      </div>
+      <div class="terms-row">
+        <input type="checkbox" id="terms" name="terms" required/>
+        <label for="terms">I agree to the <a href="#">Terms of Service</a> and understand that my information will be used to process bookings with AV Group.</label>
+      </div>
+      <button type="submit" class="btn-auth" id="regBtn">Create My Account →</button>
+    </form>
+
+    <div class="auth-divider"><span>Already have an account?</span></div>
+    <p class="auth-switch"><a href="login.html">← Login here</a></p>
+    <p class="auth-switch" style="margin-top:.5rem"><a href="index.html">← Back to Website</a></p>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp }                  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword, updateProfile }
+                                             from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, doc, setDoc, serverTimestamp }
+                                             from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { firebaseConfig } from "./firebase-config.js";
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db   = getFirestore(app);
+
+  const form   = document.getElementById('regForm');
+  const regBtn = document.getElementById('regBtn');
+  const errMsg = document.getElementById('errMsg');
+  const okMsg  = document.getElementById('okMsg');
+
+  function showErr(msg){ errMsg.textContent=msg; errMsg.classList.add('show'); okMsg.classList.remove('show') }
+  function showOk(msg) { okMsg.textContent=msg;  okMsg.classList.add('show');  errMsg.classList.remove('show') }
+  function setLoading(on){
+    regBtn.disabled=on;
+    regBtn.innerHTML=on?'<span class="spinner"></span>Creating account...':'Create My Account →';
+  }
+
+  window.checkStrength = function(pw){
+    const bar = document.getElementById('pwBar');
+    let score = 0;
+    if(pw.length>=6) score++;
+    if(pw.length>=10) score++;
+    if(/[A-Z]/.test(pw)) score++;
+    if(/[0-9]/.test(pw)) score++;
+    if(/[^A-Za-z0-9]/.test(pw)) score++;
+    const colors=['#e63946','#f59e0b','#f59e0b','#22c55e','#22c55e'];
+    bar.style.width=(score*20)+'%';
+    bar.style.background=colors[score-1]||'var(--border2)';
+  };
+
+  window.togglePw = function(id){
+    const inp=document.getElementById(id);
+    inp.type=inp.type==='password'?'text':'password';
+  };
+
+  form.addEventListener('submit', async(e)=>{
+    e.preventDefault();
+    const fname   = document.getElementById('fname').value.trim();
+    const lname   = document.getElementById('lname').value.trim();
+    const phone   = document.getElementById('phone').value.trim();
+    const email   = document.getElementById('email').value.trim();
+    const company = document.getElementById('company').value.trim();
+    const city    = document.getElementById('city').value.trim();
+    const pw      = document.getElementById('password').value;
+    const pw2     = document.getElementById('confirm').value;
+    const terms   = document.getElementById('terms').checked;
+
+    if(!fname||!lname||!phone||!email||!city){ showErr('Please fill all required fields.'); return; }
+    if(pw.length<6){ showErr('Password must be at least 6 characters.'); return; }
+    if(pw!==pw2){ showErr('Passwords do not match.'); return; }
+    if(!terms){ showErr('Please accept the Terms of Service.'); return; }
+
+    setLoading(true);
+    try {
+      const cred = await createUserWithEmailAndPassword(auth, email, pw);
+      await updateProfile(cred.user, { displayName: fname+' '+lname });
+
+      // Save user profile to Firestore
+      await setDoc(doc(db,'users',cred.user.uid), {
+        uid:       cred.user.uid,
+        firstName: fname,
+        lastName:  lname,
+        fullName:  fname+' '+lname,
+        phone,
+        email,
+        company:   company||'',
+        city,
+        role:      'user',
+        createdAt: serverTimestamp(),
+        totalBookings: 0
+      });
+
+      showOk('Account created successfully! Redirecting to your dashboard...');
+      setTimeout(()=>window.location.href='dashboard.html', 1500);
+    } catch(err){
+      const msgs = {
+        'auth/email-already-in-use':'An account with this email already exists. Please login.',
+        'auth/invalid-email':       'Please enter a valid email address.',
+        'auth/weak-password':       'Password is too weak. Use at least 6 characters.'
+      };
+      showErr(msgs[err.code]||'Registration failed. Please try again.');
+      setLoading(false);
+    }
+  });
+
+  auth.onAuthStateChanged(user=>{ if(user) window.location.href='dashboard.html'; });
+</script>
+</body>
+</html>
