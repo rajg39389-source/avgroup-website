@@ -11,10 +11,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:wght@300;400;500&family=Oswald:wght@600;700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="style.css"/>
 <style>
-.admin-layout{display:grid;grid-template-columns:240px 1fr;min-height:100svh;padding-top:calc(70px + var(--sat))}
-@media(max-width:768px){.admin-layout{grid-template-columns:1fr}}
-.admin-sidebar{background:#030810;border-right:1px solid var(--border);padding:1.5rem 1.2rem;position:sticky;top:calc(70px + var(--sat));height:calc(100vh - 70px - var(--sat));overflow-y:auto}
-@media(max-width:768px){.admin-sidebar{display:none}}
+.admin-layout{display:grid;grid-template-columns:240px 1fr;min-height:100svh;padding-top:calc(70px + var(--sat));position:relative}
+@media(max-width:900px){.admin-layout{grid-template-columns:1fr}}
+.admin-sidebar{background:#030810;border-right:1px solid var(--border);padding:1.5rem 1.2rem;position:sticky;top:calc(70px + var(--sat));height:calc(100vh - 70px - var(--sat));overflow-y:auto;z-index:10}
+@media(max-width:900px){.admin-sidebar{display:none}}
 .admin-main{padding:2rem max(2rem,3vw);background:var(--navy)}
 .admin-brand{display:flex;align-items:center;gap:.7rem;margin-bottom:2rem;padding-bottom:1.2rem;border-bottom:1px solid var(--border2)}
 .admin-brand img{width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--gold)}
@@ -27,8 +27,8 @@
 .anav-logout{color:var(--red)!important}
 
 /* mobile top tabs */
-.admin-mob-tabs{display:none;background:#030810;border-bottom:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;padding:.5rem 1rem;gap:.5rem}
-@media(max-width:768px){.admin-mob-tabs{display:flex}}
+.admin-mob-tabs{display:none;background:#030810;border-bottom:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;padding:.5rem 1rem;gap:.5rem;position:sticky;top:calc(70px + var(--sat));z-index:9}
+@media(max-width:900px){.admin-mob-tabs{display:flex}}
 .amt{font-family:'Rajdhani',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:.5rem 1rem;border:1px solid var(--border2);background:var(--card);cursor:pointer;white-space:nowrap;min-height:var(--touch);flex-shrink:0}
 .amt.active{background:var(--gold);color:#000;border-color:var(--gold)}
 
