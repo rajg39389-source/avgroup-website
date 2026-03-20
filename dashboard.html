@@ -364,15 +364,67 @@
         return;
       }
 
-      // Category tabs
+      // Category tabs — for both home and browse panels
       const cats = ['All',...new Set(all.map(s=>s.category).filter(Boolean))];
-      document.getElementById('catTabs').innerHTML = cats.map(c=>`<button class="cat-tab${c==='All'?' active':''}" onclick="filterCat('${c}',this)">${c}</button>`).join('');
+      const tabsHTML = cats.map(c=>`<button class="cat-tab${c==='All'?' active':''}" onclick="filterCat('${c}',this)">${c}</button>`).join('');
+      document.getElementById('catTabs').innerHTML     = tabsHTML;
+      document.getElementById('homeCatTabs').innerHTML = cats.map(c=>`<button class="cat-tab${c==='All'?' active':''}" onclick="filterHomeCat('${c}',this)">${c}</button>`).join('');
       renderServicemen(all);
+      renderHomeServicemen(all);
+      document.getElementById('homeSmLoading').style.display='none';
     } catch(e){
       console.error('Servicemen load error:',e);
       loadEl.innerHTML='<span style="color:var(--red)">Could not load servicemen. Please refresh the page.</span>';
+      document.getElementById('homeSmLoading').innerHTML='<span style="color:var(--red)">Could not load. Please refresh.</span>';
     }
   }
+
+  window.filterHomeCat = function(cat, btn){
+    document.querySelectorAll('#homeCatTabs .cat-tab').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const filtered = cat==='All' ? window._allServicemen : window._allServicemen.filter(s=>s.category===cat);
+    renderHomeServicemen(filtered);
+  };
+
+  function renderHomeServicemen(list){
+    const grid = document.getElementById('homeSmGrid');
+    if(!list||!grid) return;
+    if(!list.length){ 
+      grid.innerHTML='<div class="no-items" style="grid-column:1/-1"><span class="ni-icon">👮</span><strong style="color:var(--white);display:block;margin-bottom:.5rem">No Servicemen Available</strong><p style="font-size:.82rem;color:var(--muted)">Contact us on WhatsApp: <a href="https://wa.me/919137063012" style="color:var(--green)">+91 91370 63012</a></p></div>'; 
+      return; 
+    }
+    grid.innerHTML = list.map(sm=>`
+      <div class="sm-card">
+        ${sm.photoUrl ? `<img src="${sm.photoUrl}" class="sm-photo" alt="${sm.name}" loading="lazy"/>` : `<div class="sm-photo-placeholder">${getCatIcon(sm.category)}</div>`}
+        <div class="sm-body">
+          <div class="sm-name">${sm.name}</div>
+          <div class="sm-role">${sm.role}</div>
+          <div class="sm-meta"><span class="sm-tag">${sm.category}</span>${sm.exServiceman?'<span class="sm-tag">Ex-Serviceman</span>':''}</div>
+          <div class="sm-exp">📅 ${sm.experience||'2+'} years experience</div>
+          <div class="sm-prices">
+            ${sm.priceDay?`<div class="price-tag"><span class="p-amt">₹${Number(sm.priceDay).toLocaleString('en-IN')}</span><span class="p-lbl">Per Day</span></div>`:''}
+            ${sm.priceMonth?`<div class="price-tag"><span class="p-amt">₹${Number(sm.priceMonth).toLocaleString('en-IN')}</span><span class="p-lbl">Per Month</span></div>`:''}
+            ${sm.priceEvent?`<div class="price-tag"><span class="p-amt">₹${Number(sm.priceEvent).toLocaleString('en-IN')}</span><span class="p-lbl">Per Event</span></div>`:''}
+          </div>
+          <div class="sm-avail ${sm.available!==false?'yes':'no'}">
+            <span class="sm-avail-dot"></span>${sm.available!==false?'Available':'Currently Unavailable'}
+          </div>
+          <button class="btn-book" ${sm.available===false?'disabled':''} onclick="openBookModal(${JSON.stringify(sm).replace(/"/g,'&quot;')})">
+            ${sm.available!==false?'Book Now →':'Unavailable'}
+          </button>
+        </div>
+      </div>`).join('');
+  }
+
+  window.switchToBookings = function(){
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    document.querySelectorAll('.snav-item,.mob-tab').forEach(a=>a.classList.remove('active'));
+    document.getElementById('panel-bookings').classList.add('active');
+  };
+  window.switchToProfile = function(){
+    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+    document.getElementById('panel-profile').classList.add('active');
+  };
 
   window.filterCat = function(cat, btn){
     currentCategory = cat;
