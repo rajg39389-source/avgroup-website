@@ -8,268 +8,308 @@
 <meta name="mobile-web-app-capable" content="yes"/>
 <meta name="theme-color" content="#060d1a"/>
 <meta name="format-detection" content="telephone=no,email=no,address=no"/>
-<title>Our Services – AV Group | Security, CCTV, Housekeeping, Manpower Mumbai</title>
-<meta name="description" content="AV Group offers 30+ services — security guards, bouncers, VIP protection, CCTV, housekeeping, manpower, investigation, and construction in Mumbai. 24/7."/>
+<title>Our Services – AV Group | Security, CCTV, Housekeeping Mumbai</title>
+<meta name="description" content="AV Group offers 30+ security and facility services in Mumbai — guards, bouncers, VIP protection, CCTV, housekeeping, manpower and more. 24/7."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:wght@300;400;500&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="style.css"/>
 <style>
-/* ══════════════════════════════
-   SERVICES PAGE — ACCORDION STYLE
-══════════════════════════════ */
 
-/* ── Two column layout ── */
-.services-layout {
+/* ══════════════════════
+   STATS BAR
+══════════════════════ */
+.sbar {
   display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 2.5rem;
-  align-items: start;
-  margin-top: 2.5rem;
+  grid-template-columns: repeat(4,1fr);
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
 }
-@media(max-width: 900px) {
-  .services-layout { grid-template-columns: 1fr; }
+@media(max-width:500px){ .sbar { grid-template-columns: repeat(2,1fr); } }
+.sbar-item {
+  padding: clamp(1rem,3vw,1.6rem);
+  text-align: center;
+  border-right: 1px solid rgba(0,0,0,.15);
 }
-
-/* ── LEFT SIDEBAR MENU ── */
-.srv-sidebar {
-  position: sticky;
-  top: calc(78px + var(--sat));
+.sbar-item:last-child { border-right: none; }
+@media(max-width:500px){
+  .sbar-item:nth-child(2){ border-right:none; }
+  .sbar-item:nth-child(3){ border-top:1px solid rgba(0,0,0,.15); }
 }
-@media(max-width: 900px) {
-  .srv-sidebar { position: static; }
+.sbar-num {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(1.5rem,4vw,2.2rem);
+  font-weight: 700; color: #000;
+  display: block; line-height: 1;
 }
-.srv-sidebar-title {
+.sbar-lbl {
   font-family: 'Rajdhani', sans-serif;
   font-size: .7rem; font-weight: 700;
-  letter-spacing: 3px; text-transform: uppercase;
-  color: var(--gold); margin-bottom: .8rem;
-  display: flex; align-items: center; gap: .5rem;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: rgba(0,0,0,.6); margin-top: .2rem; display: block;
 }
-.srv-sidebar-title::before {
-  content: ''; display: block;
-  width: 20px; height: 2px; background: var(--gold);
-}
-.srv-menu { display: flex; flex-direction: column; gap: 2px; }
 
-/* on mobile: horizontal scrolling menu */
-@media(max-width: 900px) {
-  .srv-menu {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: .4rem;
-  }
+/* ══════════════════════
+   SERVICES SECTION
+══════════════════════ */
+.services-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: clamp(50px,8vw,90px) max(5vw,16px);
+  padding-bottom: clamp(50px,8vw,90px);
 }
-.srv-menu-item {
-  display: flex; align-items: center; gap: .8rem;
-  padding: .8rem 1rem;
-  background: var(--card); border: 1px solid var(--border2);
-  border-left: 3px solid transparent;
-  cursor: pointer; transition: all .25s;
-  text-decoration: none;
+
+/* ── Category Tab Buttons ── */
+.cat-tabs-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-bottom: 2.5rem;
+}
+.cat-btn {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .6rem 1.1rem;
+  min-height: var(--touch);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: .78rem; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--muted);
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: all .25s;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  white-space: nowrap;
 }
-.srv-menu-item:hover { border-left-color: var(--gold); background: var(--card2); }
-.srv-menu-item.active {
-  border-left-color: var(--gold);
-  background: var(--card2);
+.cat-btn:hover {
+  color: var(--gold);
   border-color: var(--border);
+  border-bottom-color: var(--gold);
+  background: var(--card2);
 }
-@media(max-width: 900px) {
-  .srv-menu-item {
-    border-left: none; border-bottom: 2px solid transparent;
-    padding: .55rem .9rem; border-radius: 0;
-    flex: none;
-  }
-  .srv-menu-item.active { border-bottom-color: var(--gold); background: var(--card2); }
+.cat-btn.active {
+  color: #000;
+  background: var(--gold);
+  border-color: var(--gold);
+  border-bottom-color: var(--gold-dark);
 }
-.smi-icon { font-size: 1.1rem; flex-shrink: 0; }
-.smi-text { flex: 1; }
-.smi-name {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: .82rem; font-weight: 700;
-  letter-spacing: 1px; text-transform: uppercase;
-  color: var(--steel);
+.cat-btn.active .cb-icon { filter: none; }
+.cb-icon { font-size: 1rem; flex-shrink: 0; }
+.cb-label { flex: 1; }
+.cb-count {
+  font-size: .65rem; font-weight: 600;
+  background: rgba(0,0,0,.15);
+  padding: .1rem .4rem; border-radius: 10px;
 }
-.smi-count {
-  font-size: .7rem; color: var(--muted); font-weight: 300;
-}
-.smi-arrow {
-  font-size: .7rem; color: var(--gold);
-  transition: transform .25s;
-}
-.srv-menu-item.active .smi-arrow { transform: rotate(90deg); }
-@media(max-width: 900px) { .smi-count, .smi-arrow { display: none; } }
+.cat-btn.active .cb-count { background: rgba(0,0,0,.2); color: #000; }
 
-/* ── RIGHT CONTENT AREA ── */
-.srv-content { min-width: 0; }
+/* ── Content Panel ── */
+.cat-panel { display: none; }
+.cat-panel.active { display: block; }
 
-/* Service Category Panel */
-.srv-panel { display: none; }
-.srv-panel.active { display: block; }
-
-/* Category header */
-.srv-cat-head {
-  background: linear-gradient(135deg, #0d1a0a, #0a1520);
+/* Panel header */
+.panel-header {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: clamp(1.2rem,3vw,2rem);
+  background: var(--card);
   border: 1px solid var(--border);
-  padding: clamp(1.2rem, 3vw, 2rem);
+  border-left: 4px solid var(--gold);
   margin-bottom: 1.5rem;
-  display: flex; align-items: center; gap: 1.2rem;
-  position: relative; overflow: hidden;
 }
-.srv-cat-head::before {
-  content: ''; position: absolute; inset: 0;
-  background: radial-gradient(ellipse 60% 80% at 90% 50%, rgba(224,155,26,.06), transparent);
-}
-.srv-cat-big-icon {
-  font-size: clamp(2rem, 4vw, 3rem);
-  flex-shrink: 0; position: relative;
-}
-.srv-cat-info { position: relative; flex: 1; }
-.srv-cat-info h2 {
+.ph-big-icon { font-size: clamp(2rem,4vw,2.8rem); flex-shrink: 0; }
+.ph-info { flex: 1; min-width: 0; }
+.ph-info h2 {
   font-family: 'Oswald', sans-serif;
-  font-size: clamp(1.2rem, 3vw, 1.6rem);
-  font-weight: 700; color: var(--white); margin-bottom: .3rem;
+  font-size: clamp(1.2rem,3vw,1.6rem);
+  font-weight: 700; color: var(--white);
+  margin-bottom: .3rem;
 }
-.srv-cat-info p {
-  font-size: clamp(.8rem, 2vw, .88rem);
-  font-weight: 300; color: var(--muted); line-height: 1.8;
-  max-width: 500px;
+.ph-info p {
+  font-size: clamp(.8rem,2vw,.88rem);
+  font-weight: 300; color: var(--muted);
+  line-height: 1.75; max-width: 550px;
 }
-.srv-cat-badge {
+.ph-badge {
+  display: inline-block;
   font-family: 'Rajdhani', sans-serif;
-  font-size: .65rem; font-weight: 700;
+  font-size: .62rem; font-weight: 700;
   letter-spacing: 2px; text-transform: uppercase;
   background: var(--gold-dim); color: var(--gold);
   border: 1px solid var(--border);
-  padding: .25rem .7rem; margin-top: .5rem;
-  display: inline-block;
+  padding: .2rem .7rem; margin-top: .5rem;
 }
 
-/* Accordion inside each category */
-.accordion-list { display: flex; flex-direction: column; gap: .5rem; }
-.accordion-item {
-  background: var(--card);
+/* ── Accordion ── */
+.acc-list {
+  display: flex;
+  flex-direction: column;
+  gap: .4rem;
+}
+
+.acc-item {
   border: 1px solid var(--border2);
+  background: var(--card);
   overflow: hidden;
-  transition: border-color .3s;
+  transition: border-color .25s;
 }
-.accordion-item:hover { border-color: var(--border); }
-.accordion-item.open { border-color: var(--gold); }
+.acc-item.open {
+  border-color: var(--gold);
+}
 
-.accordion-trigger {
-  display: flex; align-items: center; gap: 1rem;
-  padding: 1rem 1.2rem;
-  cursor: pointer; width: 100%;
-  background: none; border: none;
-  text-align: left;
+.acc-head {
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+  width: 100%;
+  padding: clamp(.85rem,2vw,1.1rem) clamp(1rem,2vw,1.3rem);
   min-height: var(--touch);
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background .2s;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
-  transition: background .25s;
 }
-.accordion-trigger:hover { background: var(--card2); }
-.acc-icon { font-size: 1.3rem; flex-shrink: 0; }
-.acc-title {
+.acc-head:hover { background: var(--card2); }
+.acc-head-icon { font-size: 1.2rem; flex-shrink: 0; }
+.acc-head-name {
   flex: 1;
   font-family: 'Rajdhani', sans-serif;
-  font-size: clamp(.88rem, 2vw, .95rem);
-  font-weight: 700; letter-spacing: 1px;
-  text-transform: uppercase; color: var(--white);
+  font-size: clamp(.85rem,2vw,.95rem);
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--white);
 }
-.acc-tag {
+.acc-head-tag {
   font-family: 'Rajdhani', sans-serif;
-  font-size: .6rem; font-weight: 700;
+  font-size: .58rem; font-weight: 700;
   letter-spacing: 1.5px; text-transform: uppercase;
-  background: var(--gold-dim); color: var(--gold);
-  border: 1px solid var(--border);
-  padding: .15rem .5rem; flex-shrink: 0;
+  padding: .18rem .55rem;
+  border: 1px solid;
+  flex-shrink: 0;
 }
-.acc-chevron {
-  font-size: .75rem; color: var(--gold);
-  transition: transform .3s; flex-shrink: 0;
-  display: inline-block;
+.acc-head-tag.popular  { color: var(--gold);  border-color: var(--gold-dark);  background: var(--gold-dim); }
+.acc-head-tag.premium  { color: #a78bfa;       border-color: rgba(167,139,250,.3); background: rgba(167,139,250,.08); }
+.acc-head-tag.armed    { color: var(--red);    border-color: rgba(230,57,70,.3);   background: rgba(230,57,70,.08); }
+.acc-head-tag.demand   { color: #34d399;       border-color: rgba(52,211,153,.3);  background: rgba(52,211,153,.08); }
+.acc-head-tag.all      { color: #60a5fa;       border-color: rgba(96,165,250,.3);  background: rgba(96,165,250,.08); }
+.acc-arrow {
+  font-size: .72rem;
+  color: var(--gold);
+  flex-shrink: 0;
+  transition: transform .3s;
+  display: block;
 }
-.accordion-item.open .acc-chevron { transform: rotate(180deg); }
+.acc-item.open .acc-arrow { transform: rotate(180deg); }
 
-.accordion-body {
-  max-height: 0; overflow: hidden;
-  transition: max-height .35s ease, padding .3s;
-  padding: 0 1.2rem;
+.acc-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .35s ease;
 }
-.accordion-item.open .accordion-body {
-  max-height: 600px;
-  padding: 0 1.2rem 1.2rem;
-}
-.acc-desc {
-  font-size: clamp(.8rem, 2vw, .85rem);
-  font-weight: 300; color: var(--muted);
-  line-height: 1.8; margin-bottom: .8rem;
-  padding-top: .5rem;
+.acc-item.open .acc-body { max-height: 500px; }
+
+.acc-inner {
+  padding: 1rem clamp(1rem,2vw,1.3rem) clamp(1rem,2vw,1.3rem);
   border-top: 1px solid var(--border2);
 }
-.acc-features {
-  display: flex; flex-wrap: wrap; gap: .4rem;
-  margin-bottom: .8rem;
+.acc-desc {
+  font-size: clamp(.8rem,2vw,.86rem);
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1.8;
+  margin-bottom: .9rem;
 }
-.acc-feat {
+.acc-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem;
+  margin-bottom: 1rem;
+}
+.acc-chip {
   font-family: 'Rajdhani', sans-serif;
-  font-size: .65rem; font-weight: 600;
+  font-size: .62rem; font-weight: 600;
   letter-spacing: 1px; text-transform: uppercase;
-  background: var(--navy2); color: var(--steel);
+  color: var(--steel);
+  background: var(--navy2);
   border: 1px solid var(--border2);
-  padding: .2rem .6rem;
+  padding: .18rem .55rem;
 }
-.acc-book-btn {
+.acc-cta-row {
+  display: flex;
+  gap: .6rem;
+  flex-wrap: wrap;
+}
+.btn-acc-quote {
   font-family: 'Rajdhani', sans-serif;
   font-size: .75rem; font-weight: 700;
   letter-spacing: 2px; text-transform: uppercase;
   background: var(--gold); color: #000;
-  padding: .55rem 1.4rem; border: none;
-  cursor: pointer; text-decoration: none;
+  padding: .55rem 1.4rem;
+  min-height: 40px;
+  border: none; cursor: pointer;
+  text-decoration: none;
   display: inline-flex; align-items: center; gap: .4rem;
-  transition: background .3s; min-height: 38px;
+  transition: background .25s;
   -webkit-appearance: none;
 }
-.acc-book-btn:hover { background: var(--gold-lt); }
-
-/* ── MOBILE: show all open ── */
-@media(max-width: 600px) {
-  .accordion-item.open .accordion-body { max-height: 800px; }
-}
-
-/* ── Stats bar inside page ── */
-.inline-stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1px; background: var(--border);
-  border: 1px solid var(--border);
-  margin-bottom: 2.5rem;
-}
-@media(max-width: 600px) { .inline-stats { grid-template-columns: repeat(2, 1fr); } }
-.is-box {
-  background: var(--card);
-  padding: 1.2rem 1rem; text-align: center;
-}
-.is-num {
-  font-family: 'Oswald', sans-serif;
-  font-size: 1.6rem; font-weight: 700;
-  color: var(--gold); display: block; line-height: 1;
-}
-.is-lbl {
+.btn-acc-quote:hover { background: var(--gold-lt); }
+.btn-acc-wa {
   font-family: 'Rajdhani', sans-serif;
-  font-size: .65rem; font-weight: 600;
+  font-size: .72rem; font-weight: 700;
   letter-spacing: 1.5px; text-transform: uppercase;
-  color: var(--muted); margin-top: .2rem; display: block;
+  color: var(--green);
+  background: rgba(34,197,94,.08);
+  border: 1px solid rgba(34,197,94,.25);
+  padding: .5rem 1rem;
+  min-height: 40px;
+  text-decoration: none;
+  display: inline-flex; align-items: center; gap: .4rem;
+  transition: background .25s;
+}
+.btn-acc-wa:hover { background: rgba(34,197,94,.15); }
+
+/* ── Bottom CTA ── */
+.bottom-cta {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--gold);
+  padding: clamp(1.5rem,4vw,2.5rem);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-top: 3rem;
+}
+.bcta-icon { font-size: clamp(1.8rem,4vw,2.8rem); flex-shrink: 0; }
+.bcta-text { flex: 1; min-width: 200px; }
+.bcta-text h3 {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(1.1rem,2.5vw,1.4rem);
+  font-weight: 700; color: var(--white); margin-bottom: .3rem;
+}
+.bcta-text p {
+  font-size: clamp(.8rem,2vw,.86rem);
+  font-weight: 300; color: var(--muted); line-height: 1.75;
+}
+.bcta-btns {
+  display: flex; gap: .7rem; flex-wrap: wrap; flex-shrink: 0;
 }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- ══ NAV ══ -->
 <nav id="navbar">
   <a href="index.html" class="nav-logo">
-    <img src="Logo.jpeg" class="nav-logo-img" alt="AV Group Logo"/>
+    <img src="Logo.jpeg" class="nav-logo-img" alt="AV Group"/>
     <span class="nav-logo-text"><span class="logo-av">AV GROUP</span><span class="logo-grp">SECURITY</span></span>
   </a>
   <ul class="nav-links">
@@ -296,15 +336,15 @@
   <a href="contact.html" class="mob-cta" onclick="closeMob()">Get a Free Quote →</a>
 </div>
 
-<!-- PAGE HERO -->
+<!-- ══ HERO ══ -->
 <div class="page-hero">
   <div class="page-hero-bg" aria-hidden="true"></div>
   <div class="page-hero-grid" aria-hidden="true"></div>
-  <div class="page-hero-content">
+  <div class="page-hero-content fi">
     <div class="ph-eyebrow">What We Offer</div>
     <h1 class="ph-title">Our <span class="acc">Services</span></h1>
-    <p class="ph-sub">8 Categories · 30+ Service Types · 24/7 Availability</p>
-    <p class="ph-desc">From trained security guards to CCTV installation, housekeeping to manpower supply — AV Group is your complete security and facility partner in Mumbai.</p>
+    <p class="ph-sub">8 Categories · 30+ Service Types · 24 × 7</p>
+    <p class="ph-desc">From trained security guards to CCTV installation, housekeeping to manpower — AV Group is your complete security and facility partner in Mumbai.</p>
     <div class="ph-bar">
       <a href="contact.html" class="btn-blue">Get a Free Quote →</a>
       <a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-green">💬 WhatsApp</a>
@@ -312,531 +352,301 @@
   </div>
 </div>
 
-<!-- INLINE STATS -->
-<div class="inline-stats">
-  <div class="is-box"><span class="is-num">8</span><span class="is-lbl">Categories</span></div>
-  <div class="is-box"><span class="is-num">30+</span><span class="is-lbl">Services</span></div>
-  <div class="is-box"><span class="is-num">500+</span><span class="is-lbl">Personnel</span></div>
-  <div class="is-box"><span class="is-num">24/7</span><span class="is-lbl">Available</span></div>
+<!-- ══ STATS BAR ══ -->
+<div class="sbar">
+  <div class="sbar-item"><span class="sbar-num">8</span><span class="sbar-lbl">Categories</span></div>
+  <div class="sbar-item"><span class="sbar-num">30+</span><span class="sbar-lbl">Services</span></div>
+  <div class="sbar-item"><span class="sbar-num">500+</span><span class="sbar-lbl">Personnel</span></div>
+  <div class="sbar-item"><span class="sbar-num">24/7</span><span class="sbar-lbl">Available</span></div>
 </div>
 
-<!-- MAIN SERVICES SECTION -->
-<section class="sec">
-  <div class="sec-eyebrow">Browse Services</div>
-  <h2 class="sec-title">All <span class="acc">Services</span></h2>
-  <div class="u-bar"></div>
+<!-- ══ MAIN SERVICES ══ -->
+<div style="background:var(--navy2)">
+<div class="services-wrap">
 
-  <div class="services-layout">
+  <!-- Category Tab Buttons -->
+  <div class="cat-tabs-row" role="tablist" aria-label="Service categories">
+    <button class="cat-btn active" onclick="showCat('sec',this)" role="tab" aria-selected="true">
+      <span class="cb-icon">🛡️</span><span class="cb-label">Security</span><span class="cb-count">7</span>
+    </button>
+    <button class="cat-btn" onclick="showCat('hk',this)" role="tab">
+      <span class="cb-icon">🧹</span><span class="cb-label">Housekeeping</span><span class="cb-count">4</span>
+    </button>
+    <button class="cat-btn" onclick="showCat('hr',this)" role="tab">
+      <span class="cb-icon">👥</span><span class="cb-label">HR &amp; Manpower</span><span class="cb-count">3</span>
+    </button>
+    <button class="cat-btn" onclick="showCat('pro',this)" role="tab">
+      <span class="cb-icon">🏙️</span><span class="cb-label">Pro Security</span><span class="cb-count">8</span>
+    </button>
+    <button class="cat-btn" onclick="showCat('cctv',this)" role="tab">
+      <span class="cb-icon">📷</span><span class="cb-label">CCTV</span><span class="cb-count">2</span>
+    </button>
+    <button class="cat-btn" onclick="showCat('intel',this)" role="tab">
+      <span class="cb-icon">🔍</span><span class="cb-label">Intelligence</span><span class="cb-count">1</span>
+    </button>
+    <button class="cat-btn" onclick="showCat('fac',this)" role="tab">
+      <span class="cb-icon">🔧</span><span class="cb-label">Facility</span><span class="cb-count">1</span>
+    </button>
+    <button class="cat-btn" onclick="showCat('con',this)" role="tab">
+      <span class="cb-icon">🏗️</span><span class="cb-label">Construction</span><span class="cb-count">1</span>
+    </button>
+  </div>
 
-    <!-- LEFT SIDEBAR MENU -->
-    <aside class="srv-sidebar" aria-label="Service categories">
-      <div class="srv-sidebar-title">Categories</div>
-      <nav class="srv-menu">
-        <div class="srv-menu-item active" onclick="showCat('security',this)">
-          <span class="smi-icon">🛡️</span>
-          <div class="smi-text">
-            <div class="smi-name">Security</div>
-            <div class="smi-count">7 services</div>
-          </div>
-          <span class="smi-arrow">›</span>
-        </div>
-        <div class="srv-menu-item" onclick="showCat('housekeeping',this)">
-          <span class="smi-icon">🧹</span>
-          <div class="smi-text">
-            <div class="smi-name">Housekeeping</div>
-            <div class="smi-count">4 services</div>
-          </div>
-          <span class="smi-arrow">›</span>
-        </div>
-        <div class="srv-menu-item" onclick="showCat('manpower',this)">
-          <span class="smi-icon">👥</span>
-          <div class="smi-text">
-            <div class="smi-name">HR &amp; Manpower</div>
-            <div class="smi-count">3 services</div>
-          </div>
-          <span class="smi-arrow">›</span>
-        </div>
-        <div class="srv-menu-item" onclick="showCat('professional',this)">
-          <span class="smi-icon">🏙️</span>
-          <div class="smi-text">
-            <div class="smi-name">Pro Security</div>
-            <div class="smi-count">8 services</div>
-          </div>
-          <span class="smi-arrow">›</span>
-        </div>
-        <div class="srv-menu-item" onclick="showCat('cctv',this)">
-          <span class="smi-icon">📷</span>
-          <div class="smi-text">
-            <div class="smi-name">CCTV</div>
-            <div class="smi-count">2 services</div>
-          </div>
-          <span class="smi-arrow">›</span>
-        </div>
-        <div class="srv-menu-item" onclick="showCat('intelligence',this)">
-          <span class="smi-icon">🔍</span>
-          <div class="smi-text">
-            <div class="smi-name">Intelligence</div>
-            <div class="smi-count">1 service</div>
-          </div>
-          <span class="smi-arrow">›</span>
-        </div>
-        <div class="srv-menu-item" onclick="showCat('facility',this)">
-          <span class="smi-icon">🔧</span>
-          <div class="smi-text">
-            <div class="smi-name">Facility</div>
-            <div class="smi-count">1 service</div>
-          </div>
-          <span class="smi-arrow">›</span>
-        </div>
-        <div class="srv-menu-item" onclick="showCat('construction',this)">
-          <span class="smi-icon">🏗️</span>
-          <div class="smi-text">
-            <div class="smi-name">Construction</div>
-            <div class="smi-count">1 service</div>
-          </div>
-          <span class="smi-arrow">›</span>
-        </div>
-      </nav>
-
-      <!-- Contact box below menu -->
-      <div style="margin-top:1.5rem;background:var(--card);border:1px solid var(--border);padding:1.2rem;display:none" class="desktop-only" id="sideContact">
-        <div style="font-family:'Rajdhani',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:.8rem">Quick Contact</div>
-        <a href="tel:+919137063012" style="display:flex;align-items:center;gap:.6rem;color:var(--steel);text-decoration:none;font-size:.82rem;margin-bottom:.6rem;min-height:36px">📞 +91 91370 63012</a>
-        <a href="https://wa.me/919137063012" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:.6rem;color:var(--green);text-decoration:none;font-size:.82rem;min-height:36px">💬 WhatsApp Us</a>
+  <!-- ══ 01 SECURITY ══ -->
+  <div class="cat-panel active" id="panel-sec" role="tabpanel">
+    <div class="panel-header fi">
+      <span class="ph-big-icon">🛡️</span>
+      <div class="ph-info">
+        <h2>Security Services</h2>
+        <p>Our flagship offering. Rigorously trained, background-verified security personnel for all types of premises — available 24 × 7 across Mumbai.</p>
+        <span class="ph-badge">CORE BUSINESS</span>
       </div>
-    </aside>
-
-    <!-- RIGHT CONTENT -->
-    <div class="srv-content">
-
-      <!-- 01 SECURITY -->
-      <div class="srv-panel active" id="cat-security">
-        <div class="srv-cat-head">
-          <span class="srv-cat-big-icon">🛡️</span>
-          <div class="srv-cat-info">
-            <h2>Security Services</h2>
-            <p>Our flagship offering. Rigorously trained, background-verified security personnel for all types of premises and assignments — available 24 × 7.</p>
-            <span class="srv-cat-badge">CORE BUSINESS</span>
-          </div>
-        </div>
-        <div class="accordion-list">
-
-          <div class="accordion-item open">
-            <button class="accordion-trigger" onclick="toggleAcc(this)" aria-expanded="true">
-              <span class="acc-icon">👮</span>
-              <span class="acc-title">Security Guard</span>
-              <span class="acc-tag">Most Popular</span>
-              <span class="acc-chevron">▾</span>
-            </button>
-            <div class="accordion-body">
-              <p class="acc-desc">Uniformed, trained security guards for residential societies, offices, factories, hospitals, and all commercial premises. Available for 8-hour, 12-hour, or 24-hour duty cycles.</p>
-              <div class="acc-features">
-                <span class="acc-feat">Uniformed</span><span class="acc-feat">Background Verified</span>
-                <span class="acc-feat">Day / Night Shifts</span><span class="acc-feat">24hr Duty Available</span>
-              </div>
-              <a href="contact.html" class="acc-book-btn">Get Quote →</a>
-            </div>
-          </div>
-
-          <div class="accordion-item">
-            <button class="accordion-trigger" onclick="toggleAcc(this)" aria-expanded="false">
-              <span class="acc-icon">🎖️</span>
-              <span class="acc-title">Security Supervisor</span>
-              <span class="acc-chevron">▾</span>
-            </button>
-            <div class="accordion-body">
-              <p class="acc-desc">Experienced supervisors who oversee guard teams, conduct rounds, maintain registers, and act as the first point of escalation. Essential for multi-guard deployments.</p>
-              <div class="acc-features">
-                <span class="acc-feat">Team Management</span><span class="acc-feat">Daily Reporting</span>
-                <span class="acc-feat">Incident Handling</span>
-              </div>
-              <a href="contact.html" class="acc-book-btn">Get Quote →</a>
-            </div>
-          </div>
-
-          <div class="accordion-item">
-            <button class="accordion-trigger" onclick="toggleAcc(this)" aria-expanded="false">
-              <span class="acc-icon">💪</span>
-              <span class="acc-title">Bouncer</span>
-              <span class="acc-tag">High Demand</span>
-              <span class="acc-chevron">▾</span>
-            </button>
-            <div class="accordion-body">
-              <p class="acc-desc">Powerful, trained bouncers for clubs, bars, restaurants, event venues, and entertainment spaces. Crowd management, entry control, and incident prevention specialists.</p>
-              <div class="acc-features">
-                <span class="acc-feat">Crowd Management</span><span class="acc-feat">Entry Control</span>
-                <span class="acc-feat">Events</span><span class="acc-feat">Clubs &amp; Bars</span>
-              </div>
-              <a href="contact.html" class="acc-book-btn">Get Quote →</a>
-            </div>
-          </div>
-
-          <div class="accordion-item">
-            <button class="accordion-trigger" onclick="toggleAcc(this)" aria-expanded="false">
-              <span class="acc-icon">🤵</span>
-              <span class="acc-title">Personal Bouncer</span>
-              <span class="acc-chevron">▾</span>
-            </button>
-            <div class="accordion-body">
-              <p class="acc-desc">Dedicated personal protection officer for individuals requiring close personal security — for daily routine protection, travel accompaniment, or specific events.</p>
-              <div class="acc-features">
-                <span class="acc-feat">1-on-1 Protection</span><span class="acc-feat">Travel Escort</span>
-                <span class="acc-feat">Event Protection</span>
-              </div>
-              <a href="contact.html" class="acc-book-btn">Get Quote →</a>
-            </div>
-          </div>
-
-          <div class="accordion-item">
-            <button class="accordion-trigger" onclick="toggleAcc(this)" aria-expanded="false">
-              <span class="acc-icon">🔫</span>
-              <span class="acc-title">Gunman</span>
-              <span class="acc-tag">Armed</span>
-              <span class="acc-chevron">▾</span>
-            </button>
-            <div class="accordion-body">
-              <p class="acc-desc">Licensed armed security personnel deployed for high-risk environments, cash transportation escorts, jewellery stores, and VIP premises.</p>
-              <div class="acc-features">
-                <span class="acc-feat">Licensed &amp; Certified</span><span class="acc-feat">Cash Escort</span>
-                <span class="acc-feat">High-Risk Sites</span>
-              </div>
-              <a href="contact.html" class="acc-book-btn">Get Quote →</a>
-            </div>
-          </div>
-
-          <div class="accordion-item">
-            <button class="accordion-trigger" onclick="toggleAcc(this)" aria-expanded="false">
-              <span class="acc-icon">⭐</span>
-              <span class="acc-title">Ex-Service Man Security</span>
-              <span class="acc-tag">Premium</span>
-              <span class="acc-chevron">▾</span>
-            </button>
-            <div class="accordion-body">
-              <p class="acc-desc">Ex-military and ex-police security professionals with field combat and law enforcement experience. Ideal for critical infrastructure, banks, and sensitive premises.</p>
-              <div class="acc-features">
-                <span class="acc-feat">Ex-Army / Ex-Police</span><span class="acc-feat">Field Experience</span>
-                <span class="acc-feat">Banks &amp; Critical Sites</span>
-              </div>
-              <a href="contact.html" class="acc-book-btn">Get Quote →</a>
-            </div>
-          </div>
-
-          <div class="accordion-item">
-            <button class="accordion-trigger" onclick="toggleAcc(this)" aria-expanded="false">
-              <span class="acc-icon">🏆</span>
-              <span class="acc-title">High Professional Security</span>
-              <span class="acc-tag">Enterprise</span>
-              <span class="acc-chevron">▾</span>
-            </button>
-            <div class="accordion-body">
-              <p class="acc-desc">Elite-tier security comparable to top national companies. Full site assessment, post briefings, specialized training, and dedicated supervision included.</p>
-              <div class="acc-features">
-                <span class="acc-feat">Site Assessment</span><span class="acc-feat">Specialized Training</span>
-                <span class="acc-feat">Dedicated Supervision</span>
-              </div>
-              <a href="contact.html" class="acc-book-btn">Get Quote →</a>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- 02 HOUSEKEEPING -->
-      <div class="srv-panel" id="cat-housekeeping">
-        <div class="srv-cat-head">
-          <span class="srv-cat-big-icon">🧹</span>
-          <div class="srv-cat-info">
-            <h2>Housekeeping Services</h2>
-            <p>Professional cleaning and housekeeping teams trained in modern cleaning techniques, equipment operation, and hygiene standards.</p>
-          </div>
-        </div>
-        <div class="accordion-list">
-          <div class="accordion-item open">
-            <button class="accordion-trigger" onclick="toggleAcc(this)"><span class="acc-icon">🏢</span><span class="acc-title">Office Cleaning</span><span class="acc-chevron">▾</span></button>
-            <div class="accordion-body">
-              <p class="acc-desc">Daily or periodic professional cleaning of offices — workstations, meeting rooms, washrooms, reception areas, cafeterias, and common spaces.</p>
-              <div class="acc-features"><span class="acc-feat">Daily / Weekly</span><span class="acc-feat">All Office Areas</span><span class="acc-feat">Eco-Friendly Products</span></div>
-              <a href="contact.html" class="acc-book-btn">Get Quote →</a>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger" onclick="toggleAcc(this)"><span class="acc-icon">🏬</span><span class="acc-title">Building Housekeeping</span><span class="acc-chevron">▾</span></button>
-            <div class="accordion-body">
-              <p class="acc-desc">Comprehensive housekeeping for residential societies, commercial buildings — lobbies, stairwells, corridors, parking areas, and common facilities.</p>
-              <div class="acc-features"><span class="acc-feat">Residential Societies</span><span class="acc-feat">Commercial Buildings</span><span class="acc-feat">Common Areas</span></div>
-              <a href="contact.html" class="acc-book-btn">Get Quote →</a>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger" onclick="toggleAcc(this)"><span class="acc-icon">🏭</span><span class="acc-title">Industrial Cleaning</span><span class="acc-chevron">▾</span></button>
-            <div class="accordion-body">
-              <p class="acc-desc">Heavy-duty industrial cleaning for factories, warehouses, and production facilities. Specialized equipment, chemical handling expertise, and safety compliance.</p>
-              <div class="acc-features"><span class="acc-feat">Heavy-Duty Equipment</span><span class="acc-feat">Safety Compliant</span><span class="acc-feat">Factories &amp; Warehouses</span></div>
-              <a href="contact.html" class="acc-book-btn">Get Quote →</a>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger" onclick="toggleAcc(this)"><span class="acc-icon">🔧</span><span class="acc-title">Facility Maintenance</span><span class="acc-chevron">▾</span></button>
-            <div class="accordion-body">
-              <p class="acc-desc">Ongoing maintenance of building facilities including electrical fixture checks, plumbing basics, pest control coordination, and general upkeep.</p>
-              <div class="acc-features"><span class="acc-feat">Electrical Checks</span><span class="acc-feat">Plumbing Basics</span><span class="acc-feat">General Upkeep</span></div>
-              <a href="contact.html" class="acc-book-btn">Get Quote →</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 03 HR & MANPOWER -->
-      <div class="srv-panel" id="cat-manpower">
-        <div class="srv-cat-head">
-          <span class="srv-cat-big-icon">👥</span>
-          <div class="srv-cat-info">
-            <h2>HR &amp; Manpower Services</h2>
-            <p>Verified, trained manpower across various job roles. We handle sourcing, verification, and on-boarding so you get the right people fast.</p>
-          </div>
-        </div>
-        <div class="accordion-list">
-          <div class="accordion-item open">
-            <button class="accordion-trigger" onclick="toggleAcc(this)"><span class="acc-icon">👥</span><span class="acc-title">Manpower Supply</span><span class="acc-tag">Flexible</span><span class="acc-chevron">▾</span></button>
-            <div class="accordion-body">
-              <p class="acc-desc">Flexible manpower for short-term projects, seasonal requirements, event staffing, and permanent placements. All personnel are background-verified.</p>
-              <div class="acc-features"><span class="acc-feat">Short / Long Term</span><span class="acc-feat">Background Verified</span><span class="acc-feat">All Industries</span></div>
-              <a href="contact.html" class="acc-book-btn">Get Quote →</a>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger" onclick="toggleAcc(this)"><span class="acc-icon">💼</span><span class="acc-title">Office Staff</span><span class="acc-chevron">▾</span></button>
-            <div class="accordion-body">
-              <p class="acc-desc">Trained office support staff — receptionists, data entry operators, office boys, housekeeping attendants, pantry staff, and administrative support.</p>
-              <div class="acc-features"><span class="acc-feat">Receptionists</span><span class="acc-feat">Data Entry</span><span class="acc-feat">Admin Support</span></div>
-              <a href="contact.html" class="acc-book-btn">Get Quote →</a>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger" onclick="toggleAcc(this)"><span class="acc-icon">⚙️</span><span class="acc-title">Industrial Workers</span><span class="acc-chevron">▾</span></button>
-            <div class="accordion-body">
-              <p class="acc-desc">Skilled and semi-skilled industrial workers for factories, warehouses, construction sites, and manufacturing units. Daily, contract, or long-term engagements.</p>
-              <div class="acc-features"><span class="acc-feat">Skilled Workers</span><span class="acc-feat">Factories &amp; Warehouses</span><span class="acc-feat">Contract Basis</span></div>
-              <a href="contact.html" class="acc-book-btn">Get Quote →</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 04 PROFESSIONAL SECURITY -->
-      <div class="srv-panel" id="cat-professional">
-        <div class="srv-cat-head">
-          <span class="srv-cat-big-icon">🏙️</span>
-          <div class="srv-cat-info">
-            <h2>Additional Professional Security</h2>
-            <p>Enterprise-grade security solutions comparable to leading national security companies like SIS. Technology-assisted security for complex environments.</p>
-            <span class="srv-cat-badge">ENTERPRISE GRADE</span>
-          </div>
-        </div>
-        <div class="accordion-list">
-          <div class="accordion-item open">
-            <button class="accordion-trigger" onclick="toggleAcc(this)"><span class="acc-icon">🏙️</span><span class="acc-title">Corporate Security</span><span class="acc-chevron">▾</span></button>
-            <div class="accordion-body">
-              <p class="acc-desc">End-to-end corporate campus security — access control, visitor management, perimeter security, CCTV monitoring, and dedicated security supervision.</p>
-              <div class="acc-features"><span class="acc-feat">Access Control</span><span class="acc-feat">Visitor Management</span><span class="acc-feat">CCTV Integration</span></div>
-              <a href="contact.html" class="acc-book-btn">Get Quote →</a>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger" onclick="toggleAcc(this)"><span class="acc-icon">🎪</span><span class="acc-title">Event Security Management</span><span class="acc-chevron">▾</span></button>
-            <div class="accordion-body">
-              <p class="acc-desc">Comprehensive event security from planning to execution. Crowd management, entry/exit control, VIP protection zones, and emergency response.</p>
-              <div class="acc-features"><span class="acc-feat">Crowd Control</span><span class="acc-feat">VIP Zones</span><span class="acc-feat">Emergency Response</span></div>
-              <a href="contact.html" class="acc-book-btn">Get Quote →</a>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger" onclick="toggleAcc(this)"><span class="acc-icon">🛍️</span><span class="acc-title">Mall &amp; Retail Security</span><span class="acc-chevron">▾</span></button>
-            <div class="accordion-body">
-              <p class="acc-desc">Anti-shoplifting guards, loss prevention officers, customer assistance security, and parking management for retail stores and shopping malls.</p>
-              <div class="acc-features"><span class="acc-feat">Loss Prevention</span><span class="acc-feat">Parking Management</span><span class="acc-feat">Customer Safety</span></div>
-              <a href="contact.html" class="acc-book-btn">Get Quote →</a>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger" onclick="toggleAcc(this)"><span class="acc-icon">🏗️</span><span class="acc-title">Industrial Security</span><span class="acc-chevron">▾</span></button>
-            <div class="accordion-body">
-              <p class="acc-desc">Round-the-clock security for industrial plants, factories, and warehouses. Entry/exit management, material movement control, and perimeter protection.</p>
-              <div class="acc-features"><span class="acc-feat">24/7 Coverage</span><span class="acc-feat">Material Control</span><span class="acc-feat">Perimeter Guard</span></div>
-              <a href="contact.html" class="acc-book-btn">Get Quote →</a>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger" onclick="toggleAcc(this)"><span class="acc-icon">👑</span><span class="acc-title">VIP / Executive Protection</span><span class="acc-tag">Premium</span><span class="acc-chevron">▾</span></button>
-            <div class="accordion-body">
-              <p class="acc-desc">Personal security detail for high-profile individuals — business executives, politicians, celebrities, and VIPs. Trained close protection officers.</p>
-              <div class="acc-features"><span class="acc-feat">Close Protection</span><span class="acc-feat">Advance Planning</span><span class="acc-feat">Travel Escort</span></div>
-              <a href="contact.html" class="acc-book-btn">Get Quote →</a>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger" onclick="toggleAcc(this)"><span class="acc-icon">📊</span><span class="acc-title">Risk Assessment</span><span class="acc-chevron">▾</span></button>
-            <div class="accordion-body">
-              <p class="acc-desc">Professional threat and vulnerability assessment. Identify security gaps, assess risk levels, and receive a detailed report with actionable recommendations.</p>
-              <div class="acc-features"><span class="acc-feat">Site Audit</span><span class="acc-feat">Threat Analysis</span><span class="acc-feat">Detailed Report</span></div>
-              <a href="contact.html" class="acc-book-btn">Get Quote →</a>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger" onclick="toggleAcc(this)"><span class="acc-icon">📹</span><span class="acc-title">Electronic Security Systems</span><span class="acc-chevron">▾</span></button>
-            <div class="accordion-body">
-              <p class="acc-desc">Design and installation of integrated electronic security systems — CCTV, access control, intercoms, alarm systems, and monitoring infrastructure.</p>
-              <div class="acc-features"><span class="acc-feat">CCTV</span><span class="acc-feat">Access Control</span><span class="acc-feat">Alarm Systems</span></div>
-              <a href="contact.html" class="acc-book-btn">Get Quote →</a>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger" onclick="toggleAcc(this)"><span class="acc-icon">🏛️</span><span class="acc-title">Integrated Facility Management</span><span class="acc-tag">All-in-One</span><span class="acc-chevron">▾</span></button>
-            <div class="accordion-body">
-              <p class="acc-desc">Security, housekeeping, maintenance, and manpower under a single management contract. Seamless, cost-effective, and easy to manage.</p>
-              <div class="acc-features"><span class="acc-feat">Single Contract</span><span class="acc-feat">All Services</span><span class="acc-feat">Cost Effective</span></div>
-              <a href="contact.html" class="acc-book-btn">Get Quote →</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 05 CCTV -->
-      <div class="srv-panel" id="cat-cctv">
-        <div class="srv-cat-head">
-          <span class="srv-cat-big-icon">📷</span>
-          <div class="srv-cat-info">
-            <h2>CCTV Services</h2>
-            <p>Professional CCTV installation and ongoing monitoring to ensure your premises are always under watchful eyes — even when you're away.</p>
-          </div>
-        </div>
-        <div class="accordion-list">
-          <div class="accordion-item open">
-            <button class="accordion-trigger" onclick="toggleAcc(this)"><span class="acc-icon">📷</span><span class="acc-title">CCTV Installation</span><span class="acc-tag">Full Setup</span><span class="acc-chevron">▾</span></button>
-            <div class="accordion-body">
-              <p class="acc-desc">Supply and installation of HD CCTV cameras — indoor, outdoor, IP-based, and analog systems. Site survey, cable routing, DVR/NVR setup, and remote viewing configuration.</p>
-              <div class="acc-features"><span class="acc-feat">HD Cameras</span><span class="acc-feat">Indoor &amp; Outdoor</span><span class="acc-feat">Remote Viewing</span><span class="acc-feat">DVR/NVR Setup</span></div>
-              <a href="contact.html" class="acc-book-btn">Get Quote →</a>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <button class="accordion-trigger" onclick="toggleAcc(this)"><span class="acc-icon">👁️</span><span class="acc-title">CCTV Monitoring</span><span class="acc-tag">24 × 7</span><span class="acc-chevron">▾</span></button>
-            <div class="accordion-body">
-              <p class="acc-desc">24 × 7 live monitoring of your CCTV feeds by our trained surveillance operators. Real-time alerts, incident logging, and immediate escalation when anomalies are detected.</p>
-              <div class="acc-features"><span class="acc-feat">Live Monitoring</span><span class="acc-feat">Real-Time Alerts</span><span class="acc-feat">Incident Logging</span></div>
-              <a href="contact.html" class="acc-book-btn">Get Quote →</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 06 INTELLIGENCE -->
-      <div class="srv-panel" id="cat-intelligence">
-        <div class="srv-cat-head">
-          <span class="srv-cat-big-icon">🔍</span>
-          <div class="srv-cat-info">
-            <h2>Intelligence Services</h2>
-            <p>Discreet investigation and risk monitoring services for businesses and individuals facing complex security challenges.</p>
-          </div>
-        </div>
-        <div class="accordion-list">
-          <div class="accordion-item open">
-            <button class="accordion-trigger" onclick="toggleAcc(this)"><span class="acc-icon">🔍</span><span class="acc-title">Investigation &amp; Risk Monitoring</span><span class="acc-chevron">▾</span></button>
-            <div class="accordion-body">
-              <p class="acc-desc">Discreet investigation for employee misconduct, theft, fraud, or suspicious activities within your organization. Ongoing risk monitoring for individuals or premises under heightened threat.</p>
-              <div class="acc-features"><span class="acc-feat">Employee Misconduct</span><span class="acc-feat">Theft &amp; Fraud</span><span class="acc-feat">Risk Monitoring</span><span class="acc-feat">Confidential</span></div>
-              <a href="contact.html" class="acc-book-btn">Get Quote →</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 07 FACILITY -->
-      <div class="srv-panel" id="cat-facility">
-        <div class="srv-cat-head">
-          <span class="srv-cat-big-icon">🔧</span>
-          <div class="srv-cat-info">
-            <h2>Facility Services</h2>
-            <p>Quick, reliable facility support to keep your premises running smoothly. Skilled tradespeople for maintenance and repair needs.</p>
-          </div>
-        </div>
-        <div class="accordion-list">
-          <div class="accordion-item open">
-            <button class="accordion-trigger" onclick="toggleAcc(this)"><span class="acc-icon">🔩</span><span class="acc-title">Plumber Services</span><span class="acc-chevron">▾</span></button>
-            <div class="accordion-body">
-              <p class="acc-desc">Professional plumbing services for offices, residential societies, and commercial buildings. Pipe repairs, fixture installation, drainage issues, and emergency plumbing support.</p>
-              <div class="acc-features"><span class="acc-feat">Pipe Repairs</span><span class="acc-feat">Fixture Installation</span><span class="acc-feat">Emergency Support</span></div>
-              <a href="contact.html" class="acc-book-btn">Get Quote →</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 08 CONSTRUCTION -->
-      <div class="srv-panel" id="cat-construction">
-        <div class="srv-cat-head">
-          <span class="srv-cat-big-icon">🏗️</span>
-          <div class="srv-cat-info">
-            <h2>Construction Services</h2>
-            <p>Reliable construction support with skilled manpower and project coordination for commercial and industrial projects.</p>
-          </div>
-        </div>
-        <div class="accordion-list">
-          <div class="accordion-item open">
-            <button class="accordion-trigger" onclick="toggleAcc(this)"><span class="acc-icon">🏗️</span><span class="acc-title">All Types of Construction Work</span><span class="acc-chevron">▾</span></button>
-            <div class="accordion-body">
-              <p class="acc-desc">Skilled construction manpower supply and project support — civil work, interior renovation, carpentry, painting, and general construction for commercial and industrial projects.</p>
-              <div class="acc-features"><span class="acc-feat">Civil Work</span><span class="acc-feat">Interior Renovation</span><span class="acc-feat">Carpentry</span><span class="acc-feat">Painting</span></div>
-              <a href="contact.html" class="acc-book-btn">Get Quote →</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- end srv-content -->
-  </div><!-- end services-layout -->
-
-  <!-- BOTTOM CTA -->
-  <div class="cta-banner fi" style="margin-top:3rem">
-    <span class="cta-icon" aria-hidden="true">💬</span>
-    <div class="cta-body">
-      <h3>Not Sure Which Service You Need?</h3>
-      <p>Contact us for a free consultation. We'll assess your needs and recommend the right solution — no obligation, no pressure.</p>
     </div>
-    <div style="display:flex;gap:1rem;flex-wrap:wrap;flex-shrink:0;position:relative">
-      <a href="contact.html" class="btn-blue">Get Free Quote →</a>
+    <div class="acc-list fi">
+
+      <div class="acc-item open">
+        <button class="acc-head" onclick="toggleAcc(this)">
+          <span class="acc-head-icon">👮</span>
+          <span class="acc-head-name">Security Guard</span>
+          <span class="acc-head-tag popular">Most Popular</span>
+          <span class="acc-arrow">▾</span>
+        </button>
+        <div class="acc-body"><div class="acc-inner">
+          <p class="acc-desc">Uniformed, trained security guards for residential societies, offices, factories, hospitals, and commercial premises. Available in 8-hour, 12-hour, or 24-hour duty cycles.</p>
+          <div class="acc-chips">
+            <span class="acc-chip">Uniformed</span><span class="acc-chip">Background Verified</span>
+            <span class="acc-chip">Day / Night Shifts</span><span class="acc-chip">24hr Duty</span>
+          </div>
+          <div class="acc-cta-row">
+            <a href="contact.html" class="btn-acc-quote">Get Quote →</a>
+            <a href="https://wa.me/919137063012?text=I+need+a+Security+Guard" target="_blank" rel="noopener" class="btn-acc-wa">💬 WhatsApp</a>
+          </div>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-head" onclick="toggleAcc(this)">
+          <span class="acc-head-icon">🎖️</span>
+          <span class="acc-head-name">Security Supervisor</span>
+          <span class="acc-arrow">▾</span>
+        </button>
+        <div class="acc-body"><div class="acc-inner">
+          <p class="acc-desc">Experienced supervisors who oversee guard teams, conduct rounds, maintain registers, and handle escalations. Essential for multi-guard deployments.</p>
+          <div class="acc-chips"><span class="acc-chip">Team Management</span><span class="acc-chip">Daily Reporting</span><span class="acc-chip">Incident Handling</span></div>
+          <div class="acc-cta-row"><a href="contact.html" class="btn-acc-quote">Get Quote →</a><a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-acc-wa">💬 WhatsApp</a></div>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-head" onclick="toggleAcc(this)">
+          <span class="acc-head-icon">💪</span>
+          <span class="acc-head-name">Bouncer</span>
+          <span class="acc-head-tag demand">High Demand</span>
+          <span class="acc-arrow">▾</span>
+        </button>
+        <div class="acc-body"><div class="acc-inner">
+          <p class="acc-desc">Powerful, trained bouncers for clubs, bars, restaurants, and event venues. Crowd management, entry control, and incident prevention specialists.</p>
+          <div class="acc-chips"><span class="acc-chip">Crowd Management</span><span class="acc-chip">Entry Control</span><span class="acc-chip">Events &amp; Clubs</span></div>
+          <div class="acc-cta-row"><a href="contact.html" class="btn-acc-quote">Get Quote →</a><a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-acc-wa">💬 WhatsApp</a></div>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-head" onclick="toggleAcc(this)">
+          <span class="acc-head-icon">🤵</span>
+          <span class="acc-head-name">Personal Bouncer</span>
+          <span class="acc-arrow">▾</span>
+        </button>
+        <div class="acc-body"><div class="acc-inner">
+          <p class="acc-desc">Dedicated personal protection for individuals — daily routine security, travel accompaniment, or specific event protection.</p>
+          <div class="acc-chips"><span class="acc-chip">1-on-1 Protection</span><span class="acc-chip">Travel Escort</span><span class="acc-chip">Event Protection</span></div>
+          <div class="acc-cta-row"><a href="contact.html" class="btn-acc-quote">Get Quote →</a><a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-acc-wa">💬 WhatsApp</a></div>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-head" onclick="toggleAcc(this)">
+          <span class="acc-head-icon">🔫</span>
+          <span class="acc-head-name">Gunman</span>
+          <span class="acc-head-tag armed">Armed</span>
+          <span class="acc-arrow">▾</span>
+        </button>
+        <div class="acc-body"><div class="acc-inner">
+          <p class="acc-desc">Licensed armed security for high-risk environments, cash transportation, jewellery stores, and VIP premises.</p>
+          <div class="acc-chips"><span class="acc-chip">Licensed &amp; Certified</span><span class="acc-chip">Cash Escort</span><span class="acc-chip">High-Risk Sites</span></div>
+          <div class="acc-cta-row"><a href="contact.html" class="btn-acc-quote">Get Quote →</a><a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-acc-wa">💬 WhatsApp</a></div>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-head" onclick="toggleAcc(this)">
+          <span class="acc-head-icon">⭐</span>
+          <span class="acc-head-name">Ex-Service Man Security</span>
+          <span class="acc-head-tag premium">Premium</span>
+          <span class="acc-arrow">▾</span>
+        </button>
+        <div class="acc-body"><div class="acc-inner">
+          <p class="acc-desc">Ex-military and ex-police professionals with real field experience. Ideal for critical infrastructure, banks, and sensitive premises.</p>
+          <div class="acc-chips"><span class="acc-chip">Ex-Army / Ex-Police</span><span class="acc-chip">Field Experience</span><span class="acc-chip">Banks &amp; Critical Sites</span></div>
+          <div class="acc-cta-row"><a href="contact.html" class="btn-acc-quote">Get Quote →</a><a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-acc-wa">💬 WhatsApp</a></div>
+        </div></div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-head" onclick="toggleAcc(this)">
+          <span class="acc-head-icon">🏆</span>
+          <span class="acc-head-name">High Professional Security</span>
+          <span class="acc-head-tag all">Enterprise</span>
+          <span class="acc-arrow">▾</span>
+        </button>
+        <div class="acc-body"><div class="acc-inner">
+          <p class="acc-desc">Elite-tier security comparable to leading national companies. Full site assessment, specialized training, and dedicated supervision included.</p>
+          <div class="acc-chips"><span class="acc-chip">Site Assessment</span><span class="acc-chip">Specialized Training</span><span class="acc-chip">Dedicated Supervision</span></div>
+          <div class="acc-cta-row"><a href="contact.html" class="btn-acc-quote">Get Quote →</a><a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-acc-wa">💬 WhatsApp</a></div>
+        </div></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ 02 HOUSEKEEPING ══ -->
+  <div class="cat-panel" id="panel-hk" role="tabpanel">
+    <div class="panel-header fi">
+      <span class="ph-big-icon">🧹</span>
+      <div class="ph-info"><h2>Housekeeping Services</h2><p>Professional cleaning and housekeeping teams trained in modern techniques and hygiene standards for offices, buildings, and industrial facilities.</p></div>
+    </div>
+    <div class="acc-list fi">
+      <div class="acc-item open">
+        <button class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-icon">🏢</span><span class="acc-head-name">Office Cleaning</span><span class="acc-arrow">▾</span></button>
+        <div class="acc-body"><div class="acc-inner"><p class="acc-desc">Daily or periodic professional cleaning of offices — workstations, meeting rooms, washrooms, reception areas, and cafeterias.</p><div class="acc-chips"><span class="acc-chip">Daily / Weekly</span><span class="acc-chip">All Areas</span><span class="acc-chip">Hygiene Standards</span></div><div class="acc-cta-row"><a href="contact.html" class="btn-acc-quote">Get Quote →</a><a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-acc-wa">💬 WhatsApp</a></div></div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-icon">🏬</span><span class="acc-head-name">Building Housekeeping</span><span class="acc-arrow">▾</span></button>
+        <div class="acc-body"><div class="acc-inner"><p class="acc-desc">Comprehensive housekeeping for residential societies and commercial buildings — lobbies, corridors, stairwells, parking areas, and common facilities.</p><div class="acc-chips"><span class="acc-chip">Residential Societies</span><span class="acc-chip">Commercial Buildings</span><span class="acc-chip">Common Areas</span></div><div class="acc-cta-row"><a href="contact.html" class="btn-acc-quote">Get Quote →</a><a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-acc-wa">💬 WhatsApp</a></div></div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-icon">🏭</span><span class="acc-head-name">Industrial Cleaning</span><span class="acc-arrow">▾</span></button>
+        <div class="acc-body"><div class="acc-inner"><p class="acc-desc">Heavy-duty industrial cleaning for factories, warehouses, and production facilities with specialized equipment and safety compliance.</p><div class="acc-chips"><span class="acc-chip">Heavy-Duty Equipment</span><span class="acc-chip">Safety Compliant</span><span class="acc-chip">Factories &amp; Warehouses</span></div><div class="acc-cta-row"><a href="contact.html" class="btn-acc-quote">Get Quote →</a><a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-acc-wa">💬 WhatsApp</a></div></div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-icon">🔧</span><span class="acc-head-name">Facility Maintenance</span><span class="acc-arrow">▾</span></button>
+        <div class="acc-body"><div class="acc-inner"><p class="acc-desc">Ongoing maintenance including electrical fixture checks, plumbing basics, pest control coordination, and general upkeep of building facilities.</p><div class="acc-chips"><span class="acc-chip">Electrical Checks</span><span class="acc-chip">Plumbing Basics</span><span class="acc-chip">General Upkeep</span></div><div class="acc-cta-row"><a href="contact.html" class="btn-acc-quote">Get Quote →</a><a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-acc-wa">💬 WhatsApp</a></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 03 HR MANPOWER ══ -->
+  <div class="cat-panel" id="panel-hr" role="tabpanel">
+    <div class="panel-header fi">
+      <span class="ph-big-icon">👥</span>
+      <div class="ph-info"><h2>HR &amp; Manpower Services</h2><p>Verified, trained manpower across various job roles. We handle sourcing, verification, and on-boarding so you get the right people fast.</p></div>
+    </div>
+    <div class="acc-list fi">
+      <div class="acc-item open">
+        <button class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-icon">👥</span><span class="acc-head-name">Manpower Supply</span><span class="acc-head-tag all">Flexible</span><span class="acc-arrow">▾</span></button>
+        <div class="acc-body"><div class="acc-inner"><p class="acc-desc">Flexible manpower for short-term projects, seasonal requirements, event staffing, and permanent placements. All background-verified.</p><div class="acc-chips"><span class="acc-chip">Short / Long Term</span><span class="acc-chip">Background Verified</span><span class="acc-chip">All Industries</span></div><div class="acc-cta-row"><a href="contact.html" class="btn-acc-quote">Get Quote →</a><a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-acc-wa">💬 WhatsApp</a></div></div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-icon">💼</span><span class="acc-head-name">Office Staff</span><span class="acc-arrow">▾</span></button>
+        <div class="acc-body"><div class="acc-inner"><p class="acc-desc">Receptionists, data entry operators, office boys, housekeeping attendants, pantry staff, and administrative support personnel.</p><div class="acc-chips"><span class="acc-chip">Receptionists</span><span class="acc-chip">Data Entry</span><span class="acc-chip">Admin Support</span></div><div class="acc-cta-row"><a href="contact.html" class="btn-acc-quote">Get Quote →</a><a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-acc-wa">💬 WhatsApp</a></div></div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-icon">⚙️</span><span class="acc-head-name">Industrial Workers</span><span class="acc-arrow">▾</span></button>
+        <div class="acc-body"><div class="acc-inner"><p class="acc-desc">Skilled and semi-skilled workers for factories, warehouses, construction sites, and manufacturing units on daily, contract, or long-term basis.</p><div class="acc-chips"><span class="acc-chip">Skilled Workers</span><span class="acc-chip">Contract Basis</span><span class="acc-chip">Factories &amp; Warehouses</span></div><div class="acc-cta-row"><a href="contact.html" class="btn-acc-quote">Get Quote →</a><a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-acc-wa">💬 WhatsApp</a></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 04 PRO SECURITY ══ -->
+  <div class="cat-panel" id="panel-pro" role="tabpanel">
+    <div class="panel-header fi">
+      <span class="ph-big-icon">🏙️</span>
+      <div class="ph-info"><h2>Additional Professional Security</h2><p>Enterprise-grade security solutions comparable to leading national companies. Technology-assisted security for complex, high-value environments.</p><span class="ph-badge">ENTERPRISE GRADE</span></div>
+    </div>
+    <div class="acc-list fi">
+      <div class="acc-item open"><button class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-icon">🏙️</span><span class="acc-head-name">Corporate Security</span><span class="acc-arrow">▾</span></button><div class="acc-body"><div class="acc-inner"><p class="acc-desc">End-to-end corporate campus security — access control, visitor management, perimeter security, CCTV monitoring, and dedicated supervision.</p><div class="acc-chips"><span class="acc-chip">Access Control</span><span class="acc-chip">Visitor Management</span><span class="acc-chip">CCTV Integration</span></div><div class="acc-cta-row"><a href="contact.html" class="btn-acc-quote">Get Quote →</a><a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-acc-wa">💬 WhatsApp</a></div></div></div></div>
+      <div class="acc-item"><button class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-icon">🎪</span><span class="acc-head-name">Event Security Management</span><span class="acc-arrow">▾</span></button><div class="acc-body"><div class="acc-inner"><p class="acc-desc">Comprehensive event security from planning to execution. Crowd management, entry/exit control, VIP zones, and emergency response.</p><div class="acc-chips"><span class="acc-chip">Crowd Control</span><span class="acc-chip">VIP Zones</span><span class="acc-chip">Emergency Response</span></div><div class="acc-cta-row"><a href="contact.html" class="btn-acc-quote">Get Quote →</a><a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-acc-wa">💬 WhatsApp</a></div></div></div></div>
+      <div class="acc-item"><button class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-icon">🛍️</span><span class="acc-head-name">Mall &amp; Retail Security</span><span class="acc-arrow">▾</span></button><div class="acc-body"><div class="acc-inner"><p class="acc-desc">Anti-shoplifting guards, loss prevention officers, customer assistance, and parking management for retail stores and shopping malls.</p><div class="acc-chips"><span class="acc-chip">Loss Prevention</span><span class="acc-chip">Parking Management</span><span class="acc-chip">Customer Safety</span></div><div class="acc-cta-row"><a href="contact.html" class="btn-acc-quote">Get Quote →</a><a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-acc-wa">💬 WhatsApp</a></div></div></div></div>
+      <div class="acc-item"><button class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-icon">🏗️</span><span class="acc-head-name">Industrial Security</span><span class="acc-arrow">▾</span></button><div class="acc-body"><div class="acc-inner"><p class="acc-desc">Round-the-clock security for industrial plants, factories, and warehouses. Entry/exit management, material movement control, and perimeter protection.</p><div class="acc-chips"><span class="acc-chip">24/7 Coverage</span><span class="acc-chip">Material Control</span><span class="acc-chip">Perimeter Guard</span></div><div class="acc-cta-row"><a href="contact.html" class="btn-acc-quote">Get Quote →</a><a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-acc-wa">💬 WhatsApp</a></div></div></div></div>
+      <div class="acc-item"><button class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-icon">👑</span><span class="acc-head-name">VIP / Executive Protection</span><span class="acc-head-tag premium">Premium</span><span class="acc-arrow">▾</span></button><div class="acc-body"><div class="acc-inner"><p class="acc-desc">Personal security detail for high-profile individuals — executives, politicians, celebrities, and VIPs. Trained close protection officers.</p><div class="acc-chips"><span class="acc-chip">Close Protection</span><span class="acc-chip">Advance Planning</span><span class="acc-chip">Travel Escort</span></div><div class="acc-cta-row"><a href="contact.html" class="btn-acc-quote">Get Quote →</a><a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-acc-wa">💬 WhatsApp</a></div></div></div></div>
+      <div class="acc-item"><button class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-icon">📊</span><span class="acc-head-name">Risk Assessment</span><span class="acc-arrow">▾</span></button><div class="acc-body"><div class="acc-inner"><p class="acc-desc">Professional threat and vulnerability assessment. Identify security gaps and receive a detailed report with actionable recommendations.</p><div class="acc-chips"><span class="acc-chip">Site Audit</span><span class="acc-chip">Threat Analysis</span><span class="acc-chip">Detailed Report</span></div><div class="acc-cta-row"><a href="contact.html" class="btn-acc-quote">Get Quote →</a><a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-acc-wa">💬 WhatsApp</a></div></div></div></div>
+      <div class="acc-item"><button class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-icon">📹</span><span class="acc-head-name">Electronic Security Systems</span><span class="acc-arrow">▾</span></button><div class="acc-body"><div class="acc-inner"><p class="acc-desc">Design and installation of CCTV, access control, intercoms, alarm systems, and monitoring infrastructure for total site security.</p><div class="acc-chips"><span class="acc-chip">CCTV</span><span class="acc-chip">Access Control</span><span class="acc-chip">Alarm Systems</span></div><div class="acc-cta-row"><a href="contact.html" class="btn-acc-quote">Get Quote →</a><a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-acc-wa">💬 WhatsApp</a></div></div></div></div>
+      <div class="acc-item"><button class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-icon">🏛️</span><span class="acc-head-name">Integrated Facility Management</span><span class="acc-head-tag all">All-in-One</span><span class="acc-arrow">▾</span></button><div class="acc-body"><div class="acc-inner"><p class="acc-desc">Security, housekeeping, maintenance, and manpower under a single management contract. Seamless and cost-effective.</p><div class="acc-chips"><span class="acc-chip">Single Contract</span><span class="acc-chip">All Services</span><span class="acc-chip">Cost Effective</span></div><div class="acc-cta-row"><a href="contact.html" class="btn-acc-quote">Get Quote →</a><a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-acc-wa">💬 WhatsApp</a></div></div></div></div>
+    </div>
+  </div>
+
+  <!-- ══ 05 CCTV ══ -->
+  <div class="cat-panel" id="panel-cctv" role="tabpanel">
+    <div class="panel-header fi"><span class="ph-big-icon">📷</span><div class="ph-info"><h2>CCTV Services</h2><p>Professional CCTV installation and 24 × 7 monitoring to keep your premises always under watchful eyes.</p></div></div>
+    <div class="acc-list fi">
+      <div class="acc-item open"><button class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-icon">📷</span><span class="acc-head-name">CCTV Installation</span><span class="acc-head-tag popular">Full Setup</span><span class="acc-arrow">▾</span></button><div class="acc-body"><div class="acc-inner"><p class="acc-desc">Supply and installation of HD CCTV cameras — indoor, outdoor, IP-based, and analog systems. Site survey, cable routing, DVR/NVR setup, and remote viewing configuration included.</p><div class="acc-chips"><span class="acc-chip">HD Cameras</span><span class="acc-chip">Indoor &amp; Outdoor</span><span class="acc-chip">Remote Viewing</span><span class="acc-chip">DVR/NVR Setup</span></div><div class="acc-cta-row"><a href="contact.html" class="btn-acc-quote">Get Quote →</a><a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-acc-wa">💬 WhatsApp</a></div></div></div></div>
+      <div class="acc-item"><button class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-icon">👁️</span><span class="acc-head-name">CCTV Monitoring</span><span class="acc-head-tag demand">24 × 7</span><span class="acc-arrow">▾</span></button><div class="acc-body"><div class="acc-inner"><p class="acc-desc">24 × 7 live monitoring of your CCTV feeds by trained surveillance operators. Real-time alerts, incident logging, and immediate escalation when anomalies are detected.</p><div class="acc-chips"><span class="acc-chip">Live Monitoring</span><span class="acc-chip">Real-Time Alerts</span><span class="acc-chip">Incident Logging</span></div><div class="acc-cta-row"><a href="contact.html" class="btn-acc-quote">Get Quote →</a><a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-acc-wa">💬 WhatsApp</a></div></div></div></div>
+    </div>
+  </div>
+
+  <!-- ══ 06 INTELLIGENCE ══ -->
+  <div class="cat-panel" id="panel-intel" role="tabpanel">
+    <div class="panel-header fi"><span class="ph-big-icon">🔍</span><div class="ph-info"><h2>Intelligence Services</h2><p>Discreet investigation and risk monitoring for businesses and individuals facing complex security challenges.</p></div></div>
+    <div class="acc-list fi">
+      <div class="acc-item open"><button class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-icon">🔍</span><span class="acc-head-name">Investigation &amp; Risk Monitoring</span><span class="acc-arrow">▾</span></button><div class="acc-body"><div class="acc-inner"><p class="acc-desc">Discreet investigation for employee misconduct, theft, fraud, or suspicious activities. Ongoing risk monitoring for individuals or premises under heightened threat.</p><div class="acc-chips"><span class="acc-chip">Employee Misconduct</span><span class="acc-chip">Theft &amp; Fraud</span><span class="acc-chip">Risk Monitoring</span><span class="acc-chip">Confidential</span></div><div class="acc-cta-row"><a href="contact.html" class="btn-acc-quote">Get Quote →</a><a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-acc-wa">💬 WhatsApp</a></div></div></div></div>
+    </div>
+  </div>
+
+  <!-- ══ 07 FACILITY ══ -->
+  <div class="cat-panel" id="panel-fac" role="tabpanel">
+    <div class="panel-header fi"><span class="ph-big-icon">🔧</span><div class="ph-info"><h2>Facility Services</h2><p>Quick, reliable facility support to keep your premises running smoothly with skilled tradespeople.</p></div></div>
+    <div class="acc-list fi">
+      <div class="acc-item open"><button class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-icon">🔩</span><span class="acc-head-name">Plumber Services</span><span class="acc-arrow">▾</span></button><div class="acc-body"><div class="acc-inner"><p class="acc-desc">Professional plumbing for offices, residential societies, and commercial buildings. Pipe repairs, fixture installation, drainage issues, and emergency support.</p><div class="acc-chips"><span class="acc-chip">Pipe Repairs</span><span class="acc-chip">Fixture Installation</span><span class="acc-chip">Emergency Support</span></div><div class="acc-cta-row"><a href="contact.html" class="btn-acc-quote">Get Quote →</a><a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-acc-wa">💬 WhatsApp</a></div></div></div></div>
+    </div>
+  </div>
+
+  <!-- ══ 08 CONSTRUCTION ══ -->
+  <div class="cat-panel" id="panel-con" role="tabpanel">
+    <div class="panel-header fi"><span class="ph-big-icon">🏗️</span><div class="ph-info"><h2>Construction Services</h2><p>Reliable construction support with skilled manpower and project coordination for commercial and industrial projects.</p></div></div>
+    <div class="acc-list fi">
+      <div class="acc-item open"><button class="acc-head" onclick="toggleAcc(this)"><span class="acc-head-icon">🏗️</span><span class="acc-head-name">All Types of Construction Work</span><span class="acc-arrow">▾</span></button><div class="acc-body"><div class="acc-inner"><p class="acc-desc">Skilled construction manpower and project support — civil work, interior renovation, carpentry, painting, and general construction for commercial and industrial projects.</p><div class="acc-chips"><span class="acc-chip">Civil Work</span><span class="acc-chip">Interior Renovation</span><span class="acc-chip">Carpentry</span><span class="acc-chip">Painting</span></div><div class="acc-cta-row"><a href="contact.html" class="btn-acc-quote">Get Quote →</a><a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-acc-wa">💬 WhatsApp</a></div></div></div></div>
+    </div>
+  </div>
+
+  <!-- Bottom CTA -->
+  <div class="bottom-cta fi">
+    <span class="bcta-icon">💬</span>
+    <div class="bcta-text">
+      <h3>Not Sure Which Service You Need?</h3>
+      <p>Contact us for a free consultation. We'll assess your requirements and recommend the best solution — no obligation.</p>
+    </div>
+    <div class="bcta-btns">
+      <a href="contact.html" class="btn-blue">Free Quote →</a>
       <a href="https://wa.me/919137063012" target="_blank" rel="noopener" class="btn-green">💬 WhatsApp</a>
     </div>
   </div>
-</section>
+
+</div><!-- end services-wrap -->
+</div><!-- end navy2 bg -->
 
 <!-- FOOTER -->
 <footer>
   <div class="footer-top">
     <div class="f-brand">
-      <div class="f-logo-wrap"><img src="Logo.jpeg" class="f-logo-img" alt="AV Group Logo"/><div class="f-logo-text">AV GROUP<span>SECURITY</span></div></div>
-      <p>Professional Security &amp; Facility Services across Mumbai. Trained, licensed, and always available.</p>
+      <div class="f-logo-wrap"><img src="Logo.jpeg" class="f-logo-img" alt="AV Group"/><div class="f-logo-text">AV GROUP<span>SECURITY</span></div></div>
+      <p>Professional Security &amp; Facility Services. Trusted by 50+ clients across Mumbai.</p>
       <a href="tel:+919137063012" class="f-phone">+91 91370 63012</a>
       <span style="font-size:.76rem;color:var(--muted)">Vikas Chaurasiya — Management</span>
     </div>
     <div class="f-col"><h5>Quick Links</h5><ul>
       <li><a href="index.html">Home</a></li><li><a href="about.html">About Us</a></li>
       <li><a href="services.html">Services</a></li><li><a href="clients.html">Clients</a></li>
-      <li><a href="contact.html">Contact Us</a></li>
+      <li><a href="contact.html">Contact</a></li>
     </ul></div>
     <div class="f-col"><h5>Security</h5><ul>
-      <li><a href="#" onclick="showCat('security',document.querySelector('.srv-menu-item'))">Security Guards</a></li>
-      <li><a href="#" onclick="showCat('security',document.querySelector('.srv-menu-item'))">Bouncers</a></li>
-      <li><a href="#" onclick="showCat('professional',document.querySelectorAll('.srv-menu-item')[3])">VIP Protection</a></li>
-      <li><a href="#" onclick="showCat('professional',document.querySelectorAll('.srv-menu-item')[3])">Corporate Security</a></li>
-      <li><a href="#" onclick="showCat('professional',document.querySelectorAll('.srv-menu-item')[3])">Event Security</a></li>
+      <li><a href="services.html">Security Guards</a></li><li><a href="services.html">Bouncers</a></li>
+      <li><a href="services.html">VIP Protection</a></li><li><a href="services.html">Corporate Security</a></li>
+      <li><a href="services.html">Event Security</a></li>
     </ul></div>
     <div class="f-col"><h5>Other Services</h5><ul>
-      <li><a href="#" onclick="showCat('cctv',document.querySelectorAll('.srv-menu-item')[4])">CCTV Services</a></li>
-      <li><a href="#" onclick="showCat('housekeeping',document.querySelectorAll('.srv-menu-item')[1])">Housekeeping</a></li>
-      <li><a href="#" onclick="showCat('manpower',document.querySelectorAll('.srv-menu-item')[2])">Manpower Supply</a></li>
-      <li><a href="#" onclick="showCat('intelligence',document.querySelectorAll('.srv-menu-item')[5])">Investigation</a></li>
-      <li><a href="#" onclick="showCat('construction',document.querySelectorAll('.srv-menu-item')[7])">Construction</a></li>
+      <li><a href="services.html">CCTV Services</a></li><li><a href="services.html">Housekeeping</a></li>
+      <li><a href="services.html">Manpower Supply</a></li><li><a href="services.html">Investigation</a></li>
+      <li><a href="services.html">Construction</a></li>
     </ul></div>
   </div>
   <div class="footer-bottom">
@@ -849,46 +659,41 @@
 <button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
 <script src="main.js"></script>
 <script>
-  /* ── Show Category ── */
-  window.showCat = function(id, el) {
-    // Hide all panels
-    document.querySelectorAll('.srv-panel').forEach(p => p.classList.remove('active'));
-    // Deactivate all menu items
-    document.querySelectorAll('.srv-menu-item').forEach(m => m.classList.remove('active'));
-    // Show selected panel
-    var panel = document.getElementById('cat-' + id);
-    if(panel) panel.classList.add('active');
-    // Activate menu item
-    if(el) el.classList.add('active');
-    // Scroll to content on mobile
-    if(window.innerWidth <= 900) {
-      var content = document.querySelector('.srv-content');
-      if(content) content.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  };
+'use strict';
 
-  /* ── Accordion Toggle ── */
-  window.toggleAcc = function(btn) {
-    var item = btn.closest('.accordion-item');
-    var isOpen = item.classList.contains('open');
-    // Close all in same list
-    var list = item.closest('.accordion-list');
-    list.querySelectorAll('.accordion-item').forEach(function(i) {
-      i.classList.remove('open');
-      i.querySelector('.accordion-trigger').setAttribute('aria-expanded', 'false');
-    });
-    // Open clicked if it was closed
-    if(!isOpen) {
-      item.classList.add('open');
-      btn.setAttribute('aria-expanded', 'true');
-    }
-  };
-
-  /* ── Show contact box on desktop ── */
-  if(window.innerWidth > 900) {
-    var sc = document.getElementById('sideContact');
-    if(sc) sc.style.display = 'block';
+/* ── Switch Category ── */
+window.showCat = function(id, btn) {
+  // hide all panels
+  document.querySelectorAll('.cat-panel').forEach(function(p){
+    p.classList.remove('active');
+  });
+  // deactivate all buttons
+  document.querySelectorAll('.cat-btn').forEach(function(b){
+    b.classList.remove('active');
+    b.setAttribute('aria-selected','false');
+  });
+  // show panel
+  var panel = document.getElementById('panel-' + id);
+  if(panel) panel.classList.add('active');
+  // activate button
+  if(btn){ btn.classList.add('active'); btn.setAttribute('aria-selected','true'); }
+  // scroll to top of panel on mobile
+  if(window.innerWidth < 700){
+    var wrap = document.querySelector('.services-wrap');
+    if(wrap) wrap.scrollIntoView({ behavior:'smooth', block:'start' });
   }
+};
+
+/* ── Accordion Toggle ── */
+window.toggleAcc = function(btn) {
+  var item    = btn.closest('.acc-item');
+  var isOpen  = item.classList.contains('open');
+  // close all siblings
+  var siblings = item.closest('.acc-list').querySelectorAll('.acc-item');
+  siblings.forEach(function(s){ s.classList.remove('open'); });
+  // toggle clicked
+  if(!isOpen) item.classList.add('open');
+};
 </script>
 </body>
 </html>
