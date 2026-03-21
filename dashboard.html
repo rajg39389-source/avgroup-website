@@ -11,11 +11,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:wght@300;400;500&family=Oswald:wght@600;700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="style.css"/>
 <style>
-.dash-layout{display:grid;grid-template-columns:260px 1fr;min-height:100svh;padding-top:calc(70px + var(--sat))}
-@media(max-width:768px){.dash-layout{grid-template-columns:1fr}}
-.dash-sidebar{background:var(--card);border-right:1px solid var(--border);padding:2rem 1.5rem;position:sticky;top:calc(70px + var(--sat));height:calc(100vh - 70px - var(--sat));overflow-y:auto;-webkit-overflow-scrolling:touch}
-@media(max-width:768px){.dash-sidebar{display:none}}
-.dash-main{padding:2rem max(2rem,3vw);background:var(--navy)}
+.dash-layout{display:block;min-height:100svh;padding-top:calc(70px + var(--sat));padding-left:260px}
+@media(max-width:900px){.dash-layout{padding-left:0}}
+.dash-sidebar{width:260px;background:var(--card);border-right:1px solid var(--border);padding:2rem 1.5rem;position:fixed;top:calc(70px + var(--sat));left:0;bottom:0;overflow-y:auto;-webkit-overflow-scrolling:touch;z-index:100}
+@media(max-width:900px){.dash-sidebar{display:none}}
+.dash-main{padding:2rem max(2rem,3vw);background:var(--navy);min-height:calc(100vh - 70px - var(--sat))}
 .sidebar-user{text-align:center;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border2)}
 .sidebar-avatar{width:64px;height:64px;border-radius:50%;background:var(--gold);border:2px solid var(--gold-dark);margin:0 auto .8rem;display:flex;align-items:center;justify-content:center;font-family:'Oswald',sans-serif;font-size:1.5rem;font-weight:700;color:#000}
 .sidebar-name{font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:var(--white);margin-bottom:.2rem}
@@ -35,7 +35,7 @@
 
 /* Mobile tab bar */
 .mob-tabs{display:none;position:fixed;bottom:var(--sab);left:0;right:0;z-index:800;background:var(--card);border-top:1px solid var(--border);padding:.5rem 0}
-@media(max-width:768px){.mob-tabs{display:flex}}
+@media(max-width:900px){.mob-tabs{display:flex}}
 .mob-tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:.2rem;padding:.4rem;text-decoration:none;min-height:var(--touch)}
 .mob-tab .mt-icon{font-size:1.2rem}
 .mob-tab .mt-label{font-family:'Rajdhani',sans-serif;font-size:.58rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
@@ -515,14 +515,30 @@
       var overlay = document.createElement('div');
       overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:3000;display:flex;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(4px)';
       overlay.innerHTML=`
-        <div style="background:var(--card);border:1px solid var(--gold);padding:2rem;max-width:400px;width:100%;text-align:center;position:relative">
-          <div style="font-size:2.5rem;margin-bottom:.8rem">🔐</div>
-          <div style="font-family:'Oswald',sans-serif;font-size:1.3rem;font-weight:700;color:var(--white);margin-bottom:.4rem">Login to Book</div>
-          <p style="font-size:.84rem;color:var(--muted);margin-bottom:1.5rem;line-height:1.7">You're booking <strong style="color:var(--gold)">${sm.name}</strong> — ${sm.role}.<br>Please login or register to complete your booking.</p>
+        <div style="background:var(--card);border:1px solid var(--gold);border-top:3px solid var(--gold);padding:2rem;max-width:420px;width:100%;text-align:center;position:relative">
+          <div style="font-size:2.5rem;margin-bottom:.8rem">🛡️</div>
+          <div style="font-family:'Oswald',sans-serif;font-size:1.4rem;font-weight:700;color:var(--white);margin-bottom:.4rem">Almost There!</div>
+          <div style="background:var(--navy2);border:1px solid var(--border);padding:.8rem;margin-bottom:1rem">
+            <div style="font-size:.78rem;color:var(--muted);margin-bottom:.2rem">You selected:</div>
+            <div style="font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:var(--gold)">${sm.name} — ${sm.role}</div>
+          </div>
+          <p style="font-size:.84rem;color:var(--muted);margin-bottom:1.5rem;line-height:1.7">
+            To confirm your booking, you need a free account.<br>
+            <strong style="color:var(--white)">It takes less than 1 minute!</strong>
+          </p>
           <div style="display:flex;flex-direction:column;gap:.6rem">
-            <a href="login.html" style="font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:var(--gold);color:#000;padding:.9rem;text-decoration:none;display:block;min-height:44px;display:flex;align-items:center;justify-content:center">Login to My Account →</a>
-            <a href="register.html" style="font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:transparent;color:var(--gold);padding:.9rem;border:1px solid var(--gold);text-decoration:none;display:flex;align-items:center;justify-content:center;min-height:44px">Register Free (1 minute)</a>
-            <button onclick="this.closest('[style]').remove()" style="font-family:'Rajdhani',sans-serif;font-size:.75rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;background:none;border:none;color:var(--muted);cursor:pointer;padding:.5rem;min-height:36px">Cancel</button>
+            <a href="register.html" style="font-family:'Rajdhani',sans-serif;font-size:.88rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:var(--gold);color:#000;padding:.9rem;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:.5rem;min-height:44px">
+              ✅ Register Free &amp; Book Now
+            </a>
+            <a href="login.html" style="font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:transparent;color:var(--steel);padding:.9rem;border:1px solid var(--border2);text-decoration:none;display:flex;align-items:center;justify-content:center;min-height:44px">
+              Already have account? Login →
+            </a>
+            <a href="https://wa.me/919137063012?text=I+want+to+book+${encodeURIComponent(sm.name)}+${encodeURIComponent(sm.role)}" target="_blank" style="font-family:'Rajdhani',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;background:rgba(34,197,94,.1);color:var(--green);padding:.8rem;border:1px solid rgba(34,197,94,.25);text-decoration:none;display:flex;align-items:center;justify-content:center;gap:.4rem;min-height:44px">
+              💬 Book via WhatsApp Instead
+            </a>
+            <button onclick="document.body.removeChild(this.closest('div').parentElement)" style="font-family:'Rajdhani',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;background:none;border:none;color:var(--muted);cursor:pointer;padding:.5rem;min-height:36px">
+              ← Go Back to Browse
+            </button>
           </div>
         </div>`;
       document.body.appendChild(overlay);
@@ -604,9 +620,16 @@
   async function loadBookings(){
     if(!currentUser) return;
     try {
-      const q    = query(collection(db,'bookings'), where('userId','==',currentUser.uid), orderBy('createdAt','desc'));
+      // Simple query without orderBy to avoid index requirement
+      const q    = query(collection(db,'bookings'), where('userId','==',currentUser.uid));
       const snap = await getDocs(q);
-      const list = snap.docs.map(d=>({id:d.id,...d.data()}));
+      let list = snap.docs.map(d=>({id:d.id,...d.data()}));
+      // Sort by createdAt descending (newest first)
+      list.sort((a,b)=>{
+        const ta = a.createdAt?.seconds||0;
+        const tb = b.createdAt?.seconds||0;
+        return tb - ta;
+      });
       document.getElementById('bkLoading').style.display='none';
       document.getElementById('totalBookingsCard').textContent = list.length+' booking'+(list.length!==1?'s':'');
       if(!list.length){
