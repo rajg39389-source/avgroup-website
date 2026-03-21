@@ -311,17 +311,57 @@
   const db   = getFirestore(app);
   let currentUser = null, userProfile = null, currentCategory = 'All';
 
-  // ── AUTH GUARD ──
+  // ── AUTH STATE ──
   onAuthStateChanged(auth, async user => {
-    if(!user){ window.location.href='login.html'; return; }
-    currentUser = user;
-    const snap = await getDoc(doc(db,'users',user.uid));
-    if(snap.exists()) userProfile = snap.data();
-    if(userProfile?.role==='admin'){ window.location.href='admin.html'; return; }
-    renderUserUI();
+    if(user){
+      currentUser = user;
+      const snap = await getDoc(doc(db,'users',user.uid));
+      if(snap.exists()) userProfile = snap.data();
+      if(userProfile?.role==='admin'){ window.location.href='admin.html'; return; }
+      renderUserUI();
+      loadBookings();
+    } else {
+      // Not logged in — show guest view
+      currentUser = null;
+      renderGuestUI();
+    }
+    // Always load servicemen — no login needed
     loadServicemen();
-    loadBookings();
   });
+
+  function renderGuestUI(){
+    document.getElementById('navUserName').textContent = '';
+    document.getElementById('sideAvatar').textContent  = '👤';
+    document.getElementById('sideName').textContent    = 'Guest';
+    document.getElementById('sideEmail').textContent   = 'Not logged in';
+    document.getElementById('welcomeMsg').textContent  = 'Welcome to AV Group! 👋';
+    document.getElementById('totalBookingsCard').textContent = 'Login to view bookings';
+    // Hide bookings/profile panels for guests
+    document.getElementById('panel-bookings').innerHTML = `
+      <div style="text-align:center;padding:3rem 1rem">
+        <div style="font-size:3rem;margin-bottom:1rem">🔐</div>
+        <div style="font-family:'Oswald',sans-serif;font-size:1.3rem;font-weight:600;color:var(--white);margin-bottom:.5rem">Login Required</div>
+        <p style="font-size:.86rem;color:var(--muted);margin-bottom:1.5rem">Please login or register to view your bookings.</p>
+        <div style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap">
+          <a href="login.html" style="font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:var(--gold);color:#000;padding:.85rem 2rem;text-decoration:none;display:inline-flex;align-items:center;min-height:44px">Login →</a>
+          <a href="register.html" style="font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:transparent;color:var(--gold);padding:.85rem 2rem;border:1px solid var(--gold);text-decoration:none;display:inline-flex;align-items:center;min-height:44px">Register Free</a>
+        </div>
+      </div>`;
+    document.getElementById('panel-profile').innerHTML = `
+      <div style="text-align:center;padding:3rem 1rem">
+        <div style="font-size:3rem;margin-bottom:1rem">👤</div>
+        <div style="font-family:'Oswald',sans-serif;font-size:1.3rem;font-weight:600;color:var(--white);margin-bottom:.5rem">No Account Yet?</div>
+        <p style="font-size:.86rem;color:var(--muted);margin-bottom:1.5rem">Create a free account to book servicemen and track your orders.</p>
+        <div style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap">
+          <a href="register.html" style="font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:var(--gold);color:#000;padding:.85rem 2rem;text-decoration:none;display:inline-flex;align-items:center;min-height:44px">Register Free →</a>
+          <a href="login.html" style="font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:transparent;color:var(--gold);padding:.85rem 2rem;border:1px solid var(--gold);text-decoration:none;display:inline-flex;align-items:center;min-height:44px">Login</a>
+        </div>
+      </div>`;
+    // Update sidebar logout button to show login
+    document.querySelector('.snav-logout').textContent = '🔐 Login / Register';
+    document.querySelector('.snav-logout').href = 'login.html';
+    document.querySelector('.snav-logout').onclick = null;
+  }
 
   function renderUserUI(){
     const name = userProfile?.fullName || currentUser.displayName || 'User';
@@ -467,6 +507,27 @@
 
   // ── BOOKING MODAL ──
   window.openBookModal = function(sm){
+    // If not logged in → redirect to login first
+    if(!currentUser){
+      // Save intended booking in sessionStorage
+      try{ sessionStorage.setItem('pendingBook', JSON.stringify({name:sm.name,role:sm.role,category:sm.category})); }catch(e){}
+      // Show login prompt
+      var overlay = document.createElement('div');
+      overlay.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:3000;display:flex;align-items:center;justify-content:center;padding:1rem;backdrop-filter:blur(4px)';
+      overlay.innerHTML=`
+        <div style="background:var(--card);border:1px solid var(--gold);padding:2rem;max-width:400px;width:100%;text-align:center;position:relative">
+          <div style="font-size:2.5rem;margin-bottom:.8rem">🔐</div>
+          <div style="font-family:'Oswald',sans-serif;font-size:1.3rem;font-weight:700;color:var(--white);margin-bottom:.4rem">Login to Book</div>
+          <p style="font-size:.84rem;color:var(--muted);margin-bottom:1.5rem;line-height:1.7">You're booking <strong style="color:var(--gold)">${sm.name}</strong> — ${sm.role}.<br>Please login or register to complete your booking.</p>
+          <div style="display:flex;flex-direction:column;gap:.6rem">
+            <a href="login.html" style="font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:var(--gold);color:#000;padding:.9rem;text-decoration:none;display:block;min-height:44px;display:flex;align-items:center;justify-content:center">Login to My Account →</a>
+            <a href="register.html" style="font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:transparent;color:var(--gold);padding:.9rem;border:1px solid var(--gold);text-decoration:none;display:flex;align-items:center;justify-content:center;min-height:44px">Register Free (1 minute)</a>
+            <button onclick="this.closest('[style]').remove()" style="font-family:'Rajdhani',sans-serif;font-size:.75rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;background:none;border:none;color:var(--muted);cursor:pointer;padding:.5rem;min-height:36px">Cancel</button>
+          </div>
+        </div>`;
+      document.body.appendChild(overlay);
+      return;
+    }
     document.getElementById('bk_smId').value   = sm.id;
     document.getElementById('bk_smName').value = sm.name;
     document.getElementById('bk_smRole').value = sm.role;
@@ -570,7 +631,9 @@
   }
 
   window.doLogout = async function(){
-    await signOut(auth);
+    if(currentUser){
+      await signOut(auth);
+    }
     window.location.href='index.html';
   };
 
