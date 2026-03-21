@@ -11,11 +11,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:wght@300;400;500&family=Oswald:wght@600;700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="style.css"/>
 <style>
-.dash-layout{display:block;min-height:100svh;padding-top:calc(70px + var(--sat));padding-left:260px}
-@media(max-width:900px){.dash-layout{padding-left:0}}
-.dash-sidebar{width:260px;background:var(--card);border-right:1px solid var(--border);padding:2rem 1.5rem;position:fixed;top:calc(70px + var(--sat));left:0;bottom:0;overflow-y:auto;-webkit-overflow-scrolling:touch;z-index:100}
-@media(max-width:900px){.dash-sidebar{display:none}}
-.dash-main{padding:2rem max(2rem,3vw);background:var(--navy);min-height:calc(100vh - 70px - var(--sat))}
+.dash-layout{display:block;min-height:100svh;padding-top:calc(70px + var(--sat))}
+.dash-sidebar{display:none!important}
+.dash-main{padding:2rem max(2rem,3vw);padding-bottom:calc(5rem + var(--sab));background:var(--navy);min-height:calc(100vh - 70px - var(--sat))}
 .sidebar-user{text-align:center;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border2)}
 .sidebar-avatar{width:64px;height:64px;border-radius:50%;background:var(--gold);border:2px solid var(--gold-dark);margin:0 auto .8rem;display:flex;align-items:center;justify-content:center;font-family:'Oswald',sans-serif;font-size:1.5rem;font-weight:700;color:#000}
 .sidebar-name{font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;color:var(--white);margin-bottom:.2rem}
@@ -34,8 +32,7 @@
 .snav-logout:hover{border-color:rgba(230,57,70,.3)!important;background:rgba(230,57,70,.05)!important}
 
 /* Mobile tab bar */
-.mob-tabs{display:none;position:fixed;bottom:var(--sab);left:0;right:0;z-index:800;background:var(--card);border-top:1px solid var(--border);padding:.5rem 0}
-@media(max-width:900px){.mob-tabs{display:flex}}
+.mob-tabs{display:flex;position:fixed;bottom:var(--sab);left:0;right:0;z-index:800;background:var(--card);border-top:1px solid var(--border);padding:.5rem 0}
 .mob-tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:.2rem;padding:.4rem;text-decoration:none;min-height:var(--touch)}
 .mob-tab .mt-icon{font-size:1.2rem}
 .mob-tab .mt-label{font-family:'Rajdhani',sans-serif;font-size:.58rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
@@ -184,6 +181,18 @@
   <!-- MAIN CONTENT -->
   <main class="dash-main">
 
+    <!-- USER TOP BAR -->
+    <div id="userTopBar" style="background:var(--card);border-bottom:1px solid var(--border);padding:.8rem max(2rem,3vw);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin:-2rem calc(-1 * max(2rem,3vw)) 1.5rem;padding-left:max(2rem,3vw);padding-right:max(2rem,3vw)">
+      <div style="display:flex;align-items:center;gap:.8rem">
+        <div id="topAvatar" style="width:36px;height:36px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Oswald',sans-serif;font-size:.85rem;font-weight:700;color:#000;flex-shrink:0">?</div>
+        <div>
+          <div id="topName" style="font-family:'Rajdhani',sans-serif;font-size:.88rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--white)">Guest</div>
+          <div id="topEmail" style="font-size:.72rem;color:var(--muted)">Not logged in</div>
+        </div>
+      </div>
+      <div id="topActions"></div>
+    </div>
+
     <!-- HOME PANEL -->
     <div class="panel active" id="panel-home">
       <div class="welcome-banner">
@@ -331,9 +340,17 @@
 
   function renderGuestUI(){
     document.getElementById('navUserName').textContent = '';
-    document.getElementById('sideAvatar').textContent  = '👤';
-    document.getElementById('sideName').textContent    = 'Guest';
-    document.getElementById('sideEmail').textContent   = 'Not logged in';
+    if(document.getElementById('sideAvatar')) document.getElementById('sideAvatar').textContent = '👤';
+    if(document.getElementById('sideName'))   document.getElementById('sideName').textContent   = 'Guest';
+    if(document.getElementById('sideEmail'))  document.getElementById('sideEmail').textContent  = 'Not logged in';
+    if(document.getElementById('topAvatar'))  document.getElementById('topAvatar').textContent  = '👤';
+    if(document.getElementById('topName'))    document.getElementById('topName').textContent    = 'Guest';
+    if(document.getElementById('topEmail'))   document.getElementById('topEmail').textContent   = 'Browse freely — login to book';
+    if(document.getElementById('topActions')) document.getElementById('topActions').innerHTML =
+      `<div style="display:flex;gap:.5rem;flex-wrap:wrap">
+        <a href="login.html" style="font-family:'Rajdhani',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;background:var(--gold);color:#000;border:none;padding:.4rem .9rem;text-decoration:none;display:inline-flex;align-items:center;min-height:36px">Login</a>
+        <a href="register.html" style="font-family:'Rajdhani',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;background:transparent;color:var(--gold);border:1px solid var(--gold);padding:.4rem .9rem;text-decoration:none;display:inline-flex;align-items:center;min-height:36px">Register Free</a>
+      </div>`;
     document.getElementById('welcomeMsg').textContent  = 'Welcome to AV Group! 👋';
     document.getElementById('totalBookingsCard').textContent = 'Login to view bookings';
     // Hide bookings/profile panels for guests
@@ -366,9 +383,16 @@
   function renderUserUI(){
     const name = userProfile?.fullName || currentUser.displayName || 'User';
     const initials = name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
-    document.getElementById('sideAvatar').textContent  = initials;
-    document.getElementById('sideName').textContent    = name;
-    document.getElementById('sideEmail').textContent   = currentUser.email;
+    // sidebar (hidden but keep for safety)
+    if(document.getElementById('sideAvatar')) document.getElementById('sideAvatar').textContent = initials;
+    if(document.getElementById('sideName'))   document.getElementById('sideName').textContent   = name;
+    if(document.getElementById('sideEmail'))  document.getElementById('sideEmail').textContent  = currentUser.email;
+    // top bar
+    if(document.getElementById('topAvatar')) document.getElementById('topAvatar').textContent = initials;
+    if(document.getElementById('topName'))   document.getElementById('topName').textContent   = name;
+    if(document.getElementById('topEmail'))  document.getElementById('topEmail').textContent  = currentUser.email;
+    if(document.getElementById('topActions')) document.getElementById('topActions').innerHTML =
+      `<button onclick="doLogout()" style="font-family:'Rajdhani',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;background:rgba(230,57,70,.1);color:var(--red);border:1px solid rgba(230,57,70,.25);padding:.4rem .9rem;cursor:pointer;min-height:36px">Logout</button>`;
     document.getElementById('welcomeMsg').textContent  = 'Welcome, '+name.split(' ')[0]+'! 👋';
     document.getElementById('navUserName').textContent = name;
     // Profile panel
