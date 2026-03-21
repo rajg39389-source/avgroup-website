@@ -129,6 +129,7 @@
   <button class="amt" onclick="showPanel('servicemen',this)">👮 Servicemen</button>
   <button class="amt" onclick="showPanel('addSm',this)">➕ Add Person</button>
   <button class="amt" onclick="showPanel('users',this)">👥 Users</button>
+  <button class="amt" onclick="showPanel('attendance',this)">📍 Attendance</button>
 </div>
 
 <div class="admin-layout">
@@ -145,6 +146,7 @@
       <a href="#" class="anav-item" onclick="showPanel('addSm',this)">➕ Add Serviceman</a>
       <a href="#" class="anav-item" onclick="showPanel('users',this)">👥 Registered Users</a>
       <div class="anav-sep"></div>
+      <a href="#" class="anav-item" onclick="showPanel('attendance',this)">📍 Attendance</a>
       <a href="index.html" class="anav-item">🌐 View Website</a>
       <a href="#" class="anav-item anav-logout" onclick="doLogout()">🚪 Logout</a>
     </nav>
@@ -236,6 +238,41 @@
       <h2 class="sec-title" style="font-size:1.8rem;margin-bottom:1.5rem">Registered <span class="acc">Users</span></h2>
       <div class="loading-spinner" id="usersLoading"><span class="ls-dot"></span><span class="ls-dot"></span><span class="ls-dot"></span></div>
       <div class="users-grid" id="usersGrid"></div>
+    </div>
+
+    <!-- ATTENDANCE PANEL -->
+    <div class="panel" id="panel-attendance">
+      <h2 class="sec-title" style="font-size:1.8rem;margin-bottom:.5rem">Live <span class="acc">Attendance</span></h2>
+      <p style="font-size:.84rem;color:var(--muted);margin-bottom:1.5rem">Real-time check-in/check-out records of all servicemen with GPS location.</p>
+
+      <!-- Filter row -->
+      <div style="display:flex;gap:.8rem;flex-wrap:wrap;align-items:center;margin-bottom:1.2rem">
+        <div style="flex:1;min-width:140px">
+          <input type="date" id="attDateFilter" style="background:var(--card);border:1px solid var(--border);color:var(--steel);padding:.65rem 1rem;font-size:15px;font-family:'DM Sans',sans-serif;outline:none;width:100%;border-radius:0;-webkit-appearance:none"/>
+        </div>
+        <button onclick="loadAttendance()" style="font-family:'Rajdhani',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:var(--gold);color:#000;padding:.65rem 1.5rem;border:none;cursor:pointer;min-height:44px">Filter →</button>
+        <button onclick="loadAttendance(true)" style="font-family:'Rajdhani',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:var(--card);color:var(--muted);border:1px solid var(--border2);padding:.65rem 1.5rem;cursor:pointer;min-height:44px">Today</button>
+      </div>
+
+      <!-- Summary cards -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(160px,100%),1fr));gap:1rem;margin-bottom:1.5rem">
+        <div style="background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);padding:1.2rem;text-align:center">
+          <span id="att-total-in" style="font-family:'Oswald',sans-serif;font-size:2rem;font-weight:700;color:var(--green);display:block">0</span>
+          <span style="font-family:'Rajdhani',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(34,197,94,.7)">Checked In</span>
+        </div>
+        <div style="background:rgba(230,57,70,.1);border:1px solid rgba(230,57,70,.3);padding:1.2rem;text-align:center">
+          <span id="att-total-out" style="font-family:'Oswald',sans-serif;font-size:2rem;font-weight:700;color:var(--red);display:block">0</span>
+          <span style="font-family:'Rajdhani',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(230,57,70,.7)">Checked Out</span>
+        </div>
+        <div style="background:var(--card);border:1px solid var(--border);padding:1.2rem;text-align:center">
+          <span id="att-total-records" style="font-family:'Oswald',sans-serif;font-size:2rem;font-weight:700;color:var(--gold);display:block">0</span>
+          <span style="font-family:'Rajdhani',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Total Records</span>
+        </div>
+      </div>
+
+      <!-- Attendance table -->
+      <div class="loading-spinner" id="attLoading"><span class="ls-dot"></span><span class="ls-dot"></span><span class="ls-dot"></span></div>
+      <div class="bk-table-wrap" id="attTable"></div>
     </div>
 
   </main>
@@ -471,6 +508,58 @@
   }
 
   window.doLogout = async()=>{ await signOut(auth); window.location.href='index.html'; };
+
+  /* ── LOAD ATTENDANCE ── */
+  window.loadAttendance = async function(today=false){
+    const loadEl = document.getElementById('attLoading');
+    const tableEl = document.getElementById('attTable');
+    if(!loadEl||!tableEl) return;
+    loadEl.style.display='flex'; tableEl.innerHTML='';
+    let dateFilter = document.getElementById('attDateFilter')?.value;
+    if(today || !dateFilter){
+      dateFilter = new Date().toISOString().split('T')[0];
+      if(document.getElementById('attDateFilter')) document.getElementById('attDateFilter').value = dateFilter;
+    }
+    try {
+      const q = query(collection(db,'attendance'), where('date','==',dateFilter));
+      const snap = await getDocs(q);
+      let recs = snap.docs.map(d=>({id:d.id,...d.data()}));
+      recs.sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp));
+      loadEl.style.display='none';
+      const ins  = recs.filter(r=>r.type==='in').length;
+      const outs = recs.filter(r=>r.type==='out').length;
+      document.getElementById('att-total-in').textContent      = ins;
+      document.getElementById('att-total-out').textContent     = outs;
+      document.getElementById('att-total-records').textContent = recs.length;
+      if(!recs.length){
+        tableEl.innerHTML='<div style="padding:2rem;text-align:center;color:var(--muted);font-size:.85rem">No attendance records found for this date.</div>';
+        return;
+      }
+      tableEl.innerHTML=`<table class="bk-table">
+        <thead><tr>
+          <th>Type</th><th>Name</th><th>Phone</th>
+          <th>Time</th><th>Location</th><th>Note</th><th>Maps</th>
+        </tr></thead>
+        <tbody>${recs.map(r=>`
+          <tr>
+            <td><span class="status-badge ${r.type==='in'?'confirmed':'rejected'}">${r.type==='in'?'✅ CHECK IN':'🔴 CHECK OUT'}</span></td>
+            <td><strong style="color:var(--white)">${r.userName||'-'}</strong><br><span style="font-size:.72rem;color:var(--muted)">${r.userEmail||''}</span></td>
+            <td><a href="tel:${r.userPhone}" style="color:var(--gold)">${r.userPhone||'-'}</a></td>
+            <td style="white-space:nowrap">${new Date(r.timestamp).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true})}</td>
+            <td style="max-width:200px;font-size:.78rem">${r.address||'--'}<br><span style="color:var(--muted);font-size:.7rem">${r.latitude?r.latitude.toFixed(4)+', '+r.longitude.toFixed(4):''}</span></td>
+            <td style="font-size:.78rem;color:var(--muted)">${r.note||'-'}</td>
+            <td>${r.latitude?`<a href="https://www.google.com/maps?q=${r.latitude},${r.longitude}" target="_blank" style="font-family:'Rajdhani',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--blue-lt);border:1px solid var(--border2);padding:.2rem .5rem;text-decoration:none;white-space:nowrap">🗺️ Maps</a>`:'-'}</td>
+          </tr>`).join('')}
+        </tbody></table>`;
+    } catch(e){ loadEl.innerHTML='<span style="color:var(--red)">Error loading attendance.</span>'; }
+  };
+
+  // Auto load attendance when panel opens
+  const origShowPanel = window.showPanel;
+  window.showPanel = function(name, el){
+    origShowPanel(name, el);
+    if(name==='attendance') loadAttendance(true);
+  };
 
   window.showPanel = function(name,el){
     event?.preventDefault?.();
