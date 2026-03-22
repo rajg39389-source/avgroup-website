@@ -681,6 +681,27 @@
 <button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="main.js"></script>
 <script>
+// Build email with JS so spam bots and Cloudflare cannot detect it
+(function(){
+  var u = 'info';
+  var d = 'avgroupservice';
+  var t = 'com';
+  var e = u + '@' + d + '.' + t;
+  // Set in quick card
+  var es = document.getElementById('emailShow');
+  if(es){ es.textContent = e; }
+  // Set card click
+  var ec = document.getElementById('emailCard');
+  if(ec){ ec.onclick = function(){ window.location.href = 'mailto:' + e; }; }
+  // Set in contact row
+  var et = document.getElementById('emailText');
+  if(et){
+    et.textContent = e;
+    et.onclick = function(){ window.location.href = 'mailto:' + e; };
+  }
+})();
+</script>
+<script>
 document.getElementById('cform').addEventListener('submit', function(e){
   e.preventDefault();
   var name    = document.getElementById('inp-name').value.trim();
