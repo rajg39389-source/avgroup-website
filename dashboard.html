@@ -222,7 +222,7 @@
         <div class="info-card">
           <div style="font-size:2rem;margin-bottom:.5rem">📞</div>
           <div style="font-family:'Oswald',sans-serif;font-size:1.1rem;color:var(--white);margin-bottom:.2rem">Need Help?</div>
-          <div style="font-size:.8rem;color:var(--muted)"><a href="https://wa.me/919137063012" target="_blank" style="color:var(--green)">WhatsApp: +91 91370 63012</a></div>
+          <div style="font-size:.8rem;color:var(--muted)"><a href="https://wa.me/918097649810" target="_blank" style="color:var(--green)">WhatsApp: +91 80976 49810</a></div>
         </div>
       </div>
     </div>
@@ -422,7 +422,7 @@
         gridEl.innerHTML=`<div class="no-items" style="grid-column:1/-1">
           <span class="ni-icon">👮</span>
           <strong style="color:var(--white);display:block;margin-bottom:.5rem">No Servicemen Added Yet</strong>
-          <p style="font-size:.82rem">The admin has not added any servicemen profiles yet.<br>Please contact us on WhatsApp: <a href="https://wa.me/919137063012" style="color:var(--green)">+91 91370 63012</a></p>
+          <p style="font-size:.82rem">The admin has not added any servicemen profiles yet.<br>Please contact us on WhatsApp: <a href="https://wa.me/918097649810" style="color:var(--green)">+91 80976 49810</a></p>
         </div>`;
         document.getElementById('catTabs').innerHTML='';
         return;
@@ -454,7 +454,7 @@
     const grid = document.getElementById('homeSmGrid');
     if(!list||!grid) return;
     if(!list.length){ 
-      grid.innerHTML='<div class="no-items" style="grid-column:1/-1"><span class="ni-icon">👮</span><strong style="color:var(--white);display:block;margin-bottom:.5rem">No Servicemen Available</strong><p style="font-size:.82rem;color:var(--muted)">Contact us on WhatsApp: <a href="https://wa.me/919137063012" style="color:var(--green)">+91 91370 63012</a></p></div>'; 
+      grid.innerHTML='<div class="no-items" style="grid-column:1/-1"><span class="ni-icon">👮</span><strong style="color:var(--white);display:block;margin-bottom:.5rem">No Servicemen Available</strong><p style="font-size:.82rem;color:var(--muted)">Contact us on WhatsApp: <a href="https://wa.me/918097649810" style="color:var(--green)">+91 80976 49810</a></p></div>'; 
       return; 
     }
     grid.innerHTML = list.map(sm=>`
@@ -557,7 +557,7 @@
             <a href="login.html" style="font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:transparent;color:var(--steel);padding:.9rem;border:1px solid var(--border2);text-decoration:none;display:flex;align-items:center;justify-content:center;min-height:44px">
               Already have account? Login →
             </a>
-            <a href="https://wa.me/919137063012?text=I+want+to+book+${encodeURIComponent(sm.name)}+${encodeURIComponent(sm.role)}" target="_blank" style="font-family:'Rajdhani',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;background:rgba(34,197,94,.1);color:var(--green);padding:.8rem;border:1px solid rgba(34,197,94,.25);text-decoration:none;display:flex;align-items:center;justify-content:center;gap:.4rem;min-height:44px">
+            <a href="https://wa.me/918097649810?text=I+want+to+book+${encodeURIComponent(sm.name)}+${encodeURIComponent(sm.role)}" target="_blank" style="font-family:'Rajdhani',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;background:rgba(34,197,94,.1);color:var(--green);padding:.8rem;border:1px solid rgba(34,197,94,.25);text-decoration:none;display:flex;align-items:center;justify-content:center;gap:.4rem;min-height:44px">
               💬 Book via WhatsApp Instead
             </a>
             <button onclick="document.body.removeChild(this.closest('div').parentElement)" style="font-family:'Rajdhani',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;background:none;border:none;color:var(--muted);cursor:pointer;padding:.5rem;min-height:36px">
