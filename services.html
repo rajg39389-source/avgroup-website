@@ -639,14 +639,14 @@
       <li><a href="contact.html">Contact</a></li>
     </ul></div>
     <div class="f-col"><h5>Security</h5><ul>
-      <li><a href="services.html">Security Guards</a></li><li><a href="services.html">Bouncers</a></li>
-      <li><a href="services.html">VIP Protection</a></li><li><a href="services.html">Corporate Security</a></li>
-      <li><a href="services.html">Event Security</a></li>
+      <li><a href="services.html#panel-sec">Security Guards</a></li><li><a href="services.html#panel-sec">Bouncers</a></li>
+      <li><a href="services.html#panel-pro">VIP Protection</a></li><li><a href="services.html#panel-pro">Corporate Security</a></li>
+      <li><a href="services.html#panel-pro">Event Security</a></li>
     </ul></div>
     <div class="f-col"><h5>Other Services</h5><ul>
-      <li><a href="services.html">CCTV Services</a></li><li><a href="services.html">Housekeeping</a></li>
-      <li><a href="services.html">Manpower Supply</a></li><li><a href="services.html">Investigation</a></li>
-      <li><a href="services.html">Construction</a></li>
+      <li><a href="services.html#panel-cctv">CCTV Services</a></li><li><a href="services.html#panel-hk">Housekeeping</a></li>
+      <li><a href="services.html#panel-hr">Manpower Supply</a></li><li><a href="services.html#panel-intel">Investigation</a></li>
+      <li><a href="services.html#panel-con">Construction</a></li>
     </ul></div>
   </div>
   <div class="footer-bottom">
@@ -702,6 +702,23 @@ window.toggleAcc = function(btn) {
   // toggle clicked
   if(!isOpen) item.classList.add('open');
 };
+
+/* ── Hash-based tab activation (from footer deep links) ── */
+(function(){
+  var hash = window.location.hash; // e.g. #panel-hk
+  if(!hash) return;
+  var panel = document.querySelector(hash);
+  if(!panel || !panel.classList.contains('cat-panel')) return;
+  // derive id, e.g. 'panel-hk' → 'hk'
+  var id = hash.replace('#panel-','');
+  // find matching button
+  var btn = document.querySelector('.cat-btn[onclick*="' + id + '"]');
+  showCat(id, btn || null);
+  // smooth scroll to services section
+  setTimeout(function(){
+    panel.scrollIntoView({ behavior:'smooth', block:'start' });
+  }, 200);
+})();
 </script>
 </body>
 </html>

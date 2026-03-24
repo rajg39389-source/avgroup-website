@@ -36,25 +36,33 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.fi').forEach(el => observer.observe(el));
 
 // ── STATS COUNTER ──
+function runCounter(el) {
+  if(el.dataset.animated) return;
+  el.dataset.animated = 'true';
+  const target   = parseInt(el.getAttribute('data-target') || '0');
+  const suffix   = el.getAttribute('data-suffix') || '';
+  const duration = 1800;
+  const startTime = performance.now();
+  const tick = (now) => {
+    const elapsed  = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased    = 1 - Math.pow(1 - progress, 3);
+    const current  = Math.round(eased * target);
+    el.textContent = current.toLocaleString() + (progress < 1 ? '' : '+') + suffix;
+    if(progress < 1) requestAnimationFrame(tick);
+    else el.textContent = target.toLocaleString() + '+' + suffix;
+  };
+  requestAnimationFrame(tick);
+}
+
 const numObserver = new IntersectionObserver((entries) => {
   entries.forEach(e => {
-    if(!e.isIntersecting) return;
-    const el = e.target;
-    const target = parseInt(el.getAttribute('data-target') || '0');
-    const suffix = el.getAttribute('data-suffix') || '';
-    let start = 0;
-    const duration = 1600;
-    const startTime = performance.now();
-    const tick = (now) => {
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const current = Math.round(eased * target);
-      el.textContent = current.toLocaleString() + (progress < 1 ? '' : '+') + suffix;
-      if(progress < 1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-    numObserver.unobserve(el);
+    if(e.isIntersecting) { runCounter(e.target); numObserver.unobserve(e.target); }
   });
-}, { threshold: 0.5 });
-document.querySelectorAll('[data-target]').forEach(el => numObserver.observe(el));
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+const counterEls = document.querySelectorAll('[data-target]');
+counterEls.forEach(el => numObserver.observe(el));
+
+// Safety net: if IntersectionObserver never fires (e.g. element already in view on load)
+setTimeout(() => { counterEls.forEach(el => runCounter(el)); }, 900);

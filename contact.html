@@ -380,10 +380,10 @@
       <span class="qcard-value">+91 80976 49810</span>
       <span class="qcard-hint">Fastest response</span>
     </a>
-    <a href="/cdn-cgi/l/email-protection#b3daddd5dcf3d2c5d4c1dcc6c3c0d6c1c5dad0d69dd0dcde" class="qcard">
+    <a id="emailCard" href="#" class="qcard" style="cursor:pointer">
       <span class="qcard-icon">✉️</span>
       <span class="qcard-label">Email Us</span>
-      <span class="qcard-value"><span class="__cf_email__" data-cfemail="20494e464f60415647524f5550534552564943450e434f4d">[email&#160;protected]</span></span>
+      <span class="qcard-value" id="emailShow">Loading...</span>
       <span class="qcard-hint">Formal inquiries</span>
     </a>
     <div class="qcard" style="cursor:default">
@@ -424,7 +424,7 @@
         <div class="cinfo-ic">✉️</div>
         <div class="cinfo-txt">
           <strong>Email</strong>
-          <a href="/cdn-cgi/l/email-protection#b9d0d7dfd6f9d8cfdecbd6ccc9cadccbcfd0dadc97dad6d4"><span class="__cf_email__" data-cfemail="aec7c0c8c1eecfd8c9dcc1dbdeddcbdcd8c7cdcb80cdc1c3">[email&#160;protected]</span></a>
+          <a id="emailText" href="#" style="cursor:pointer">avsecuritiesgroup@gmail.com</a>
           <span class="hint">For formal inquiries & documentation</span>
         </div>
       </div>
@@ -435,6 +435,21 @@
           <strong>Location</strong>
           <span>Mumbai, Maharashtra, India</span>
           <span class="hint">Serving Mumbai & MMR</span>
+        </div>
+      </div>
+
+      <!-- Google Maps — Mumbai Service Area -->
+      <div style="margin:1.5rem 0;border:1px solid var(--border);overflow:hidden;">
+        <iframe
+          title="AV Group Service Area — Mumbai"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d482634.2380979866!2d72.6769545!3d19.0821978!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c6306644edc1%3A0x5da4ed8f8d648c69!2sMumbai%2C%20Maharashtra!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+          width="100%" height="220"
+          style="border:0;display:block;filter:grayscale(30%) invert(0);opacity:.9"
+          allowfullscreen="" loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+        <div style="background:var(--card);padding:.5rem .8rem;border-top:1px solid var(--border2);">
+          <span style="font-size:.72rem;color:var(--muted);font-family:'Rajdhani',sans-serif;letter-spacing:1px;text-transform:uppercase;">📍 Serving Mumbai · Navi Mumbai · Thane · Vasai · MMR region</span>
         </div>
       </div>
 
@@ -645,18 +660,18 @@
       <li><a href="contact.html">Contact Us</a></li>
     </ul></div>
     <div class="f-col"><h5>Security</h5><ul>
-      <li><a href="services.html">Security Guards</a></li>
-      <li><a href="services.html">Bouncers</a></li>
-      <li><a href="services.html">VIP Protection</a></li>
-      <li><a href="services.html">Corporate Security</a></li>
-      <li><a href="services.html">Event Security</a></li>
+      <li><a href="services.html#panel-sec">Security Guards</a></li>
+      <li><a href="services.html#panel-sec">Bouncers</a></li>
+      <li><a href="services.html#panel-pro">VIP Protection</a></li>
+      <li><a href="services.html#panel-pro">Corporate Security</a></li>
+      <li><a href="services.html#panel-pro">Event Security</a></li>
     </ul></div>
     <div class="f-col"><h5>Other Services</h5><ul>
-      <li><a href="services.html">CCTV Services</a></li>
-      <li><a href="services.html">Housekeeping</a></li>
-      <li><a href="services.html">Manpower Supply</a></li>
-      <li><a href="services.html">Investigation</a></li>
-      <li><a href="services.html">Construction</a></li>
+      <li><a href="services.html#panel-cctv">CCTV Services</a></li>
+      <li><a href="services.html#panel-hk">Housekeeping</a></li>
+      <li><a href="services.html#panel-hr">Manpower Supply</a></li>
+      <li><a href="services.html#panel-intel">Investigation</a></li>
+      <li><a href="services.html#panel-con">Construction</a></li>
     </ul></div>
   </div>
   <div class="footer-bottom">
@@ -681,39 +696,69 @@
 <button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="main.js"></script>
 <script>
-// Build email with JS so spam bots and Cloudflare cannot detect it
+// ── EMAIL: build from parts so bots can't harvest ──
 (function(){
   var u = 'avsecuritiesgroup';
   var d = 'gmail';
   var t = 'com';
   var e = u + '@' + d + '.' + t;
-  // Set in quick card
+  // Quick card
   var es = document.getElementById('emailShow');
   if(es){ es.textContent = e; }
-  // Set card click
   var ec = document.getElementById('emailCard');
-  if(ec){ ec.onclick = function(){ window.location.href = 'mailto:' + e; }; }
-  // Set in contact row
+  if(ec){ ec.href = 'mailto:' + e; }
+  // Contact info row
   var et = document.getElementById('emailText');
-  if(et){
-    et.textContent = e;
-    et.onclick = function(){ window.location.href = 'mailto:' + e; };
-  }
+  if(et){ et.textContent = e; et.href = 'mailto:' + e; }
 })();
 </script>
 <script>
+// ── CONTACT FORM — WhatsApp redirect + success display ──
 document.getElementById('cform').addEventListener('submit', function(e){
   e.preventDefault();
-  var name    = document.getElementById('inp-name').value.trim();
-  var phone   = document.getElementById('inp-phone').value.trim();
-  var service = document.getElementById('inp-service').value;
-  var msg     = document.getElementById('inp-msg').value.trim();
-  var btn     = document.getElementById('submitBtn');
+  var name     = document.getElementById('inp-name').value.trim();
+  var phone    = document.getElementById('inp-phone').value.trim();
+  var email    = document.getElementById('inp-email').value.trim();
+  var company  = document.getElementById('inp-company').value.trim();
+  var service  = document.getElementById('inp-service').value;
+  var count    = document.getElementById('inp-count').value.trim();
+  var location = document.getElementById('inp-location').value.trim();
+  var msg      = document.getElementById('inp-msg').value.trim();
+  var urgent   = document.getElementById('urgent').checked;
+  var btn      = document.getElementById('submitBtn');
+
   if(!name || !phone || !service || !msg){
     alert('Please fill in Name, Phone, Service and Requirements.');
     return;
   }
+
   btn.disabled = true;
   btn.textContent = 'Sending...';
+
+  // Build WhatsApp message
+  var wa  = '🛡️ *NEW INQUIRY — AV GROUP*\n\n';
+  if(urgent) wa += '⚡ *URGENT / EMERGENCY REQUEST*\n\n';
+  wa += '👤 *Name:* ' + name + '\n';
+  wa += '📞 *Phone:* ' + phone + '\n';
+  if(email)   wa += '✉️ *Email:* ' + email + '\n';
+  if(company) wa += '🏢 *Company:* ' + company + '\n';
+  wa += '🛡️ *Service:* ' + service + '\n';
+  if(count)    wa += '👥 *Personnel:* ' + count + '\n';
+  if(location) wa += '📍 *Location:* ' + location + '\n';
+  wa += '\n📝 *Requirements:*\n' + msg;
+
+  // Show success box
+  var box = document.getElementById('successBox');
+  if(box){ box.classList.add('show'); box.scrollIntoView({ behavior:'smooth', block:'nearest' }); }
+
+  // Reset form
+  this.reset();
+  btn.textContent = 'Send Inquiry →';
+  btn.disabled = false;
+
+  // Open WhatsApp with pre-filled message (slight delay for UX)
   setTimeout(function(){
-    document.getElementById('succe
+    window.open('https://wa.me/918097649810?text=' + encodeURIComponent(wa), '_blank');
+  }, 600);
+});
+</script>
