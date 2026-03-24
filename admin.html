@@ -100,25 +100,33 @@
 .att-filter-btn.sec:hover{border-color:var(--gold);color:var(--gold)}
 
 /* Attendance detail card per employee */
-.emp-att-card{background:var(--card);border:1px solid var(--border);margin-bottom:1.2rem;overflow:hidden}
-.emp-att-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 1.2rem;border-bottom:1px solid var(--border2);background:var(--navy3);flex-wrap:wrap}
-.emp-att-name{font-family:'Rajdhani',sans-serif;font-size:.92rem;font-weight:700;color:var(--white)}
-.emp-att-stats{display:flex;gap:1.2rem;flex-wrap:wrap}
-.emp-stat{text-align:center}
-.emp-stat .es-val{font-family:'Oswald',sans-serif;font-size:1.1rem;font-weight:700;display:block;line-height:1}
-.emp-stat .es-lbl{font-family:'Rajdhani',sans-serif;font-size:.6rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+.emp-att-card{background:var(--card);border:1px solid var(--border);margin-bottom:.5rem;overflow:hidden;transition:border-color .25s}
+.emp-att-card.open{border-color:var(--gold)}
+.emp-att-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.9rem 1.2rem;background:var(--navy3);cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;flex-wrap:nowrap}
+.emp-att-head:hover{background:var(--card2)}
+.emp-att-left{display:flex;align-items:center;gap:.8rem;min-width:0;flex:1}
+.emp-att-name{font-family:'Rajdhani',sans-serif;font-size:.88rem;font-weight:700;color:var(--white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.emp-att-email{font-size:.7rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.emp-att-stats{display:flex;gap:1rem;flex-shrink:0;align-items:center}
+.emp-stat{text-align:center;min-width:48px}
+.emp-stat .es-val{font-family:'Oswald',sans-serif;font-size:1rem;font-weight:700;display:block;line-height:1}
+.emp-stat .es-lbl{font-family:'Rajdhani',sans-serif;font-size:.55rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted)}
 .emp-stat.green .es-val{color:var(--green)}
 .emp-stat.red .es-val{color:var(--red)}
 .emp-stat.gold .es-val{color:var(--gold)}
-.emp-att-body{padding:1rem 1.2rem}
+.emp-chevron{font-size:.7rem;color:var(--gold);flex-shrink:0;transition:transform .3s;display:block}
+.emp-att-card.open .emp-chevron{transform:rotate(180deg)}
+.emp-att-body{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.emp-att-card.open .emp-att-body{max-height:2000px}
+.emp-att-inner{padding:.9rem 1.2rem;border-top:1px solid var(--border2)}
 .att-entry{display:flex;align-items:flex-start;gap:.8rem;padding:.55rem 0;border-bottom:1px solid var(--border2)}
 .att-entry:last-child{border-bottom:none}
-.att-entry-type{flex-shrink:0;min-width:80px}
+.att-entry-type{flex-shrink:0;min-width:76px}
 .att-entry-time{font-size:.8rem;color:var(--steel);font-weight:500}
 .att-entry-loc{font-size:.74rem;color:var(--muted);margin-top:.1rem}
-.att-entry-note{font-size:.72rem;color:var(--muted);font-style:italic}
 .att-map-link{font-size:.68rem;color:#60a5fa;text-decoration:none;font-family:'Rajdhani',sans-serif;letter-spacing:1px;font-weight:600}
 .att-map-link:hover{text-decoration:underline}
+@media(max-width:600px){.emp-att-stats{gap:.6rem}.emp-stat{min-width:38px}.emp-stat .es-val{font-size:.88rem}}
 
 /* Toast */
 .toast{position:fixed;bottom:calc(5rem + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--green);color:#000;font-family:'Rajdhani',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:1px;padding:.75rem 1.5rem;z-index:3000;display:none;white-space:nowrap;box-shadow:0 4px 20px rgba(34,197,94,.4)}
@@ -518,8 +526,8 @@ window.loadAttendance = async function(){
     });
     set('att-emp',Object.keys(byEmp).length);
 
-    // Render each employee card
-    content.innerHTML=Object.values(byEmp).map(emp=>{
+    // Render each employee card — collapsible
+    content.innerHTML=Object.values(byEmp).map((emp,idx)=>{
       const ins  = emp.records.filter(r=>r.type==='in');
       const outs = emp.records.filter(r=>r.type==='out');
       // Calculate total hours
@@ -534,32 +542,44 @@ window.loadAttendance = async function(){
       const totalHrs=Math.floor(totalMs/3600000);
       const totalMins=Math.floor((totalMs%3600000)/60000);
       const hoursStr=totalMs>0?`${totalHrs}h ${totalMins}m`:'In Progress';
+      const cardId='emp-card-'+idx;
 
-      return `<div class="emp-att-card">
-        <div class="emp-att-head">
-          <div>
-            <div class="emp-att-name">👤 ${emp.name}</div>
-            <div style="font-size:.72rem;color:var(--muted)">${emp.email}${emp.phone?' · '+emp.phone:''}</div>
+      return `<div class="emp-att-card" id="${cardId}">
+        <div class="emp-att-head" onclick="toggleEmp('${cardId}')" title="Click to expand/collapse">
+          <div class="emp-att-left">
+            <div>
+              <div class="emp-att-name">👤 ${emp.name}</div>
+              <div class="emp-att-email">${emp.email}${emp.phone?' · '+emp.phone:''}</div>
+            </div>
           </div>
           <div class="emp-att-stats">
-            <div class="emp-stat green"><span class="es-val">${ins.length}</span><span class="es-lbl">Check Ins</span></div>
-            <div class="emp-stat red"><span class="es-val">${outs.length}</span><span class="es-lbl">Check Outs</span></div>
-            <div class="emp-stat gold"><span class="es-val">${hoursStr}</span><span class="es-lbl">Hours Worked</span></div>
+            <div class="emp-stat green"><span class="es-val">${ins.length}</span><span class="es-lbl">In</span></div>
+            <div class="emp-stat red"><span class="es-val">${outs.length}</span><span class="es-lbl">Out</span></div>
+            <div class="emp-stat gold"><span class="es-val">${hoursStr}</span><span class="es-lbl">Hours</span></div>
+            <span class="emp-chevron">▾</span>
           </div>
         </div>
         <div class="emp-att-body">
+          <div class="emp-att-inner">
           ${emp.records.map(r=>`
             <div class="att-entry">
               <div class="att-entry-type"><span class="badge ${r.type==='in'?'badge-in':'badge-out'}">${r.type==='in'?'CHECK IN':'CHECK OUT'}</span></div>
               <div style="flex:1;min-width:0">
                 <div class="att-entry-time">🕐 ${new Date(r.timestamp).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true})}</div>
-                <div class="att-entry-loc">📍 ${r.address||'Location captured'}${r.note?` · <em>${r.note}</em>`:''}</div>
+                <div class="att-entry-loc">📍 ${r.address||'Location captured'}${r.note?` · <em style="color:var(--gold-lt)">${r.note}</em>`:''}</div>
                 ${r.latitude?`<a href="https://www.google.com/maps?q=${r.latitude},${r.longitude}" target="_blank" rel="noopener" class="att-map-link">🗺 View on Google Maps</a>`:''}
               </div>
             </div>`).join('')}
+          </div>
         </div>
       </div>`;
     }).join('');
+
+    // Toggle function
+    window.toggleEmp = function(id){
+      const card=document.getElementById(id);
+      if(card) card.classList.toggle('open');
+    };
 
   }catch(e){
     hide('attLoader');
