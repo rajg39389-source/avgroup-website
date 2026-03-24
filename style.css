@@ -188,10 +188,11 @@ nav.scrolled{box-shadow:0 4px 40px rgba(224,155,26,.12)}
 .badge-out{background:rgba(230,57,70,.12);color:var(--red);border:1px solid rgba(230,57,70,.3)}
 
 /* ── FOOTER ── */
-footer{background:#030810;border-top:1px solid var(--border);padding:clamp(2rem,5vw,4rem) max(5vw,calc(var(--sal)+16px)) calc(1.5rem + var(--sab));padding-right:max(5vw,calc(var(--sar)+16px))}
-.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:clamp(1.5rem,3vw,3rem);margin-bottom:2.5rem}
-@media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:480px){.footer-grid{grid-template-columns:1fr}}
+footer{background:#030810;border-top:1px solid var(--border);padding:clamp(2.5rem,5vw,3.5rem) max(4vw,calc(var(--sal)+16px)) calc(1.2rem + var(--sab));padding-right:max(4vw,calc(var(--sar)+16px))}
+.footer-grid{display:grid;grid-template-columns:1.8fr 1fr 1fr 1fr;gap:clamp(1.5rem,2.5vw,2.5rem);margin-bottom:2rem;align-items:start}
+@media(max-width:960px){.footer-grid{grid-template-columns:1fr 1fr;gap:2rem}}
+@media(max-width:520px){.footer-grid{grid-template-columns:1fr 1fr;gap:1.5rem}}
+@media(max-width:380px){.footer-grid{grid-template-columns:1fr}}
 .f-logo-wrap{display:flex;align-items:center;gap:.65rem;margin-bottom:.9rem}
 .f-logo-img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);box-shadow:0 0 10px var(--gold-glow)}
 .f-logo-text{font-family:'Rajdhani',sans-serif;font-size:1.25rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--white);line-height:1}
