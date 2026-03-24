@@ -13,186 +13,73 @@
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:wght@300;400;500&family=Oswald:wght@600;700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="style.css"/>
 <style>
-body { background: var(--navy); }
-
-.att-page {
-  min-height: 100svh;
-  padding: calc(80px + var(--sat)) max(5vw,16px) calc(2rem + var(--sab));
-  max-width: 500px; margin: 0 auto;
-}
+.att-page{min-height:100svh;padding:calc(80px + env(safe-area-inset-top,0px)) max(5vw,16px) calc(2rem + env(safe-area-inset-bottom,0px));background:var(--navy)}
+.att-wrap{max-width:480px;margin:0 auto}
 
 /* Status card */
-.status-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-top: 3px solid var(--gold);
-  padding: 1.5rem;
-  margin-bottom: 1.2rem;
-  text-align: center;
-}
-.status-icon { font-size: 3rem; margin-bottom: .6rem; display: block; }
-.status-title {
-  font-family: 'Oswald', sans-serif;
-  font-size: 1.4rem; font-weight: 700;
-  color: var(--white); margin-bottom: .3rem;
-}
-.status-sub { font-size: .84rem; color: var(--muted); font-weight: 300; }
+.att-status-card{background:var(--card);border:1px solid var(--border);border-top:3px solid var(--gold);padding:1.8rem;text-align:center;margin-bottom:1.2rem;position:relative;overflow:hidden}
+.att-status-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(224,155,26,.05),transparent 60%)}
+.att-sc-icon{font-size:2.8rem;margin-bottom:.6rem;position:relative}
+.att-sc-name{font-family:'Oswald',sans-serif;font-size:1.35rem;font-weight:700;color:var(--white);margin-bottom:.15rem;position:relative}
+.att-sc-email{font-size:.78rem;color:var(--muted);position:relative}
 
-/* Big check in button */
-.btn-checkin {
-  width: 100%;
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 1.1rem; font-weight: 700;
-  letter-spacing: 3px; text-transform: uppercase;
-  background: var(--green); color: #000;
-  padding: 1.3rem; border: none;
-  cursor: pointer; display: flex;
-  align-items: center; justify-content: center;
-  gap: .6rem; min-height: 60px;
-  transition: opacity .3s;
-  -webkit-appearance: none;
-  box-shadow: 0 4px 20px rgba(34,197,94,.35);
-}
-.btn-checkin:hover { opacity: .9; }
-.btn-checkin:disabled { background: var(--muted); box-shadow: none; cursor: not-allowed; }
+/* Status badge */
+.att-curr{display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.9rem;font-family:'Rajdhani',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:1.2rem}
+.att-curr.in {background:rgba(34,197,94,.1); color:var(--green);border:1px solid rgba(34,197,94,.3)}
+.att-curr.out{background:rgba(230,57,70,.1); color:var(--red);  border:1px solid rgba(230,57,70,.3)}
+.att-curr.off{background:var(--card);         color:var(--muted);border:1px solid var(--border2)}
+.att-curr-dot{width:8px;height:8px;border-radius:50%;background:currentColor}
+.att-curr.in .att-curr-dot{animation:blink 1.5s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 
-.btn-checkout {
-  width: 100%;
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 1.1rem; font-weight: 700;
-  letter-spacing: 3px; text-transform: uppercase;
-  background: var(--red); color: #fff;
-  padding: 1.3rem; border: none;
-  cursor: pointer; display: flex;
-  align-items: center; justify-content: center;
-  gap: .6rem; min-height: 60px;
-  transition: opacity .3s;
-  -webkit-appearance: none;
-  box-shadow: 0 4px 20px rgba(230,57,70,.35);
-}
-.btn-checkout:hover { opacity: .9; }
-.btn-checkout:disabled { background: var(--muted); box-shadow: none; cursor: not-allowed; }
+/* Info grid */
+.att-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem;margin-bottom:1.2rem}
+.att-info-box{background:var(--card);border:1px solid var(--border2);padding:1rem;text-align:center}
+.att-info-val{font-family:'Oswald',sans-serif;font-size:1.1rem;font-weight:700;color:var(--gold);display:block;line-height:1;margin-bottom:.2rem}
+.att-info-lbl{font-family:'Rajdhani',sans-serif;font-size:.62rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
 
-/* Current status badge */
-.curr-status {
-  display: flex; align-items: center; justify-content: center;
-  gap: .6rem; padding: 1rem;
-  font-family: 'Rajdhani', sans-serif;
-  font-size: .85rem; font-weight: 700;
-  letter-spacing: 2px; text-transform: uppercase;
-  margin-bottom: 1.2rem;
-}
-.curr-status.in  { background: rgba(34,197,94,.1);  color: var(--green); border: 1px solid rgba(34,197,94,.3); }
-.curr-status.out { background: rgba(230,57,70,.1);  color: var(--red);   border: 1px solid rgba(230,57,70,.3); }
-.curr-status.off { background: var(--card); color: var(--muted); border: 1px solid var(--border2); }
-.curr-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; animation: blink 1.5s infinite; }
-.curr-status.off .curr-dot { animation: none; }
+/* Location */
+.att-loc{background:var(--card);border:1px solid var(--border);padding:1rem 1.2rem;margin-bottom:1.1rem;display:flex;align-items:flex-start;gap:.8rem}
+.att-loc-icon{font-size:1.2rem;flex-shrink:0;margin-top:2px}
+.att-loc-body{flex:1;min-width:0}
+.att-loc-lbl{font-family:'Rajdhani',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.2rem}
+.att-loc-addr{font-size:.82rem;color:var(--steel);line-height:1.5;word-break:break-all}
+.att-loc-coords{font-size:.7rem;color:var(--muted);margin-top:.2rem}
+.att-map-link{font-size:.68rem;color:#60a5fa;text-decoration:none;font-family:'Rajdhani',sans-serif;letter-spacing:1px;font-weight:600;margin-top:.3rem;display:inline-block}
 
-/* Info rows */
-.info-grid {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: .8rem; margin-bottom: 1.2rem;
-}
-.info-box {
-  background: var(--card); border: 1px solid var(--border2);
-  padding: 1rem; text-align: center;
-}
-.info-box .ib-val {
-  font-family: 'Oswald', sans-serif;
-  font-size: 1.1rem; font-weight: 600;
-  color: var(--gold); display: block; margin-bottom: .2rem;
-}
-.info-box .ib-lbl {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: .68rem; font-weight: 600;
-  letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
-}
+/* Note */
+.att-note-wrap{margin-bottom:1.1rem}
+.att-note-wrap label{font-family:'Rajdhani',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:.35rem}
+.att-note-wrap input{width:100%;background:var(--card);border:1px solid var(--border);color:var(--steel);padding:.75rem 1rem;font-size:16px;font-family:'DM Sans',sans-serif;outline:none;border-radius:0;-webkit-appearance:none;transition:border-color .3s;min-height:var(--touch)}
+.att-note-wrap input:focus{border-color:var(--gold)}
+.att-note-wrap input::placeholder{color:var(--muted)}
 
-/* Location box */
-.loc-box {
-  background: var(--card); border: 1px solid var(--border);
-  padding: 1rem 1.2rem; margin-bottom: 1.2rem;
-  display: flex; align-items: flex-start; gap: .8rem;
-}
-.loc-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
-.loc-text { flex: 1; min-width: 0; }
-.loc-text .lt-label {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: .68rem; font-weight: 700;
-  letter-spacing: 2px; text-transform: uppercase;
-  color: var(--gold); display: block; margin-bottom: .2rem;
-}
-.loc-text .lt-addr { font-size: .82rem; color: var(--steel); line-height: 1.5; word-break: break-all; }
-.loc-text .lt-coords { font-size: .72rem; color: var(--muted); margin-top: .2rem; }
-.btn-maps {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: .68rem; font-weight: 700;
-  letter-spacing: 1.5px; text-transform: uppercase;
-  color: var(--blue-lt); text-decoration: none;
-  border: 1px solid var(--border); padding: .25rem .6rem;
-  display: inline-block; margin-top: .4rem;
-  min-height: 30px; line-height: 1.8;
-}
+/* Alert */
+.att-alert{padding:.85rem 1rem;font-size:.83rem;line-height:1.6;margin-bottom:1rem;display:none}
+.att-alert.show{display:block}
+.att-alert.info   {background:var(--gold-dim);border:1px solid var(--border);color:var(--gold)}
+.att-alert.success{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);color:var(--green)}
+.att-alert.error  {background:rgba(230,57,70,.1);border:1px solid rgba(230,57,70,.3);color:var(--red)}
+
+/* Buttons */
+.btn-checkin{width:100%;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;background:var(--green);color:#000;padding:1.1rem;border:none;cursor:pointer;min-height:56px;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:opacity .3s;-webkit-appearance:none;box-shadow:0 4px 20px rgba(34,197,94,.35)}
+.btn-checkin:hover{opacity:.9}
+.btn-checkin:disabled{background:var(--muted);box-shadow:none;cursor:not-allowed;opacity:1}
+.btn-checkout{width:100%;font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;background:var(--red);color:#fff;padding:1.1rem;border:none;cursor:pointer;min-height:56px;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:opacity .3s;-webkit-appearance:none;box-shadow:0 4px 20px rgba(230,57,70,.35)}
+.btn-checkout:hover{opacity:.9}
+.btn-checkout:disabled{background:var(--muted);box-shadow:none;cursor:not-allowed;opacity:1}
 
 /* History */
-.hist-title {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: .7rem; font-weight: 700;
-  letter-spacing: 3px; text-transform: uppercase;
-  color: var(--gold); margin-bottom: .8rem;
-  display: flex; align-items: center; gap: .6rem;
-}
-.hist-title::before { content: ''; display: block; width: 20px; height: 2px; background: var(--gold); }
-.hist-item {
-  background: var(--card); border: 1px solid var(--border2);
-  padding: .9rem 1rem; margin-bottom: .5rem;
-  display: flex; align-items: flex-start; gap: .8rem;
-}
-.hist-type {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: .65rem; font-weight: 700;
-  letter-spacing: 1.5px; text-transform: uppercase;
-  padding: .2rem .6rem; flex-shrink: 0;
-}
-.hist-type.in  { background: rgba(34,197,94,.1);  color: var(--green); border: 1px solid rgba(34,197,94,.3); }
-.hist-type.out { background: rgba(230,57,70,.1);  color: var(--red);   border: 1px solid rgba(230,57,70,.3); }
-.hist-info { flex: 1; min-width: 0; }
-.hist-info .hi-time { font-size: .82rem; color: var(--white); font-weight: 500; }
-.hist-info .hi-loc  { font-size: .76rem; color: var(--muted); margin-top: .1rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-/* Alert / message */
-.att-alert {
-  padding: .9rem 1rem; font-size: .84rem; line-height: 1.6;
-  margin-bottom: 1rem; display: none;
-}
-.att-alert.show { display: block; }
-.att-alert.success { background: rgba(34,197,94,.1);  border: 1px solid rgba(34,197,94,.3);  color: var(--green); }
-.att-alert.error   { background: rgba(230,57,70,.1);  border: 1px solid rgba(230,57,70,.3);  color: var(--red); }
-.att-alert.info    { background: var(--gold-dim);      border: 1px solid var(--border);        color: var(--gold); }
-
-.spinner-sm { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.3); border-top-color: currentColor; border-radius: 50%; animation: spin .7s linear infinite; vertical-align: middle; }
-@keyframes spin { to { transform: rotate(360deg); } }
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
-
-/* Note field */
-.note-wrap { margin-bottom: 1.2rem; }
-.note-wrap label {
-  font-family: 'Rajdhani', sans-serif;
-  font-size: .68rem; font-weight: 700;
-  letter-spacing: 2px; text-transform: uppercase;
-  color: var(--muted); display: block; margin-bottom: .4rem;
-}
-.note-wrap input {
-  width: 100%; background: var(--card); border: 1px solid var(--border);
-  color: var(--steel); padding: .75rem 1rem;
-  font-size: 16px; font-family: 'DM Sans', sans-serif;
-  outline: none; border-radius: 0; -webkit-appearance: none;
-  transition: border-color .3s;
-}
-.note-wrap input:focus { border-color: var(--gold); }
-.note-wrap input::placeholder { color: var(--muted); }
-
-.no-items-small { text-align: center; padding: 1.5rem; color: var(--muted); font-size: .82rem; }
+.hist-head{font-family:'Rajdhani',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin:1.8rem 0 .8rem;display:flex;align-items:center;gap:.5rem}
+.hist-head::before{content:'';display:block;width:18px;height:2px;background:var(--gold)}
+.hist-item{background:var(--card);border:1px solid var(--border2);padding:.9rem 1rem;margin-bottom:.5rem;display:flex;align-items:flex-start;gap:.8rem}
+.hist-badge{flex-shrink:0;min-width:72px}
+.hist-info{flex:1;min-width:0}
+.hist-time{font-size:.82rem;color:var(--white);font-weight:500}
+.hist-loc{font-size:.74rem;color:var(--muted);margin-top:.15rem;word-break:break-all}
+.hist-map{font-size:.68rem;color:#60a5fa;text-decoration:none;font-family:'Rajdhani',sans-serif;letter-spacing:1px;font-weight:600}
+.back-link{display:block;text-align:center;font-family:'Rajdhani',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:.5rem;margin-top:1.5rem;min-height:40px;display:flex;align-items:center;justify-content:center}
+.back-link:hover{color:var(--gold)}
 </style>
 </head>
 <body>
@@ -204,321 +91,243 @@ body { background: var(--navy); }
   </a>
   <div style="flex:1"></div>
   <div class="nav-right">
-    <span id="navName" style="font-family:'Rajdhani',sans-serif;font-size:.8rem;font-weight:600;color:var(--muted);letter-spacing:1px"></span>
+    <span id="navName" style="font-family:'Rajdhani',sans-serif;font-size:.78rem;font-weight:600;letter-spacing:1px;color:var(--muted)"></span>
     <button onclick="doLogout()" class="nav-cta" style="border:none;cursor:pointer">Logout</button>
   </div>
 </nav>
 
 <div class="att-page">
+  <div class="att-wrap">
 
-  <!-- Status card -->
-  <div class="status-card">
-    <span class="status-icon" id="statusIcon">📋</span>
-    <div class="status-title" id="statusTitle">Loading...</div>
-    <div class="status-sub" id="statusSub">Please wait</div>
-  </div>
-
-  <!-- Current shift status -->
-  <div class="curr-status off" id="currStatus">
-    <span class="curr-dot"></span>
-    <span id="currStatusText">Not Checked In</span>
-  </div>
-
-  <!-- Today info -->
-  <div class="info-grid">
-    <div class="info-box">
-      <span class="ib-val" id="todayDate">--</span>
-      <span class="ib-lbl">Today</span>
+    <!-- Status card -->
+    <div class="att-status-card">
+      <div class="att-sc-icon" id="scIcon">📋</div>
+      <div class="att-sc-name" id="scName">Loading...</div>
+      <div class="att-sc-email" id="scEmail"></div>
     </div>
-    <div class="info-box">
-      <span class="ib-val" id="currentTime">--:--</span>
-      <span class="ib-lbl">Current Time</span>
+
+    <!-- Current status -->
+    <div class="att-curr off" id="currStatus">
+      <span class="att-curr-dot"></span>
+      <span id="currText">Not Checked In</span>
     </div>
-    <div class="info-box">
-      <span class="ib-val" id="checkInTime">--</span>
-      <span class="ib-lbl">Checked In At</span>
+
+    <!-- Info grid -->
+    <div class="att-info-grid">
+      <div class="att-info-box"><span class="att-info-val" id="infoDate">--</span><span class="att-info-lbl">Today</span></div>
+      <div class="att-info-box"><span class="att-info-val" id="infoTime">--:--</span><span class="att-info-lbl">Current Time</span></div>
+      <div class="att-info-box"><span class="att-info-val" id="infoCheckin">--</span><span class="att-info-lbl">Checked In At</span></div>
+      <div class="att-info-box"><span class="att-info-val" id="infoHours">--</span><span class="att-info-lbl">Hours Today</span></div>
     </div>
-    <div class="info-box">
-      <span class="ib-val" id="hoursWorked">--</span>
-      <span class="ib-lbl">Hours Today</span>
+
+    <!-- Location display -->
+    <div class="att-loc" id="locBox">
+      <span class="att-loc-icon">📍</span>
+      <div class="att-loc-body">
+        <span class="att-loc-lbl">Your Location</span>
+        <span class="att-loc-addr" id="locAddr">Tap Check In to capture location</span>
+        <span class="att-loc-coords" id="locCoords"></span>
+        <div id="locMapLink"></div>
+      </div>
     </div>
+
+    <!-- Note field -->
+    <div class="att-note-wrap">
+      <label>Site Name / Note (Optional)</label>
+      <input type="text" id="attNote" placeholder="e.g. ABC Office, Andheri East"/>
+    </div>
+
+    <!-- Alert -->
+    <div class="att-alert" id="attAlert"></div>
+
+    <!-- Buttons -->
+    <button class="btn-checkin" id="btnIn" onclick="markAtt('in')">✅ CHECK IN — Start Shift</button>
+    <div style="height:.6rem"></div>
+    <button class="btn-checkout" id="btnOut" onclick="markAtt('out')" style="display:none">🔴 CHECK OUT — End Shift</button>
+
+    <!-- Today's log -->
+    <div class="hist-head">Today's Log</div>
+    <div id="histList"><div class="no-data" style="padding:1rem;font-size:.8rem">No records yet today.</div></div>
+
+    <a href="index.html" class="back-link">← Back to Website</a>
   </div>
+</div>
 
-  <!-- Location -->
-  <div class="loc-box" id="locBox">
-    <span class="loc-icon">📍</span>
-    <div class="loc-text">
-      <span class="lt-label">Your Location</span>
-      <span class="lt-addr" id="locAddr">Tap Check In to capture location</span>
-      <span class="lt-coords" id="locCoords"></span>
-    </div>
-  </div>
-
-  <!-- Note -->
-  <div class="note-wrap">
-    <label>Site Name / Note (optional)</label>
-    <input type="text" id="attNote" placeholder="e.g. ABC Office, Andheri East"/>
-  </div>
-
-  <!-- Alert -->
-  <div class="att-alert" id="attAlert"></div>
-
-  <!-- Buttons -->
-  <button class="btn-checkin" id="btnCheckin" onclick="markAttendance('in')">
-    ✅ CHECK IN — Start Shift
-  </button>
-  <div style="height:.6rem"></div>
-  <button class="btn-checkout" id="btnCheckout" onclick="markAttendance('out')" style="display:none">
-    🔴 CHECK OUT — End Shift
-  </button>
-
-  <div style="height:2rem"></div>
-
-  <!-- History -->
-  <div class="hist-title">Today's Attendance Log</div>
-  <div id="histList"><div class="no-items-small">No records yet today.</div></div>
-
-  <div style="height:1.5rem"></div>
-  <a href="index.html" style="display:block;text-align:center;font-family:'Rajdhani',sans-serif;font-size:.75rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:.5rem">← Back to Website</a>
-
+<div class="credit-bar">
+  <span>Designed &amp; Developed by</span>
+  <a href="https://github.com/rajg39389-source" target="_blank" rel="noopener">⚡ Raj Gupta</a>
 </div>
 
 <script type="module">
-import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { initializeApp }  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut }
-                             from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { getFirestore, collection, addDoc, query, where,
-         getDocs, serverTimestamp, orderBy }
-                             from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { firebaseConfig }   from "./firebase-config.js";
+                           from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, collection, addDoc, getDocs, query, where, serverTimestamp, doc, getDoc }
+                           from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { firebaseConfig } from "./firebase-config.js";
 
 const app  = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db   = getFirestore(app);
-let currentUser = null, userProfile = null;
-let checkedInRecord = null;
+let currentUser=null, userProfile=null, checkinTime=null;
 
-/* ── Auth Guard ── */
-onAuthStateChanged(auth, async user => {
-  if(!user){ window.location.href = 'login.html'; return; }
-  currentUser = user;
-  document.getElementById('navName').textContent = user.displayName || user.email;
-  // Load user profile
-  try {
-    const { doc, getDoc } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
-    const snap = await getDoc(doc(db,'users',user.uid));
-    if(snap.exists()) userProfile = snap.data();
-  } catch(e){}
-  updateStatusCard();
+onAuthStateChanged(auth, async user=>{
+  if(!user){ window.location.href='login.html'; return; }
+  currentUser=user;
+  try{
+    const snap=await getDoc(doc(db,'users',user.uid));
+    if(snap.exists()) userProfile=snap.data();
+  }catch(e){}
+  document.getElementById('navName').textContent=userProfile?.fullName||user.email;
+  document.getElementById('scName').textContent=userProfile?.fullName||user.displayName||'Serviceman';
+  document.getElementById('scEmail').textContent=user.email;
   startClock();
-  loadTodayRecords();
+  await loadTodayRecords();
 });
 
-/* ── Clock ── */
 function startClock(){
   function tick(){
-    const now = new Date();
-    document.getElementById('currentTime').textContent =
-      now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true});
-    document.getElementById('todayDate').textContent =
-      now.toLocaleDateString('en-IN',{day:'numeric',month:'short'});
-    // Update hours worked
-    if(checkedInRecord){
-      const ms = now - new Date(checkedInRecord.timestamp);
-      const hrs = Math.floor(ms/3600000);
-      const mins = Math.floor((ms%3600000)/60000);
-      document.getElementById('hoursWorked').textContent = hrs+'h '+mins+'m';
+    const now=new Date();
+    document.getElementById('infoTime').textContent=now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true});
+    document.getElementById('infoDate').textContent=now.toLocaleDateString('en-IN',{day:'numeric',month:'short'});
+    if(checkinTime){
+      const ms=now-checkinTime;
+      const h=Math.floor(ms/3600000), m=Math.floor((ms%3600000)/60000);
+      document.getElementById('infoHours').textContent=h+'h '+m+'m';
     }
   }
-  tick();
-  setInterval(tick, 30000);
+  tick(); setInterval(tick,30000);
 }
 
-/* ── Update UI ── */
-function updateStatusCard(){
-  const name = userProfile?.fullName || currentUser?.displayName || 'Serviceman';
-  document.getElementById('statusTitle').textContent = name;
-  document.getElementById('statusSub').textContent   = userProfile?.city || currentUser?.email || '';
-}
-
-/* ── Get GPS Location ── */
-function getLocation(){
-  return new Promise((resolve, reject) => {
-    if(!navigator.geolocation){
-      reject(new Error('GPS not supported on this device'));
-      return;
-    }
+function getGPS(){
+  return new Promise((resolve,reject)=>{
+    if(!navigator.geolocation){ reject(new Error('GPS not supported on this device.')); return; }
     navigator.geolocation.getCurrentPosition(
-      pos => resolve(pos.coords),
-      err => {
-        const msgs = {
-          1: 'Location permission denied. Please allow location access in your browser settings.',
-          2: 'Could not get location. Please check your GPS/internet.',
-          3: 'Location request timed out. Try again.'
-        };
-        reject(new Error(msgs[err.code] || 'Location error'));
-      },
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+      pos=>resolve(pos.coords),
+      err=>{ const m={1:'Location permission denied. Please allow location in browser settings.',2:'Could not get location. Check GPS/internet.',3:'Location timed out. Try again.'}; reject(new Error(m[err.code]||'Location error')); },
+      {enableHighAccuracy:true,timeout:15000,maximumAge:0}
     );
   });
 }
 
-/* ── Reverse geocode ── */
-async function getAddress(lat, lng){
-  try {
-    const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`);
-    const data = await res.json();
-    const d = data.address || {};
-    return [d.road||d.suburb||d.neighbourhood, d.suburb||d.city_district, d.city||d.town, d.state]
-      .filter(Boolean).slice(0,3).join(', ');
-  } catch(e){
-    return `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
-  }
+async function getAddress(lat,lng){
+  try{
+    const r=await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&accept-language=en`);
+    const d=await r.json();
+    const a=d.address||{};
+    return [a.road||a.neighbourhood||a.suburb, a.suburb||a.city_district, a.city||a.town||a.county, a.state].filter(Boolean).slice(0,3).join(', ')||`${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+  }catch(e){ return `${lat.toFixed(5)}, ${lng.toFixed(5)}`; }
 }
 
-/* ── Mark Attendance ── */
-window.markAttendance = async function(type){
-  const btnIn  = document.getElementById('btnCheckin');
-  const btnOut = document.getElementById('btnCheckout');
-  const alert  = document.getElementById('attAlert');
-  const note   = document.getElementById('attNote').value.trim();
-  const btn    = type==='in' ? btnIn : btnOut;
+window.markAtt = async function(type){
+  const btnIn=document.getElementById('btnIn');
+  const btnOut=document.getElementById('btnOut');
+  const alert=document.getElementById('attAlert');
+  const note=document.getElementById('attNote').value.trim();
+  const btn=type==='in'?btnIn:btnOut;
 
-  alert.className = 'att-alert info show';
-  alert.innerHTML = '<span class="spinner-sm"></span> Getting your GPS location... please wait';
-  btn.disabled = true;
+  alert.className='att-alert info show';
+  alert.innerHTML='<span class="spin spin-w"></span> Getting your GPS location...';
+  btn.disabled=true;
 
-  try {
-    // Get GPS
-    const coords = await getLocation();
-    const lat = coords.latitude;
-    const lng = coords.longitude;
+  try{
+    const coords=await getGPS();
+    const lat=coords.latitude, lng=coords.longitude;
+    alert.innerHTML='<span class="spin spin-w"></span> Got location! Saving attendance...';
+    const address=await getAddress(lat,lng);
 
-    alert.innerHTML = '<span class="spinner-sm"></span> Got location! Saving attendance...';
+    // Update location display
+    document.getElementById('locAddr').textContent=address||'Location captured';
+    document.getElementById('locCoords').textContent=`GPS: ${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+    document.getElementById('locMapLink').innerHTML=`<a href="https://www.google.com/maps?q=${lat},${lng}" target="_blank" rel="noopener" class="att-map-link">🗺 Open in Google Maps</a>`;
 
-    // Get address
-    const address = await getAddress(lat, lng);
+    const now=new Date();
+    const todayStr=now.toISOString().split('T')[0];
 
-    // Update location UI
-    document.getElementById('locAddr').textContent   = address || 'Location captured';
-    document.getElementById('locCoords').textContent = `GPS: ${lat.toFixed(5)}, ${lng.toFixed(5)}`;
-    document.getElementById('locBox').querySelector('.loc-text').innerHTML += `
-      <a href="https://www.google.com/maps?q=${lat},${lng}" target="_blank" rel="noopener" class="btn-maps">🗺️ Open in Google Maps</a>`;
-
-    const now = new Date();
-    const todayStr = now.toISOString().split('T')[0];
-
-    // Save to Firebase
     await addDoc(collection(db,'attendance'),{
-      userId:      currentUser.uid,
-      userName:    userProfile?.fullName || currentUser.displayName || currentUser.email,
-      userEmail:   currentUser.email,
-      userPhone:   userProfile?.phone || '',
-      type,           // 'in' or 'out'
-      timestamp:   now.toISOString(),
-      date:        todayStr,
-      latitude:    lat,
-      longitude:   lng,
-      address,
-      note:        note || '',
-      createdAt:   serverTimestamp()
+      userId:     currentUser.uid,
+      userName:   userProfile?.fullName||currentUser.displayName||currentUser.email,
+      userEmail:  currentUser.email,
+      userPhone:  userProfile?.phone||'',
+      type,
+      timestamp:  now.toISOString(),
+      date:       todayStr,
+      latitude:   lat,
+      longitude:  lng,
+      address:    address||'',
+      note:       note||'',
+      createdAt:  serverTimestamp()
     });
 
-    // Update UI
-    if(type === 'in'){
-      checkedInRecord = { timestamp: now.toISOString() };
-      document.getElementById('checkInTime').textContent =
-        now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true});
-      btnIn.style.display  = 'none';
-      btnOut.style.display = 'flex';
-      btnOut.disabled      = false;
-      const cs = document.getElementById('currStatus');
-      cs.className = 'curr-status in';
-      document.getElementById('currStatusText').textContent = '✅ Shift Active — Checked In';
-      document.getElementById('statusIcon').textContent = '✅';
-      alert.className = 'att-alert success show';
-      alert.innerHTML = `✅ <strong>Checked In Successfully!</strong><br>📍 ${address}<br>🕐 ${now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true})}`;
+    const timeStr=now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true});
+
+    if(type==='in'){
+      checkinTime=now;
+      document.getElementById('infoCheckin').textContent=timeStr;
+      document.getElementById('scIcon').textContent='✅';
+      document.getElementById('currStatus').className='att-curr in';
+      document.getElementById('currText').textContent='✅ Shift Active — Checked In at '+timeStr;
+      btnIn.style.display='none'; btnOut.style.display='flex'; btnOut.disabled=false;
+      alert.className='att-alert success show';
+      alert.innerHTML=`✅ <strong>Checked In!</strong><br>📍 ${address}<br>🕐 ${timeStr}`;
     } else {
-      btnOut.style.display = 'none';
-      btnIn.style.display  = 'flex';
-      btnIn.textContent    = '✅ CHECK IN — New Shift';
-      btnIn.disabled       = false;
-      checkedInRecord      = null;
-      const cs = document.getElementById('currStatus');
-      cs.className = 'curr-status out';
-      document.getElementById('currStatusText').textContent = '🔴 Shift Ended — Checked Out';
-      document.getElementById('statusIcon').textContent = '🔴';
-      alert.className = 'att-alert success show';
-      alert.innerHTML = `✅ <strong>Checked Out Successfully!</strong><br>📍 ${address}<br>🕐 ${now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true})}`;
+      checkinTime=null;
+      document.getElementById('scIcon').textContent='🔴';
+      document.getElementById('currStatus').className='att-curr out';
+      document.getElementById('currText').textContent='🔴 Shift Ended — Checked Out at '+timeStr;
+      btnOut.style.display='none'; btnIn.style.display='flex'; btnIn.disabled=false;
+      btnIn.textContent='✅ CHECK IN — New Shift';
+      alert.className='att-alert success show';
+      alert.innerHTML=`✅ <strong>Checked Out!</strong><br>📍 ${address}<br>🕐 ${timeStr}`;
     }
 
-    document.getElementById('attNote').value = '';
-    loadTodayRecords();
+    document.getElementById('attNote').value='';
+    await loadTodayRecords();
 
-  } catch(err){
-    alert.className = 'att-alert error show';
-    alert.innerHTML = '❌ ' + err.message;
-    btn.disabled = false;
+  }catch(err){
+    alert.className='att-alert error show';
+    alert.innerHTML='❌ '+err.message;
+    btn.disabled=false;
   }
 };
 
-/* ── Load Today Records ── */
 async function loadTodayRecords(){
   if(!currentUser) return;
-  try {
-    const todayStr = new Date().toISOString().split('T')[0];
-    const q = query(
-      collection(db,'attendance'),
-      where('userId','==',currentUser.uid),
-      where('date','==',todayStr)
-    );
-    const snap = await getDocs(q);
-    let recs = snap.docs.map(d=>({id:d.id,...d.data()}));
-    recs.sort((a,b)=> new Date(b.timestamp) - new Date(a.timestamp));
+  const today=new Date().toISOString().split('T')[0];
+  try{
+    const q=query(collection(db,'attendance'),where('userId','==',currentUser.uid),where('date','==',today));
+    const snap=await getDocs(q);
+    let recs=snap.docs.map(d=>({id:d.id,...d.data()}));
+    recs.sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp));
+    const hist=document.getElementById('histList');
+    if(!recs.length){ hist.innerHTML='<div class="no-data" style="padding:1rem;font-size:.8rem">No attendance records today yet.</div>'; return; }
 
-    const el = document.getElementById('histList');
-    if(!recs.length){ el.innerHTML='<div class="no-items-small">No attendance records today yet.</div>'; return; }
-
-    // Check if last record is check-in
-    const lastRec = recs[0];
-    if(lastRec.type === 'in'){
-      checkedInRecord = { timestamp: lastRec.timestamp };
-      document.getElementById('btnCheckin').style.display  = 'none';
-      document.getElementById('btnCheckout').style.display = 'flex';
-      document.getElementById('btnCheckout').disabled = false;
-      document.getElementById('checkInTime').textContent =
-        new Date(lastRec.timestamp).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true});
-      const cs = document.getElementById('currStatus');
-      cs.className = 'curr-status in';
-      document.getElementById('currStatusText').textContent = '✅ Shift Active — Checked In';
-      document.getElementById('statusIcon').textContent = '✅';
+    // Check if last record is check-in (no checkout yet)
+    const lastRec=recs[0];
+    if(lastRec.type==='in' && document.getElementById('btnOut').style.display==='none'){
+      checkinTime=new Date(lastRec.timestamp);
+      document.getElementById('infoCheckin').textContent=new Date(lastRec.timestamp).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true});
+      document.getElementById('scIcon').textContent='✅';
+      document.getElementById('currStatus').className='att-curr in';
+      document.getElementById('currText').textContent='✅ Shift Active';
+      document.getElementById('btnIn').style.display='none';
+      document.getElementById('btnOut').style.display='flex';
+      document.getElementById('btnOut').disabled=false;
     }
 
-    el.innerHTML = recs.map(r=>`
+    hist.innerHTML=recs.map(r=>`
       <div class="hist-item">
-        <span class="hist-type ${r.type}">${r.type==='in'?'CHECK IN':'CHECK OUT'}</span>
+        <div class="hist-badge"><span class="badge ${r.type==='in'?'badge-in':'badge-out'}">${r.type==='in'?'IN':'OUT'}</span></div>
         <div class="hist-info">
-          <div class="hi-time">${new Date(r.timestamp).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true})} — ${new Date(r.timestamp).toLocaleDateString('en-IN',{day:'numeric',month:'short'})}</div>
-          <div class="hi-loc">📍 ${r.address||'Location captured'}${r.note?' · '+r.note:''}</div>
-          <a href="https://www.google.com/maps?q=${r.latitude},${r.longitude}" target="_blank" rel="noopener" style="font-size:.68rem;color:var(--blue-lt);text-decoration:none">🗺️ View on Maps</a>
+          <div class="hist-time">🕐 ${new Date(r.timestamp).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true})}</div>
+          <div class="hist-loc">📍 ${r.address||'Location captured'}${r.note?' · '+r.note:''}</div>
+          ${r.latitude?`<a href="https://www.google.com/maps?q=${r.latitude},${r.longitude}" target="_blank" rel="noopener" class="hist-map">🗺 View on Maps</a>`:''}
         </div>
       </div>`).join('');
-  } catch(e){ console.error(e); }
+  }catch(e){ console.error('History error:',e); }
 }
 
-window.doLogout = async function(){
-  await signOut(auth);
-  window.location.href = 'index.html';
-};
+window.doLogout = async()=>{ try{await signOut(auth);}catch(e){} window.location.href='index.html'; };
 </script>
-
-  <!-- MADE BY CREDIT -->
-  <div style="background:#020710;border-top:1px solid rgba(224,155,26,.1);padding:.8rem max(5vw,16px) calc(.8rem + var(--sab));display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap;text-align:center;position:relative;z-index:1">
-    <span style="font-family:'Rajdhani',sans-serif;font-size:.7rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)">Designed &amp; Developed by</span>
-    <a href="https://github.com/rajg39389-source" target="_blank" rel="noopener" style="font-family:'Rajdhani',sans-serif;font-size:.74rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-decoration:none;display:inline-flex;align-items:center;gap:.3rem">
-      ⚡ Raj Gupta
-    </a>
-    <span style="font-family:'Rajdhani',sans-serif;font-size:.66rem;color:rgba(90,112,153,.5);letter-spacing:1px">· Need a website? Contact me!</span>
-  </div>
 </body>
 </html>

@@ -5,578 +5,601 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover,maximum-scale=5.0"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="theme-color" content="#060d1a"/>
-<title>Admin Dashboard – AV Group</title>
+<meta name="format-detection" content="telephone=no"/>
+<title>Admin Panel – AV Group</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:wght@300;400;500&family=Oswald:wght@600;700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="style.css"/>
 <style>
-.admin-layout{display:block;min-height:100svh;padding-top:calc(70px + var(--sat))}
-.admin-sidebar{display:none}
-.admin-main{padding:2rem max(2rem,3vw);background:var(--navy);min-height:calc(100vh - 70px - var(--sat))}
-.admin-brand{display:flex;align-items:center;gap:.7rem;margin-bottom:2rem;padding-bottom:1.2rem;border-bottom:1px solid var(--border2)}
-.admin-brand img{width:38px;height:38px;border-radius:50%;object-fit:cover;border:2px solid var(--gold)}
-.admin-brand-text{font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--white);line-height:1}
-.admin-brand-sub{font-family:'Rajdhani',sans-serif;font-size:.62rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
-.admin-nav{display:flex;flex-direction:column;gap:.3rem}
-.anav-item{display:flex;align-items:center;gap:.8rem;padding:.75rem 1rem;text-decoration:none;font-family:'Rajdhani',sans-serif;font-size:.82rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);border:1px solid transparent;transition:all .3s;min-height:var(--touch)}
-.anav-item:hover,.anav-item.active{color:var(--gold);border-color:var(--border);background:var(--card)}
-.anav-sep{height:1px;background:var(--border2);margin:.5rem 0}
-.anav-logout{color:var(--red)!important}
+.admin-page{padding-top:calc(64px + env(safe-area-inset-top,0px));padding-bottom:calc(62px + env(safe-area-inset-bottom,0px));min-height:100svh;background:var(--navy2)}
 
-/* mobile top tabs */
-.admin-mob-tabs{display:flex;background:#030810;border-bottom:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap;padding:.5rem 1rem;gap:.5rem;position:sticky;top:calc(70px + var(--sat));z-index:9}
-.amt{font-family:'Rajdhani',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);padding:.5rem 1rem;border:1px solid var(--border2);background:var(--card);cursor:pointer;white-space:nowrap;min-height:var(--touch);flex-shrink:0}
-.amt.active{background:var(--gold);color:#000;border-color:var(--gold)}
+/* Admin top bar */
+.admin-bar{background:#030810;border-bottom:1px solid var(--border);padding:.7rem max(5vw,16px);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.ab-left{display:flex;align-items:center;gap:.7rem}
+.ab-logo{width:34px;height:34px;border-radius:50%;border:2px solid var(--gold);object-fit:cover}
+.ab-title{font-family:'Rajdhani',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--white)}
+.ab-sub{font-size:.66rem;color:var(--gold);font-family:'Rajdhani',sans-serif;letter-spacing:1px;text-transform:uppercase}
+.ab-right{display:flex;gap:.5rem;align-items:center}
+.ab-btn{font-family:'Rajdhani',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:.32rem .8rem;border:none;cursor:pointer;min-height:34px;display:inline-flex;align-items:center;text-decoration:none}
+.ab-btn-out{background:rgba(230,57,70,.1);color:var(--red);border:1px solid rgba(230,57,70,.25)}
+.ab-btn-site{background:var(--card);color:var(--muted);border:1px solid var(--border2)}
+.ab-btn-site:hover{color:var(--gold)}
 
-/* panels */
+/* Tab bar */
+.admin-tabs{display:flex;background:#030810;border-bottom:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none;position:sticky;top:calc(64px + env(safe-area-inset-top,0px));z-index:100}
+.admin-tabs::-webkit-scrollbar{display:none}
+.at-btn{flex-shrink:0;font-family:'Rajdhani',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);background:none;border:none;border-bottom:2px solid transparent;padding:.75rem 1.3rem;cursor:pointer;min-height:48px;display:flex;align-items:center;gap:.35rem;white-space:nowrap;transition:color .25s,border-color .25s;-webkit-tap-highlight-color:transparent}
+.at-btn:hover{color:var(--gold-lt)}
+.at-btn.active{color:var(--gold);border-bottom-color:var(--gold);background:rgba(224,155,26,.05)}
+
+/* Content */
+.admin-content{padding:1.5rem max(4vw,16px);max-width:1200px}
 .panel{display:none}.panel.active{display:block}
 
-/* stats row */
-.stat-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(160px,100%),1fr));gap:1rem;margin-bottom:2rem}
-.stat-box{background:var(--card);border:1px solid var(--border);padding:1.4rem;text-align:center;position:relative;overflow:hidden}
+/* Stats grid */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(170px,100%),1fr));gap:1rem;margin-bottom:2rem}
+.stat-box{background:var(--card);border:1px solid var(--border);padding:1.4rem;position:relative;overflow:hidden;text-align:center}
 .stat-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--gold)}
-.stat-num{font-family:'Oswald',sans-serif;font-size:2.2rem;font-weight:700;color:var(--gold);display:block;line-height:1}
-.stat-lbl{font-family:'Rajdhani',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:.3rem;display:block}
+.stat-num{font-family:'Oswald',sans-serif;font-size:2rem;font-weight:700;color:var(--gold);display:block;line-height:1}
+.stat-lbl{font-family:'Rajdhani',sans-serif;font-size:.65rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-top:.35rem;display:block}
+.stat-box.green::before{background:var(--green)}.stat-box.green .stat-num{color:var(--green)}
+.stat-box.red::before{background:var(--red)}.stat-box.red .stat-num{color:var(--red)}
 
-/* bookings table */
-.bk-table{width:100%;border-collapse:collapse}
-.bk-table th{font-family:'Rajdhani',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted);padding:.75rem 1rem;text-align:left;border-bottom:1px solid var(--border);background:var(--card);white-space:nowrap}
-.bk-table td{padding:.9rem 1rem;border-bottom:1px solid var(--border2);font-size:.82rem;color:var(--steel);vertical-align:top}
-.bk-table tr:hover td{background:rgba(224,155,26,.03)}
-.bk-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--border)}
+/* Filter row */
+.filter-row{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-bottom:1.2rem}
+.filter-btn{font-family:'Rajdhani',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:.38rem .9rem;border:1px solid var(--border2);background:var(--card);color:var(--muted);cursor:pointer;min-height:36px;transition:all .25s;-webkit-tap-highlight-color:transparent}
+.filter-btn.active,.filter-btn:hover{background:var(--gold);color:#000;border-color:var(--gold)}
 
-.status-badge{padding:.25rem .7rem;font-family:'Rajdhani',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;white-space:nowrap}
-.status-badge.pending{background:rgba(245,158,11,.1);color:#f59e0b;border:1px solid rgba(245,158,11,.3)}
-.status-badge.confirmed{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.3)}
-.status-badge.rejected{background:rgba(230,57,70,.1);color:var(--red);border:1px solid rgba(230,57,70,.3)}
+/* Action buttons in table */
+.act-btn{font-family:'Rajdhani',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.25rem .6rem;border:none;cursor:pointer;min-height:28px;display:inline-flex;align-items:center;gap:.2rem;transition:opacity .2s;white-space:nowrap}
+.act-btn:hover{opacity:.8}
+.act-confirm{background:var(--green);color:#000}
+.act-reject{background:var(--red);color:#fff}
+.act-wa{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.25);text-decoration:none}
+.acts{display:flex;gap:.3rem;flex-wrap:wrap}
 
-.action-btns{display:flex;gap:.4rem;flex-wrap:wrap}
-.btn-confirm-sm,.btn-reject-sm{font-family:'Rajdhani',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.3rem .7rem;border:none;cursor:pointer;min-height:32px;transition:opacity .2s}
-.btn-confirm-sm{background:var(--green);color:#000}
-.btn-reject-sm{background:var(--red);color:#fff}
-.btn-confirm-sm:hover,.btn-reject-sm:hover{opacity:.85}
+/* Add SM form */
+.add-form{display:grid;grid-template-columns:1fr 1fr;gap:1rem;max-width:720px}
+@media(max-width:580px){.add-form{grid-template-columns:1fr}}
+.full-col{grid-column:1/-1}
+.add-form .fg label{font-family:'Rajdhani',sans-serif;font-size:.66rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
+.check-row{display:flex;align-items:center;gap:.6rem}
+.check-row input[type=checkbox]{width:20px;height:20px;accent-color:var(--gold);cursor:pointer;flex-shrink:0}
+.check-row label{font-family:'Rajdhani',sans-serif;font-size:.76rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);cursor:pointer}
 
-/* filter tabs */
-.filter-tabs{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.2rem}
-.ftab{font-family:'Rajdhani',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:.35rem .9rem;border:1px solid var(--border2);background:var(--card);color:var(--muted);cursor:pointer;min-height:36px;transition:all .3s}
-.ftab.active,.ftab:hover{background:var(--gold);color:#000;border-color:var(--gold)}
-
-/* add serviceman form */
-.add-sm-form{display:grid;grid-template-columns:1fr 1fr;gap:1rem;max-width:700px}
-@media(max-width:600px){.add-sm-form{grid-template-columns:1fr}}
-.add-sm-form .fg label{font-family:'Rajdhani',sans-serif;font-size:.67rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted)}
-.add-sm-form .fg input,.add-sm-form .fg select,.add-sm-form .fg textarea{background:var(--card);border:1px solid var(--border);color:var(--steel);padding:.75rem 1rem;font-size:16px;font-family:'DM Sans',sans-serif;outline:none;border-radius:0;-webkit-appearance:none;appearance:none;width:100%;transition:border-color .3s;min-height:var(--touch)}
-.add-sm-form .fg input:focus,.add-sm-form .fg select:focus{border-color:var(--gold)}
-.add-sm-form .fg select option{background:#0c1528}
-.add-sm-form .full-col{grid-column:1/-1}
-.btn-add-sm{font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:var(--gold);color:#000;padding:.85rem 2rem;border:none;cursor:pointer;box-shadow:0 4px 20px var(--gold-glow);transition:background .3s;min-height:var(--touch)}
-.btn-add-sm:hover{background:var(--gold-lt)}
-
-/* serviceman management cards */
-.sm-mgmt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(220px,100%),1fr));gap:1rem}
-.sm-mgmt-card{background:var(--card);border:1px solid var(--border);overflow:hidden}
-.sm-mgmt-photo{width:100%;height:150px;object-fit:cover;background:var(--navy3);display:flex;align-items:center;justify-content:center;font-size:3rem}
+/* SM management cards */
+.sm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(200px,100%),1fr));gap:1rem}
+.sm-mgmt{background:var(--card);border:1px solid var(--border);overflow:hidden}
+.sm-mgmt-ph{width:100%;height:140px;object-fit:cover;background:var(--navy3);display:flex;align-items:center;justify-content:center;font-size:3rem}
+.sm-mgmt-ph img{width:100%;height:100%;object-fit:cover}
 .sm-mgmt-body{padding:1rem}
-.sm-mgmt-name{font-family:'Rajdhani',sans-serif;font-size:.95rem;font-weight:700;color:var(--white);margin-bottom:.2rem}
-.sm-mgmt-role{font-family:'Rajdhani',sans-serif;font-size:.65rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem}
-.sm-mgmt-actions{display:flex;gap:.4rem}
-.btn-toggle-avail{font-family:'Rajdhani',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.3rem .7rem;border:none;cursor:pointer;min-height:32px;flex:1}
-.btn-toggle-avail.avail{background:rgba(34,197,94,.15);color:var(--green);border:1px solid rgba(34,197,94,.3)}
-.btn-toggle-avail.unavail{background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid rgba(245,158,11,.3)}
-.btn-delete-sm{font-family:'Rajdhani',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.3rem .7rem;background:rgba(230,57,70,.1);color:var(--red);border:1px solid rgba(230,57,70,.3);cursor:pointer;min-height:32px}
+.sm-mgmt-name{font-family:'Rajdhani',sans-serif;font-size:.88rem;font-weight:700;color:var(--white);margin-bottom:.2rem}
+.sm-mgmt-role{font-family:'Rajdhani',sans-serif;font-size:.62rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem}
+.sm-mgmt-acts{display:flex;gap:.3rem;flex-wrap:wrap}
+.sm-avail-tog{font-family:'Rajdhani',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.22rem .6rem;border:none;cursor:pointer;min-height:28px;flex:1}
+.sm-avail-tog.avail{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.3)}
+.sm-avail-tog.unavail{background:rgba(245,158,11,.1);color:#f59e0b;border:1px solid rgba(245,158,11,.3)}
+.sm-del{font-family:'Rajdhani',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.22rem .6rem;background:rgba(230,57,70,.1);color:var(--red);border:1px solid rgba(230,57,70,.3);cursor:pointer;min-height:28px}
 
-/* users table */
+/* Users grid */
 .users-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr));gap:1rem}
 .user-card{background:var(--card);border:1px solid var(--border);padding:1.2rem}
-.user-card-header{display:flex;align-items:center;gap:.8rem;margin-bottom:.8rem}
-.user-avatar{width:40px;height:40px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Oswald',sans-serif;font-size:.9rem;font-weight:700;color:#000;flex-shrink:0}
-.user-name{font-family:'Rajdhani',sans-serif;font-size:.9rem;font-weight:700;color:var(--white);margin-bottom:.1rem}
-.user-email{font-size:.72rem;color:var(--muted)}
-.user-meta{font-size:.76rem;color:var(--muted);line-height:1.7}
+.user-head{display:flex;align-items:center;gap:.7rem;margin-bottom:.8rem}
+.user-av{width:38px;height:38px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Oswald',sans-serif;font-size:.9rem;font-weight:700;color:#000;flex-shrink:0}
+.user-nm{font-family:'Rajdhani',sans-serif;font-size:.85rem;font-weight:700;color:var(--white);margin-bottom:.1rem}
+.user-em{font-size:.72rem;color:var(--muted)}
+.user-meta{font-size:.76rem;color:var(--muted);line-height:1.75}
+.user-acts{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.8rem}
 
-.loading-spinner{display:flex;align-items:center;justify-content:center;padding:3rem;gap:.8rem;color:var(--muted);font-family:'Rajdhani',sans-serif;font-size:.85rem;letter-spacing:2px;text-transform:uppercase}
-.ls-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);animation:ldot 1.2s infinite}
-.ls-dot:nth-child(2){animation-delay:.2s}.ls-dot:nth-child(3){animation-delay:.4s}
-@keyframes ldot{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
-.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(0,0,0,.3);border-top-color:#000;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:.4rem}
-@keyframes spin{to{transform:rotate(360deg)}}
-.success-toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:var(--green);color:#000;font-family:'Rajdhani',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:1px;padding:.8rem 1.5rem;z-index:3000;display:none;border-radius:2px;box-shadow:0 4px 20px rgba(34,197,94,.4)}
-.success-toast.show{display:block}
-.alert-msg{background:rgba(230,57,70,.1);border:1px solid rgba(230,57,70,.3);padding:.8rem 1rem;font-size:.82rem;color:#e63946;margin-bottom:1rem;display:none}
-.alert-msg.show{display:block}
-.ok-msg{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);padding:.8rem 1rem;font-size:.82rem;color:var(--green);margin-bottom:1rem;display:none}
-.ok-msg.show{display:block}
+/* Attendance */
+.att-date-input{background:var(--card);border:1px solid var(--border);color:var(--steel);padding:.6rem 1rem;font-size:15px;font-family:'DM Sans',sans-serif;outline:none;border-radius:0;-webkit-appearance:none;min-height:40px}
+.att-date-input:focus{border-color:var(--gold)}
+.att-filter-btn{font-family:'Rajdhani',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:var(--gold);color:#000;padding:.6rem 1.3rem;border:none;cursor:pointer;min-height:40px}
+.att-filter-btn.sec{background:var(--card);color:var(--muted);border:1px solid var(--border2)}
+.att-filter-btn.sec:hover{border-color:var(--gold);color:var(--gold)}
+
+/* Attendance detail card per employee */
+.emp-att-card{background:var(--card);border:1px solid var(--border);margin-bottom:1.2rem;overflow:hidden}
+.emp-att-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 1.2rem;border-bottom:1px solid var(--border2);background:var(--navy3);flex-wrap:wrap}
+.emp-att-name{font-family:'Rajdhani',sans-serif;font-size:.92rem;font-weight:700;color:var(--white)}
+.emp-att-stats{display:flex;gap:1.2rem;flex-wrap:wrap}
+.emp-stat{text-align:center}
+.emp-stat .es-val{font-family:'Oswald',sans-serif;font-size:1.1rem;font-weight:700;display:block;line-height:1}
+.emp-stat .es-lbl{font-family:'Rajdhani',sans-serif;font-size:.6rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
+.emp-stat.green .es-val{color:var(--green)}
+.emp-stat.red .es-val{color:var(--red)}
+.emp-stat.gold .es-val{color:var(--gold)}
+.emp-att-body{padding:1rem 1.2rem}
+.att-entry{display:flex;align-items:flex-start;gap:.8rem;padding:.55rem 0;border-bottom:1px solid var(--border2)}
+.att-entry:last-child{border-bottom:none}
+.att-entry-type{flex-shrink:0;min-width:80px}
+.att-entry-time{font-size:.8rem;color:var(--steel);font-weight:500}
+.att-entry-loc{font-size:.74rem;color:var(--muted);margin-top:.1rem}
+.att-entry-note{font-size:.72rem;color:var(--muted);font-style:italic}
+.att-map-link{font-size:.68rem;color:#60a5fa;text-decoration:none;font-family:'Rajdhani',sans-serif;letter-spacing:1px;font-weight:600}
+.att-map-link:hover{text-decoration:underline}
+
+/* Toast */
+.toast{position:fixed;bottom:calc(5rem + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--green);color:#000;font-family:'Rajdhani',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:1px;padding:.75rem 1.5rem;z-index:3000;display:none;white-space:nowrap;box-shadow:0 4px 20px rgba(34,197,94,.4)}
+.toast.show{display:block}
+.toast.err{background:var(--red);color:#fff;box-shadow:0 4px 20px rgba(230,57,70,.4)}
+
+/* Section heading */
+.admin-sec-head{margin-bottom:1.5rem}
+.admin-sec-head h2{font-family:'Oswald',sans-serif;font-size:1.4rem;font-weight:700;color:var(--white)}
+.admin-sec-head h2 span{color:var(--gold)}
+.admin-sec-head p{font-size:.82rem;font-weight:300;color:var(--muted);margin-top:.3rem}
 </style>
 </head>
 <body>
 
+<!-- NAV -->
 <nav id="navbar">
   <a href="index.html" class="nav-logo">
     <img src="Logo.jpeg" class="nav-logo-img" alt="AV Group"/>
     <span class="nav-logo-text"><span class="logo-av">AV GROUP</span><span class="logo-grp">SECURITY</span></span>
   </a>
-  <div style="display:flex;align-items:center;gap:.5rem;font-family:'Rajdhani',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:2px;color:var(--gold)">⚙️ ADMIN PANEL</div>
-  <div class="nav-right">
+  <div style="flex:1"></div>
+  <div class="nav-right" style="gap:.4rem">
+    <span style="font-family:'Rajdhani',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold)">⚙ ADMIN</span>
     <button onclick="doLogout()" class="nav-cta" style="border:none;cursor:pointer">Logout</button>
   </div>
 </nav>
 
-<!-- Mobile tabs -->
-<div class="admin-mob-tabs">
-  <button class="amt active" onclick="showPanel('overview',this)">📊 Overview</button>
-  <button class="amt" onclick="showPanel('bookings',this)">📋 Bookings</button>
-  <button class="amt" onclick="showPanel('servicemen',this)">👮 Servicemen</button>
-  <button class="amt" onclick="showPanel('addSm',this)">➕ Add Person</button>
-  <button class="amt" onclick="showPanel('users',this)">👥 Users</button>
-  <button class="amt" onclick="showPanel('attendance',this)">📍 Attendance</button>
-</div>
-
-<div class="admin-layout">
-  <!-- SIDEBAR -->
-  <aside class="admin-sidebar">
-    <div class="admin-brand">
-      <img src="Logo.jpeg" alt="AV Group"/>
-      <div><div class="admin-brand-text">AV Group</div><div class="admin-brand-sub">Admin Panel</div></div>
+<div class="admin-page">
+  <!-- Admin bar -->
+  <div class="admin-bar">
+    <div class="ab-left">
+      <img src="Logo.jpeg" class="ab-logo" alt="AV Group"/>
+      <div><div class="ab-title">AV Group</div><div class="ab-sub">Admin Dashboard</div></div>
     </div>
-    <nav class="admin-nav">
-      <a href="#" class="anav-item active" onclick="showPanel('overview',this)">📊 Overview</a>
-      <a href="#" class="anav-item" onclick="showPanel('bookings',this)">📋 All Bookings</a>
-      <a href="#" class="anav-item" onclick="showPanel('servicemen',this)">👮 Manage Servicemen</a>
-      <a href="#" class="anav-item" onclick="showPanel('addSm',this)">➕ Add Serviceman</a>
-      <a href="#" class="anav-item" onclick="showPanel('users',this)">👥 Registered Users</a>
-      <div class="anav-sep"></div>
-      <a href="#" class="anav-item" onclick="showPanel('attendance',this)">📍 Attendance</a>
-      <a href="index.html" class="anav-item">🌐 View Website</a>
-      <a href="#" class="anav-item anav-logout" onclick="doLogout()">🚪 Logout</a>
-    </nav>
-  </aside>
+    <div class="ab-right">
+      <a href="index.html" class="ab-btn ab-btn-site">🌐 Website</a>
+      <button onclick="doLogout()" class="ab-btn ab-btn-out">🚪 Logout</button>
+    </div>
+  </div>
 
-  <main class="admin-main">
+  <!-- Tab Bar -->
+  <div class="admin-tabs" role="tablist">
+    <button class="at-btn active" onclick="switchPanel('overview',0)">📊 Overview</button>
+    <button class="at-btn" onclick="switchPanel('bookings',1)">📋 Bookings</button>
+    <button class="at-btn" onclick="switchPanel('servicemen',2)">👮 Servicemen</button>
+    <button class="at-btn" onclick="switchPanel('addsm',3)">➕ Add Person</button>
+    <button class="at-btn" onclick="switchPanel('attendance',4)">📍 Attendance</button>
+    <button class="at-btn" onclick="switchPanel('users',5)">👥 Users</button>
+  </div>
 
-    <!-- OVERVIEW -->
+  <!-- Content -->
+  <div class="admin-content">
+
+    <!-- ══ OVERVIEW ══ -->
     <div class="panel active" id="panel-overview">
-      <div style="margin-bottom:1.5rem">
-        <div class="sec-eyebrow" style="margin-bottom:.4rem">Admin Dashboard</div>
-        <h1 class="sec-title" style="font-size:1.8rem">Welcome, <span class="acc">Admin</span> 👋</h1>
+      <div class="admin-sec-head">
+        <h2>Welcome, <span>Admin</span> 👋</h2>
+        <p>Here's a quick summary of AV Group operations today.</p>
       </div>
-      <div class="stat-row">
-        <div class="stat-box"><span class="stat-num" id="st-total">-</span><span class="stat-lbl">Total Bookings</span></div>
-        <div class="stat-box"><span class="stat-num" id="st-pending">-</span><span class="stat-lbl">Pending</span></div>
-        <div class="stat-box"><span class="stat-num" id="st-confirmed">-</span><span class="stat-lbl">Confirmed</span></div>
-        <div class="stat-box"><span class="stat-num" id="st-users">-</span><span class="stat-lbl">Registered Users</span></div>
-        <div class="stat-box"><span class="stat-num" id="st-sm">-</span><span class="stat-lbl">Servicemen</span></div>
+      <div class="stats-grid">
+        <div class="stat-box"><span class="stat-num" id="ov-total">-</span><span class="stat-lbl">Total Bookings</span></div>
+        <div class="stat-box"><span class="stat-num" id="ov-pending">-</span><span class="stat-lbl">Pending</span></div>
+        <div class="stat-box green"><span class="stat-num" id="ov-confirmed">-</span><span class="stat-lbl">Confirmed</span></div>
+        <div class="stat-box red"><span class="stat-num" id="ov-rejected">-</span><span class="stat-lbl">Rejected</span></div>
+        <div class="stat-box"><span class="stat-num" id="ov-users">-</span><span class="stat-lbl">Users</span></div>
+        <div class="stat-box green"><span class="stat-num" id="ov-sm">-</span><span class="stat-lbl">Servicemen</span></div>
       </div>
-
-      <!-- Recent bookings preview -->
-      <div class="sec-eyebrow" style="margin-bottom:.8rem">Recent Bookings</div>
-      <div class="loading-spinner" id="recentLoading"><span class="ls-dot"></span><span class="ls-dot"></span><span class="ls-dot"></span></div>
-      <div class="bk-table-wrap" id="recentTable"></div>
-      <div style="margin-top:1rem">
-        <button class="btn-add-sm" style="font-size:.75rem;padding:.6rem 1.2rem" onclick="showPanel('bookings',document.querySelector('.anav-item:nth-child(2)'))">View All Bookings →</button>
-      </div>
+      <h3 style="font-family:'Rajdhani',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:.9rem;display:flex;align-items:center;gap:.5rem"><span style="display:block;width:16px;height:2px;background:var(--gold)"></span>Recent Bookings</h3>
+      <div class="ldots" id="ovLoader"><div class="ldot"></div><div class="ldot"></div><div class="ldot"></div></div>
+      <div class="tbl-wrap" id="ovTable"></div>
+      <div style="margin-top:1rem"><button class="filter-btn active" onclick="switchPanel('bookings',1)">View All Bookings →</button></div>
     </div>
 
-    <!-- ALL BOOKINGS -->
+    <!-- ══ BOOKINGS ══ -->
     <div class="panel" id="panel-bookings">
-      <h2 class="sec-title" style="font-size:1.8rem;margin-bottom:1.2rem">All <span class="acc">Bookings</span></h2>
-      <div class="filter-tabs" id="filterTabs">
-        <button class="ftab active" onclick="filterBookings('all',this)">All</button>
-        <button class="ftab" onclick="filterBookings('pending',this)">Pending</button>
-        <button class="ftab" onclick="filterBookings('confirmed',this)">Confirmed</button>
-        <button class="ftab" onclick="filterBookings('rejected',this)">Rejected</button>
+      <div class="admin-sec-head"><h2>All <span>Bookings</span></h2><p>Confirm, reject, or contact clients directly via WhatsApp.</p></div>
+      <div class="filter-row" id="bkFilters">
+        <button class="filter-btn active" onclick="filterBk('all',this)">All</button>
+        <button class="filter-btn" onclick="filterBk('pending',this)">Pending</button>
+        <button class="filter-btn" onclick="filterBk('confirmed',this)">Confirmed</button>
+        <button class="filter-btn" onclick="filterBk('rejected',this)">Rejected</button>
       </div>
-      <div class="loading-spinner" id="allBkLoading"><span class="ls-dot"></span><span class="ls-dot"></span><span class="ls-dot"></span></div>
-      <div class="bk-table-wrap" id="allBookingsTable"></div>
+      <div class="ldots" id="bkLoader"><div class="ldot"></div><div class="ldot"></div><div class="ldot"></div></div>
+      <div class="tbl-wrap" id="bkTable"></div>
     </div>
 
-    <!-- MANAGE SERVICEMEN -->
+    <!-- ══ SERVICEMEN ══ -->
     <div class="panel" id="panel-servicemen">
-      <h2 class="sec-title" style="font-size:1.8rem;margin-bottom:1.5rem">Manage <span class="acc">Servicemen</span></h2>
-      <div class="loading-spinner" id="smMgmtLoading"><span class="ls-dot"></span><span class="ls-dot"></span><span class="ls-dot"></span></div>
-      <div class="sm-mgmt-grid" id="smMgmtGrid"></div>
+      <div class="admin-sec-head"><h2>Manage <span>Servicemen</span></h2><p>Toggle availability or remove servicemen from the booking system.</p></div>
+      <div class="ldots" id="smLoader"><div class="ldot"></div><div class="ldot"></div><div class="ldot"></div></div>
+      <div class="sm-grid" id="smGrid"></div>
     </div>
 
-    <!-- ADD SERVICEMAN -->
-    <div class="panel" id="panel-addSm">
-      <h2 class="sec-title" style="font-size:1.8rem;margin-bottom:1.5rem">Add New <span class="acc">Serviceman</span></h2>
-      <p style="font-size:.85rem;color:var(--muted);margin-bottom:1.5rem">Add a new serviceman profile. Users will be able to browse and book them from their dashboard.</p>
-      <div class="alert-msg" id="addSmErr"></div>
-      <div class="ok-msg"    id="addSmOk"></div>
-      <form class="add-sm-form" id="addSmForm" novalidate>
-        <div class="fg"><label>Full Name *</label><input type="text" id="sm_name" placeholder="e.g. Rajesh Kumar" required/></div>
+    <!-- ══ ADD SERVICEMAN ══ -->
+    <div class="panel" id="panel-addsm">
+      <div class="admin-sec-head"><h2>Add New <span>Serviceman</span></h2><p>Add a profile that users can browse and book from their dashboard.</p></div>
+      <div class="error-msg" id="addErr"></div>
+      <div class="success-msg" id="addOk"></div>
+      <form class="add-form" id="addForm" novalidate>
+        <div class="fg"><label>Full Name *</label><input type="text" id="sm-name" placeholder="e.g. Rajesh Kumar" required/></div>
         <div class="fg"><label>Category *</label>
-          <select id="sm_cat" required>
-            <option value="">Select category</option>
-            <option>Security Guard</option><option>Bouncer</option><option>Gunman</option>
-            <option>Ex-Serviceman</option><option>Supervisor</option><option>VIP Protection</option>
-            <option>Housekeeping</option><option>CCTV</option>
-          </select>
+          <select id="sm-cat" required><option value="">Select</option><option>Security Guard</option><option>Bouncer</option><option>Gunman</option><option>Ex-Serviceman</option><option>Supervisor</option><option>VIP Protection</option><option>Housekeeping</option><option>CCTV</option></select>
         </div>
-        <div class="fg"><label>Role / Designation *</label><input type="text" id="sm_role" placeholder="e.g. Senior Security Guard" required/></div>
-        <div class="fg"><label>Experience (years) *</label><input type="number" id="sm_exp" placeholder="e.g. 5" min="0" required/></div>
-        <div class="fg"><label>Photo URL (optional)</label><input type="url" id="sm_photo" placeholder="https://... (paste image link)"/></div>
-        <div class="fg"><label>Ex-Serviceman?</label>
-          <select id="sm_exsvc"><option value="false">No</option><option value="true">Yes — Ex Army/Police</option></select>
-        </div>
-        <div class="fg"><label>Price Per Day (₹) *</label><input type="number" id="sm_price_day" placeholder="e.g. 800" min="0"/></div>
-        <div class="fg"><label>Price Per Month (₹) *</label><input type="number" id="sm_price_month" placeholder="e.g. 18000" min="0"/></div>
-        <div class="fg full-col"><label>Price Per Event (₹)</label><input type="number" id="sm_price_event" placeholder="e.g. 2000 (for bouncers, events)" min="0"/></div>
-        <div class="fg full-col"><label>About / Description</label><input type="text" id="sm_about" placeholder="Brief background, skills, specialization..."/></div>
-        <div class="fg full-col" style="display:flex;align-items:center;gap:.8rem">
-          <input type="checkbox" id="sm_avail" checked style="width:20px;height:20px;accent-color:var(--gold)"/>
-          <label for="sm_avail" style="font-family:'Rajdhani',sans-serif;font-size:.75rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted)">Currently Available for Booking</label>
-        </div>
-        <div class="full-col">
-          <button type="submit" class="btn-add-sm" id="addSmBtn">Add Serviceman →</button>
-        </div>
+        <div class="fg"><label>Role / Designation *</label><input type="text" id="sm-role" placeholder="e.g. Senior Security Guard" required/></div>
+        <div class="fg"><label>Experience (Years) *</label><input type="number" id="sm-exp" placeholder="e.g. 5" min="0" required/></div>
+        <div class="fg"><label>Price Per Day (₹)</label><input type="number" id="sm-pday" placeholder="e.g. 800" min="0"/></div>
+        <div class="fg"><label>Price Per Month (₹)</label><input type="number" id="sm-pmon" placeholder="e.g. 18000" min="0"/></div>
+        <div class="fg full-col"><label>Price Per Event (₹)</label><input type="number" id="sm-pevt" placeholder="e.g. 2000" min="0"/></div>
+        <div class="fg full-col"><label>Photo URL (Optional)</label><input type="url" id="sm-photo" placeholder="https://i.ibb.co/... (paste image link from imgbb.com)"/></div>
+        <div class="fg full-col"><label>About / Description</label><input type="text" id="sm-about" placeholder="Brief background, skills, specialization..."/></div>
+        <div class="full-col check-row"><input type="checkbox" id="sm-exsvc"/><label for="sm-exsvc">Ex-Serviceman (Ex-Army / Ex-Police)</label></div>
+        <div class="full-col check-row"><input type="checkbox" id="sm-avail" checked/><label for="sm-avail">Currently Available for Booking</label></div>
+        <div class="full-col"><button type="submit" class="btn-submit" id="addBtn">Add Serviceman →</button></div>
       </form>
     </div>
 
-    <!-- USERS -->
+    <!-- ══ ATTENDANCE ══ -->
+    <div class="panel" id="panel-attendance">
+      <div class="admin-sec-head"><h2>GPS <span>Attendance</span></h2><p>View daily check-in/check-out records with hours worked per employee.</p></div>
+
+      <!-- Date filter -->
+      <div class="filter-row" style="margin-bottom:1.5rem">
+        <input type="date" class="att-date-input" id="attDate"/>
+        <button class="att-filter-btn" onclick="loadAttendance()">Filter Date →</button>
+        <button class="att-filter-btn sec" onclick="loadAttendanceToday()">Today</button>
+      </div>
+
+      <!-- Summary stats -->
+      <div class="stats-grid" style="margin-bottom:1.5rem">
+        <div class="stat-box green"><span class="stat-num" id="att-ci">-</span><span class="stat-lbl">Check Ins</span></div>
+        <div class="stat-box red"><span class="stat-num" id="att-co">-</span><span class="stat-lbl">Check Outs</span></div>
+        <div class="stat-box"><span class="stat-num" id="att-emp">-</span><span class="stat-lbl">Employees</span></div>
+        <div class="stat-box"><span class="stat-num" id="att-total">-</span><span class="stat-lbl">Total Records</span></div>
+      </div>
+
+      <div class="ldots" id="attLoader"><div class="ldot"></div><div class="ldot"></div><div class="ldot"></div></div>
+      <div id="attContent"></div>
+    </div>
+
+    <!-- ══ USERS ══ -->
     <div class="panel" id="panel-users">
-      <h2 class="sec-title" style="font-size:1.8rem;margin-bottom:1.5rem">Registered <span class="acc">Users</span></h2>
-      <div class="loading-spinner" id="usersLoading"><span class="ls-dot"></span><span class="ls-dot"></span><span class="ls-dot"></span></div>
+      <div class="admin-sec-head"><h2>Registered <span>Users</span></h2><p>All clients who have created accounts on the website.</p></div>
+      <div class="ldots" id="userLoader"><div class="ldot"></div><div class="ldot"></div><div class="ldot"></div></div>
       <div class="users-grid" id="usersGrid"></div>
     </div>
 
-    <!-- ATTENDANCE PANEL -->
-    <div class="panel" id="panel-attendance">
-      <h2 class="sec-title" style="font-size:1.8rem;margin-bottom:.5rem">Live <span class="acc">Attendance</span></h2>
-      <p style="font-size:.84rem;color:var(--muted);margin-bottom:1.5rem">Real-time check-in/check-out records of all servicemen with GPS location.</p>
-
-      <!-- Filter row -->
-      <div style="display:flex;gap:.8rem;flex-wrap:wrap;align-items:center;margin-bottom:1.2rem">
-        <div style="flex:1;min-width:140px">
-          <input type="date" id="attDateFilter" style="background:var(--card);border:1px solid var(--border);color:var(--steel);padding:.65rem 1rem;font-size:15px;font-family:'DM Sans',sans-serif;outline:none;width:100%;border-radius:0;-webkit-appearance:none"/>
-        </div>
-        <button onclick="loadAttendance()" style="font-family:'Rajdhani',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:var(--gold);color:#000;padding:.65rem 1.5rem;border:none;cursor:pointer;min-height:44px">Filter →</button>
-        <button onclick="loadAttendance(true)" style="font-family:'Rajdhani',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:var(--card);color:var(--muted);border:1px solid var(--border2);padding:.65rem 1.5rem;cursor:pointer;min-height:44px">Today</button>
-      </div>
-
-      <!-- Summary cards -->
-      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(160px,100%),1fr));gap:1rem;margin-bottom:1.5rem">
-        <div style="background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3);padding:1.2rem;text-align:center">
-          <span id="att-total-in" style="font-family:'Oswald',sans-serif;font-size:2rem;font-weight:700;color:var(--green);display:block">0</span>
-          <span style="font-family:'Rajdhani',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(34,197,94,.7)">Checked In</span>
-        </div>
-        <div style="background:rgba(230,57,70,.1);border:1px solid rgba(230,57,70,.3);padding:1.2rem;text-align:center">
-          <span id="att-total-out" style="font-family:'Oswald',sans-serif;font-size:2rem;font-weight:700;color:var(--red);display:block">0</span>
-          <span style="font-family:'Rajdhani',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(230,57,70,.7)">Checked Out</span>
-        </div>
-        <div style="background:var(--card);border:1px solid var(--border);padding:1.2rem;text-align:center">
-          <span id="att-total-records" style="font-family:'Oswald',sans-serif;font-size:2rem;font-weight:700;color:var(--gold);display:block">0</span>
-          <span style="font-family:'Rajdhani',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Total Records</span>
-        </div>
-      </div>
-
-      <!-- Attendance table -->
-      <div class="loading-spinner" id="attLoading"><span class="ls-dot"></span><span class="ls-dot"></span><span class="ls-dot"></span></div>
-      <div class="bk-table-wrap" id="attTable"></div>
-    </div>
-
-  </main>
+  </div>
 </div>
 
-<div class="success-toast" id="toast"></div>
+<div class="toast" id="toast"></div>
+
+<div class="credit-bar">
+  <span>Designed &amp; Developed by</span>
+  <a href="https://github.com/rajg39389-source" target="_blank" rel="noopener">⚡ Raj Gupta</a>
+  <span>· Need a website? Contact me!</span>
+</div>
 
 <script type="module">
-  import { initializeApp }     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signOut }
-                                from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-  import { getFirestore, collection, getDocs, addDoc, doc, updateDoc,
-           deleteDoc, query, orderBy, limit, serverTimestamp }
-                                from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-  import { firebaseConfig, ADMIN_EMAIL } from "./firebase-config.js";
+import { initializeApp }  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut }
+                           from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, collection, getDocs, addDoc, doc, updateDoc,
+         deleteDoc, query, where, orderBy, serverTimestamp }
+                           from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { firebaseConfig, ADMIN_EMAIL } from "./firebase-config.js";
 
-  const app  = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db   = getFirestore(app);
-  let allBookings=[], allServicemen=[], allUsers=[];
+const app  = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getFirestore(app);
+let allBk=[], allSM=[], allUsers=[];
 
-  // ── AUTH GUARD ──
-  onAuthStateChanged(auth, async user=>{
-    if(!user){ window.location.href='login.html'; return; }
-    if(user.email !== ADMIN_EMAIL){ window.location.href='dashboard.html'; return; }
-    loadAll();
-  });
+// ── AUTH ──
+onAuthStateChanged(auth, async user=>{
+  if(!user){ window.location.href='login.html'; return; }
+  if(user.email!==ADMIN_EMAIL){ window.location.href='dashboard.html'; return; }
+  loadAll();
+});
 
-  async function loadAll(){
-    await Promise.all([loadBookings(), loadServicemen(), loadUsers()]);
+async function loadAll(){ await Promise.all([loadBookings(), loadServicemen(), loadUsers()]); }
+
+// ── TOAST ──
+function toast(msg, err=false){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.className='toast show'+(err?' err':'');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// ── PANEL SWITCH ──
+window.switchPanel = function(name, idx){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.at-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+name)?.classList.add('active');
+  document.querySelectorAll('.at-btn')[idx]?.classList.add('active');
+  if(name==='attendance') loadAttendanceToday();
+};
+
+// ── BOOKINGS ──
+async function loadBookings(){
+  try{
+    const snap=await getDocs(query(collection(db,'bookings'), orderBy('createdAt','desc')));
+    allBk=snap.docs.map(d=>({id:d.id,...d.data()}));
+    renderOvStats();
+    renderOvTable(allBk.slice(0,8));
+    renderBkTable('all');
+    hide('ovLoader'); hide('bkLoader');
+  }catch(e){
+    try{
+      // fallback without orderBy if index missing
+      const snap=await getDocs(collection(db,'bookings'));
+      allBk=snap.docs.map(d=>({id:d.id,...d.data()}));
+      allBk.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+      renderOvStats(); renderOvTable(allBk.slice(0,8)); renderBkTable('all');
+      hide('ovLoader'); hide('bkLoader');
+    }catch(e2){ console.error('Bookings load error:',e2); }
   }
+}
 
-  // ── LOAD BOOKINGS ──
-  async function loadBookings(){
-    try {
-      const snap = await getDocs(query(collection(db,'bookings'),orderBy('createdAt','desc')));
-      allBookings = snap.docs.map(d=>({id:d.id,...d.data()}));
-      updateStats();
-      renderRecentTable(allBookings.slice(0,8));
-      renderAllBookings('all');
-      document.getElementById('recentLoading').style.display='none';
-      document.getElementById('allBkLoading').style.display='none';
-    } catch(e){ console.error(e); }
-  }
+function renderOvStats(){
+  const pending=allBk.filter(b=>b.status==='pending').length;
+  const confirmed=allBk.filter(b=>b.status==='confirmed').length;
+  const rejected=allBk.filter(b=>b.status==='rejected').length;
+  set('ov-total',allBk.length); set('ov-pending',pending);
+  set('ov-confirmed',confirmed); set('ov-rejected',rejected);
+  set('ov-users',allUsers.length); set('ov-sm',allSM.length);
+}
 
-  function updateStats(){
-    document.getElementById('st-total').textContent     = allBookings.length;
-    document.getElementById('st-pending').textContent   = allBookings.filter(b=>b.status==='pending').length;
-    document.getElementById('st-confirmed').textContent = allBookings.filter(b=>b.status==='confirmed').length;
-    document.getElementById('st-users').textContent     = allUsers.length;
-    document.getElementById('st-sm').textContent        = allServicemen.length;
-  }
+function renderOvTable(list){ document.getElementById('ovTable').innerHTML = bkTableHTML(list,'ov'); }
 
-  function bookingTableHTML(list){
-    if(!list.length) return '<div style="padding:2rem;text-align:center;color:var(--muted);font-size:.85rem">No bookings found.</div>';
-    return `<table class="bk-table">
-      <thead><tr>
-        <th>Status</th><th>Client Name</th><th>Phone</th>
-        <th>Serviceman</th><th>Role</th><th>Date</th>
-        <th>Duration</th><th>Location</th><th>Actions</th>
-      </tr></thead>
-      <tbody>${list.map(b=>`
-        <tr>
-          <td><span class="status-badge ${b.status}">${b.status.toUpperCase()}</span></td>
-          <td><strong style="color:var(--white)">${b.userName}</strong><br><span style="font-size:.72rem;color:var(--muted)">${b.userEmail}</span></td>
-          <td><a href="tel:${b.userPhone}" style="color:var(--gold)">${b.userPhone}</a></td>
-          <td style="color:var(--white)">${b.servicemanName}</td>
-          <td>${b.servicemanRole}</td>
-          <td>${b.startDate}</td>
-          <td>${b.duration}<br><span style="font-size:.72rem;color:var(--muted)">${b.shift}</span></td>
-          <td style="max-width:180px">${b.location}</td>
-          <td>
-            <div class="action-btns">
-              ${b.status!=='confirmed'?`<button class="btn-confirm-sm" onclick="updateStatus('${b.id}','confirmed')">✓ Confirm</button>`:''}
-              ${b.status!=='rejected'?`<button class="btn-reject-sm" onclick="updateStatus('${b.id}','rejected')">✕ Reject</button>`:''}
-              <a href="https://wa.me/${b.userPhone?.replace(/\D/g,'')}?text=Hello+${encodeURIComponent(b.userName)}%2C+your+booking+for+${encodeURIComponent(b.servicemanName)}+has+been+${b.status==='confirmed'?'CONFIRMED':'updated'}.+-+AV+Group" target="_blank" style="font-family:'Rajdhani',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.3rem .7rem;background:rgba(34,197,94,.15);color:var(--green);border:1px solid rgba(34,197,94,.3);text-decoration:none;min-height:32px;display:inline-flex;align-items:center">💬 WA</a>
-            </div>
-          </td>
-        </tr>`).join('')}
-      </tbody></table>`;
-  }
+function renderBkTable(filter){
+  const list = filter==='all' ? allBk : allBk.filter(b=>b.status===filter);
+  document.getElementById('bkTable').innerHTML = bkTableHTML(list,'bk');
+}
 
-  function renderRecentTable(list){ document.getElementById('recentTable').innerHTML = bookingTableHTML(list); }
-  function renderAllBookings(filter){
-    const list = filter==='all' ? allBookings : allBookings.filter(b=>b.status===filter);
-    document.getElementById('allBookingsTable').innerHTML = bookingTableHTML(list);
-  }
+function bkTableHTML(list, pfx){
+  if(!list.length) return '<div class="no-data"><span class="nd-icon">📋</span>No bookings found.</div>';
+  return `<table class="tbl">
+    <thead><tr>
+      <th>Status</th><th>Client</th><th>Phone</th>
+      <th>Serviceman</th><th>Role</th><th>Date</th><th>Duration</th><th>Location</th><th>Actions</th>
+    </tr></thead>
+    <tbody>${list.map(b=>`<tr>
+      <td><span class="badge badge-${b.status}">${b.status.toUpperCase()}</span><div style="font-size:.68rem;color:var(--muted);margin-top:.2rem">${b.createdAt?.toDate?.()?.toLocaleDateString('en-IN',{day:'numeric',month:'short'})||''}</div></td>
+      <td><strong style="color:var(--white);display:block">${b.userName||'-'}</strong><span style="font-size:.7rem;color:var(--muted)">${b.userEmail||''}</span></td>
+      <td><a href="tel:${b.userPhone}" style="color:var(--gold);font-size:.8rem">${b.userPhone||'-'}</a></td>
+      <td style="color:var(--white);font-size:.82rem">${b.servicemanName||'-'}</td>
+      <td style="font-size:.78rem">${b.servicemanRole||'-'}</td>
+      <td style="font-size:.78rem;white-space:nowrap">${b.startDate||'-'}</td>
+      <td style="font-size:.76rem">${b.duration||'-'}<br><span style="color:var(--muted)">${b.shift||''}</span></td>
+      <td style="font-size:.76rem;max-width:160px">${b.location||'-'}</td>
+      <td><div class="acts">
+        ${b.status!=='confirmed'?`<button class="act-btn act-confirm" onclick="updateBk('${b.id}','confirmed')">✓ Confirm</button>`:''}
+        ${b.status!=='rejected'?`<button class="act-btn act-reject" onclick="updateBk('${b.id}','rejected')">✕ Reject</button>`:''}
+        <a class="act-btn act-wa" href="https://wa.me/${(b.userPhone||'').replace(/\D/g,'')}?text=Hello+${encodeURIComponent(b.userName||'')}%2C+regarding+your+booking+for+${encodeURIComponent(b.servicemanName||'')}+with+AV+Group." target="_blank" rel="noopener">💬 WA</a>
+      </div></td>
+    </tr>`).join('')}
+    </tbody></table>`;
+}
 
-  window.filterBookings = function(f,btn){
-    document.querySelectorAll('.ftab').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    renderAllBookings(f);
-  };
+window.filterBk = function(f,btn){
+  document.querySelectorAll('#bkFilters .filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active'); renderBkTable(f);
+};
 
-  window.updateStatus = async function(id, status){
-    try {
-      await updateDoc(doc(db,'bookings',id), {status, updatedAt:serverTimestamp()});
-      allBookings = allBookings.map(b=>b.id===id?{...b,status}:b);
-      updateStats();
-      renderRecentTable(allBookings.slice(0,8));
-      const activeFilter = document.querySelector('.ftab.active')?.textContent?.toLowerCase()||'all';
-      renderAllBookings(activeFilter==='all'?'all':activeFilter);
-      showToast('Booking '+status+'!');
-    } catch(e){ alert('Error updating booking.'); }
-  };
+window.updateBk = async function(id, status){
+  try{
+    await updateDoc(doc(db,'bookings',id),{status, updatedAt:serverTimestamp()});
+    allBk=allBk.map(b=>b.id===id?{...b,status}:b);
+    renderOvStats(); renderOvTable(allBk.slice(0,8));
+    const f=document.querySelector('#bkFilters .filter-btn.active')?.textContent?.toLowerCase()||'all';
+    renderBkTable(f==='all'||!['pending','confirmed','rejected'].includes(f)?'all':f);
+    toast('Booking '+status+'!');
+  }catch(e){ toast('Error updating booking', true); }
+};
 
-  // ── LOAD SERVICEMEN ──
-  async function loadServicemen(){
-    try {
-      const snap = await getDocs(collection(db,'servicemen'));
-      allServicemen = snap.docs.map(d=>({id:d.id,...d.data()}));
-      renderSmMgmt();
-      document.getElementById('smMgmtLoading').style.display='none';
-    } catch(e){ console.error(e); }
-  }
+// ── SERVICEMEN ──
+async function loadServicemen(){
+  try{
+    const snap=await getDocs(collection(db,'servicemen'));
+    allSM=snap.docs.map(d=>({id:d.id,...d.data()}));
+    renderSM(); renderOvStats(); hide('smLoader');
+  }catch(e){ console.error('SM error:',e); }
+}
 
-  function renderSmMgmt(){
-    const grid = document.getElementById('smMgmtGrid');
-    if(!allServicemen.length){ grid.innerHTML='<div style="color:var(--muted);font-size:.85rem;padding:2rem">No servicemen added yet. Use the Add Serviceman tab to add the first one.</div>'; return; }
-    grid.innerHTML = allServicemen.map(sm=>`
-      <div class="sm-mgmt-card">
-        ${sm.photoUrl?`<img src="${sm.photoUrl}" class="sm-mgmt-photo" alt="${sm.name}" loading="lazy" onerror="this.style.display='none'">`:`<div class="sm-mgmt-photo">${getCatIcon(sm.category)}</div>`}
-        <div class="sm-mgmt-body">
-          <div class="sm-mgmt-name">${sm.name}</div>
-          <div class="sm-mgmt-role">${sm.role} · ${sm.category}</div>
-          <div style="font-size:.76rem;color:var(--muted);margin-bottom:.7rem">Exp: ${sm.experience||'-'} yrs${sm.exServiceman?' · Ex-Serviceman':''}</div>
-          <div class="sm-mgmt-actions">
-            <button class="btn-toggle-avail ${sm.available!==false?'avail':'unavail'}" onclick="toggleAvail('${sm.id}',${sm.available!==false})">
-              ${sm.available!==false?'✓ Available':'✗ Unavailable'}
-            </button>
-            <button class="btn-delete-sm" onclick="deleteSm('${sm.id}','${sm.name}')">🗑</button>
+function renderSM(){
+  const grid=document.getElementById('smGrid');
+  if(!allSM.length){ grid.innerHTML='<div class="no-data"><span class="nd-icon">👮</span>No servicemen yet. Use Add Person tab to add the first one.</div>'; return; }
+  grid.innerHTML=allSM.map(sm=>`
+    <div class="sm-mgmt">
+      <div class="sm-mgmt-ph">${sm.photoUrl?`<img src="${sm.photoUrl}" alt="${sm.name}" loading="lazy" onerror="this.style.display='none';this.parentElement.textContent='${catIcon(sm.category)}'">`:''}${!sm.photoUrl?catIcon(sm.category):''}</div>
+      <div class="sm-mgmt-body">
+        <div class="sm-mgmt-name">${sm.name}</div>
+        <div class="sm-mgmt-role">${sm.role} · ${sm.category}</div>
+        <div style="font-size:.72rem;color:var(--muted);margin-bottom:.6rem">
+          Exp: ${sm.experience||'-'} yrs${sm.exServiceman?' · Ex-Serviceman':''}
+          ${sm.priceDay?`<br>₹${Number(sm.priceDay).toLocaleString('en-IN')}/day`:''}
+          ${sm.priceMonth?` · ₹${Number(sm.priceMonth).toLocaleString('en-IN')}/mo`:''}
+        </div>
+        <div class="sm-mgmt-acts">
+          <button class="sm-avail-tog ${sm.available!==false?'avail':'unavail'}" onclick="toggleSM('${sm.id}',${sm.available!==false})">${sm.available!==false?'✓ Available':'✗ Unavailable'}</button>
+          <button class="sm-del" onclick="deleteSM('${sm.id}','${sm.name.replace(/'/g,"\\'")}')">🗑</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function catIcon(c){ return {'Security Guard':'👮','Bouncer':'💪','Gunman':'🔫','Ex-Serviceman':'🎖️','Supervisor':'🎯','Housekeeping':'🧹','CCTV':'📷','VIP Protection':'👑'}[c]||'👤'; }
+
+window.toggleSM = async function(id, cur){
+  try{
+    await updateDoc(doc(db,'servicemen',id),{available:!cur});
+    allSM=allSM.map(s=>s.id===id?{...s,available:!cur}:s);
+    renderSM(); renderOvStats(); toast('Availability updated!');
+  }catch(e){ toast('Error updating',true); }
+};
+
+window.deleteSM = async function(id, name){
+  if(!confirm('Delete '+name+'? This cannot be undone.')) return;
+  try{
+    await deleteDoc(doc(db,'servicemen',id));
+    allSM=allSM.filter(s=>s.id!==id);
+    renderSM(); renderOvStats(); toast(name+' removed.');
+  }catch(e){ toast('Error deleting',true); }
+};
+
+// ── ADD SERVICEMAN ──
+document.getElementById('addForm').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const err=document.getElementById('addErr'); const ok=document.getElementById('addOk');
+  err.classList.remove('show'); ok.classList.remove('show');
+  const btn=document.getElementById('addBtn');
+  const name=document.getElementById('sm-name').value.trim();
+  const cat=document.getElementById('sm-cat').value;
+  const role=document.getElementById('sm-role').value.trim();
+  const exp=document.getElementById('sm-exp').value;
+  if(!name||!cat||!role||!exp){ err.innerHTML='<p>Please fill all required fields.</p>'; err.classList.add('show'); return; }
+  btn.disabled=true; btn.innerHTML='<span class="spin"></span>Adding...';
+  try{
+    const data={
+      name, category:cat, role, experience:exp,
+      priceDay: document.getElementById('sm-pday').value||'',
+      priceMonth: document.getElementById('sm-pmon').value||'',
+      priceEvent: document.getElementById('sm-pevt').value||'',
+      photoUrl: document.getElementById('sm-photo').value.trim()||'',
+      about: document.getElementById('sm-about').value.trim()||'',
+      exServiceman: document.getElementById('sm-exsvc').checked,
+      available: document.getElementById('sm-avail').checked,
+      createdAt: serverTimestamp()
+    };
+    const ref=await addDoc(collection(db,'servicemen'),data);
+    allSM.push({id:ref.id,...data});
+    renderSM(); renderOvStats();
+    ok.innerHTML=`<p>✅ ${name} added successfully!</p>`; ok.classList.add('show');
+    document.getElementById('addForm').reset();
+    document.getElementById('sm-avail').checked=true;
+  }catch(er){ err.innerHTML='<p>Error adding serviceman. Try again.</p>'; err.classList.add('show'); }
+  btn.disabled=false; btn.innerHTML='Add Serviceman →';
+});
+
+// ── ATTENDANCE ──
+window.loadAttendanceToday = function(){
+  const today=new Date().toISOString().split('T')[0];
+  document.getElementById('attDate').value=today;
+  loadAttendance();
+};
+
+window.loadAttendance = async function(){
+  const dateVal=document.getElementById('attDate').value;
+  if(!dateVal){ toast('Please select a date',true); return; }
+  const loader=document.getElementById('attLoader');
+  const content=document.getElementById('attContent');
+  loader.style.display='flex'; content.innerHTML='';
+  set('att-ci','-'); set('att-co','-'); set('att-emp','-'); set('att-total','-');
+
+  try{
+    const q=query(collection(db,'attendance'), where('date','==',dateVal));
+    const snap=await getDocs(q);
+    let recs=snap.docs.map(d=>({id:d.id,...d.data()}));
+    recs.sort((a,b)=>new Date(a.timestamp)-new Date(b.timestamp));
+    hide('attLoader');
+
+    const checkIns  = recs.filter(r=>r.type==='in').length;
+    const checkOuts = recs.filter(r=>r.type==='out').length;
+    set('att-ci',checkIns); set('att-co',checkOuts); set('att-total',recs.length);
+
+    if(!recs.length){
+      content.innerHTML='<div class="no-data"><span class="nd-icon">📍</span>No attendance records for this date.<br><span style="font-size:.78rem">Servicemen need to check in via the attendance page on their phone.</span></div>';
+      set('att-emp',0); return;
+    }
+
+    // Group by employee
+    const byEmp={};
+    recs.forEach(r=>{
+      const key=r.userId||r.userEmail;
+      if(!byEmp[key]) byEmp[key]={name:r.userName||r.userEmail,email:r.userEmail,phone:r.userPhone||'',records:[]};
+      byEmp[key].records.push(r);
+    });
+    set('att-emp',Object.keys(byEmp).length);
+
+    // Render each employee card
+    content.innerHTML=Object.values(byEmp).map(emp=>{
+      const ins  = emp.records.filter(r=>r.type==='in');
+      const outs = emp.records.filter(r=>r.type==='out');
+      // Calculate total hours
+      let totalMs=0;
+      ins.forEach((inRec,i)=>{
+        const outRec=outs[i];
+        if(outRec){
+          const diff=new Date(outRec.timestamp)-new Date(inRec.timestamp);
+          if(diff>0) totalMs+=diff;
+        }
+      });
+      const totalHrs=Math.floor(totalMs/3600000);
+      const totalMins=Math.floor((totalMs%3600000)/60000);
+      const hoursStr=totalMs>0?`${totalHrs}h ${totalMins}m`:'In Progress';
+
+      return `<div class="emp-att-card">
+        <div class="emp-att-head">
+          <div>
+            <div class="emp-att-name">👤 ${emp.name}</div>
+            <div style="font-size:.72rem;color:var(--muted)">${emp.email}${emp.phone?' · '+emp.phone:''}</div>
+          </div>
+          <div class="emp-att-stats">
+            <div class="emp-stat green"><span class="es-val">${ins.length}</span><span class="es-lbl">Check Ins</span></div>
+            <div class="emp-stat red"><span class="es-val">${outs.length}</span><span class="es-lbl">Check Outs</span></div>
+            <div class="emp-stat gold"><span class="es-val">${hoursStr}</span><span class="es-lbl">Hours Worked</span></div>
           </div>
         </div>
+        <div class="emp-att-body">
+          ${emp.records.map(r=>`
+            <div class="att-entry">
+              <div class="att-entry-type"><span class="badge ${r.type==='in'?'badge-in':'badge-out'}">${r.type==='in'?'CHECK IN':'CHECK OUT'}</span></div>
+              <div style="flex:1;min-width:0">
+                <div class="att-entry-time">🕐 ${new Date(r.timestamp).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true})}</div>
+                <div class="att-entry-loc">📍 ${r.address||'Location captured'}${r.note?` · <em>${r.note}</em>`:''}</div>
+                ${r.latitude?`<a href="https://www.google.com/maps?q=${r.latitude},${r.longitude}" target="_blank" rel="noopener" class="att-map-link">🗺 View on Google Maps</a>`:''}
+              </div>
+            </div>`).join('')}
+        </div>
+      </div>`;
+    }).join('');
+
+  }catch(e){
+    hide('attLoader');
+    content.innerHTML=`<div class="no-data" style="color:var(--red)"><span class="nd-icon">⚠️</span>Error loading attendance: ${e.message}</div>`;
+    console.error('Attendance error:',e);
+  }
+};
+
+// ── USERS ──
+async function loadUsers(){
+  try{
+    const snap=await getDocs(collection(db,'users'));
+    allUsers=snap.docs.map(d=>({id:d.id,...d.data()}));
+    allUsers.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+    hide('userLoader'); renderOvStats();
+    const grid=document.getElementById('usersGrid');
+    if(!allUsers.length){ grid.innerHTML='<div class="no-data"><span class="nd-icon">👥</span>No registered users yet.</div>'; return; }
+    grid.innerHTML=allUsers.map(u=>`
+      <div class="user-card">
+        <div class="user-head">
+          <div class="user-av">${(u.firstName||u.fullName||'?')[0].toUpperCase()}</div>
+          <div><div class="user-nm">${u.fullName||'-'}</div><div class="user-em">${u.email}</div></div>
+        </div>
+        <div class="user-meta">
+          📞 ${u.phone||'-'}<br>📍 ${u.city||'-'}<br>
+          🏢 ${u.company||'Individual'}<br>
+          📋 ${u.totalBookings||0} booking(s)<br>
+          🗓 ${u.createdAt?.toDate?.()?.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})||'-'}
+        </div>
+        <div class="user-acts">
+          ${u.phone?`<a href="https://wa.me/${u.phone.replace(/\D/g,'')}" target="_blank" class="act-btn act-wa">💬 WhatsApp</a><a href="tel:${u.phone}" class="act-btn" style="background:var(--gold-dim);color:var(--gold);border:1px solid var(--border)">📞 Call</a>`:''}
+        </div>
       </div>`).join('');
-  }
+  }catch(e){ console.error('Users error:',e); }
+}
 
-  function getCatIcon(cat){
-    const i={'Security Guard':'👮','Bouncer':'💪','Gunman':'🔫','Ex-Serviceman':'🎖️','Supervisor':'🎯','Housekeeping':'🧹','CCTV':'📷','VIP Protection':'👑'};
-    return i[cat]||'👤';
-  }
-
-  window.toggleAvail = async function(id, current){
-    try {
-      await updateDoc(doc(db,'servicemen',id),{available:!current});
-      allServicemen = allServicemen.map(s=>s.id===id?{...s,available:!current}:s);
-      renderSmMgmt();
-      showToast('Availability updated!');
-    } catch(e){ alert('Error updating.'); }
-  };
-
-  window.deleteSm = async function(id,name){
-    if(!confirm('Delete '+name+'? This cannot be undone.')) return;
-    try {
-      await deleteDoc(doc(db,'servicemen',id));
-      allServicemen = allServicemen.filter(s=>s.id!==id);
-      renderSmMgmt();
-      document.getElementById('st-sm').textContent = allServicemen.length;
-      showToast(name+' deleted.');
-    } catch(e){ alert('Error deleting.'); }
-  };
-
-  // ── ADD SERVICEMAN ──
-  document.getElementById('addSmForm').addEventListener('submit', async e=>{
-    e.preventDefault();
-    const err  = document.getElementById('addSmErr');
-    const ok   = document.getElementById('addSmOk');
-    const btn  = document.getElementById('addSmBtn');
-    const name = document.getElementById('sm_name').value.trim();
-    const cat  = document.getElementById('sm_cat').value;
-    const role = document.getElementById('sm_role').value.trim();
-    const exp  = document.getElementById('sm_exp').value;
-    const photo= document.getElementById('sm_photo').value.trim();
-    const exsvc= document.getElementById('sm_exsvc').value==='true';
-    const about= document.getElementById('sm_about').value.trim();
-    const avail= document.getElementById('sm_avail').checked;
-    err.classList.remove('show'); ok.classList.remove('show');
-    if(!name||!cat||!role||!exp){ err.textContent='Please fill all required fields.'; err.classList.add('show'); return; }
-    btn.disabled=true; btn.innerHTML='<span class="spinner"></span>Adding...';
-    try {
-      const priceDay   = document.getElementById('sm_price_day').value||'0';
-      const priceMonth = document.getElementById('sm_price_month').value||'0';
-      const priceEvent = document.getElementById('sm_price_event').value||'0';
-      const docRef = await addDoc(collection(db,'servicemen'),{
-        name, category:cat, role, experience:exp,
-        photoUrl:photo||'', exServiceman:exsvc, about:about||'',
-        priceDay, priceMonth, priceEvent,
-        available:avail, createdAt:serverTimestamp()
-      });
-      allServicemen.push({id:docRef.id,name,category:cat,role,experience:exp,photoUrl:photo||'',exServiceman:exsvc,about,priceDay,priceMonth,priceEvent,available:avail});
-      renderSmMgmt();
-      document.getElementById('st-sm').textContent = allServicemen.length;
-      ok.textContent='✅ '+name+' added successfully!';
-      ok.classList.add('show');
-      document.getElementById('addSmForm').reset();
-      document.getElementById('sm_avail').checked=true;
-    } catch(er){ err.textContent='Error adding. Try again.'; err.classList.add('show'); }
-    btn.disabled=false; btn.innerHTML='Add Serviceman →';
-  });
-
-  // ── LOAD USERS ──
-  async function loadUsers(){
-    try {
-      const snap = await getDocs(query(collection(db,'users'),orderBy('createdAt','desc')));
-      allUsers = snap.docs.map(d=>({id:d.id,...d.data()}));
-      document.getElementById('usersLoading').style.display='none';
-      document.getElementById('st-users').textContent = allUsers.length;
-      if(!allUsers.length){ document.getElementById('usersGrid').innerHTML='<div style="color:var(--muted);font-size:.85rem">No users registered yet.</div>'; return; }
-      document.getElementById('usersGrid').innerHTML = allUsers.map(u=>`
-        <div class="user-card">
-          <div class="user-card-header">
-            <div class="user-avatar">${(u.firstName||u.fullName||'?')[0].toUpperCase()}</div>
-            <div><div class="user-name">${u.fullName||'-'}</div><div class="user-email">${u.email}</div></div>
-          </div>
-          <div class="user-meta">
-            📞 ${u.phone||'-'}<br>
-            📍 ${u.city||'-'}<br>
-            🏢 ${u.company||'Individual'}<br>
-            📋 ${u.totalBookings||0} booking(s)<br>
-            🗓 Joined: ${u.createdAt?.toDate?.()?.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})||'-'}
-          </div>
-          <div style="margin-top:.8rem;display:flex;gap:.5rem;flex-wrap:wrap">
-            <a href="https://wa.me/${u.phone?.replace(/\D/g,'')}" target="_blank" style="font-family:'Rajdhani',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.3rem .7rem;background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.25);text-decoration:none;min-height:32px;display:inline-flex;align-items:center">💬 WhatsApp</a>
-            <a href="tel:${u.phone}" style="font-family:'Rajdhani',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:.3rem .7rem;background:var(--gold-dim);color:var(--gold);border:1px solid var(--border);text-decoration:none;min-height:32px;display:inline-flex;align-items:center">📞 Call</a>
-          </div>
-        </div>`).join('');
-    } catch(e){ document.getElementById('usersLoading').innerHTML='<span style="color:var(--red)">Error loading users.</span>'; }
-  }
-
-  function showToast(msg){
-    const t=document.getElementById('toast');
-    t.textContent=msg; t.classList.add('show');
-    setTimeout(()=>t.classList.remove('show'),3000);
-  }
-
-  window.doLogout = async()=>{ await signOut(auth); window.location.href='index.html'; };
-
-  /* ── LOAD ATTENDANCE ── */
-  window.loadAttendance = async function(today=false){
-    const loadEl = document.getElementById('attLoading');
-    const tableEl = document.getElementById('attTable');
-    if(!loadEl||!tableEl) return;
-    loadEl.style.display='flex'; tableEl.innerHTML='';
-    let dateFilter = document.getElementById('attDateFilter')?.value;
-    if(today || !dateFilter){
-      dateFilter = new Date().toISOString().split('T')[0];
-      if(document.getElementById('attDateFilter')) document.getElementById('attDateFilter').value = dateFilter;
-    }
-    try {
-      const q = query(collection(db,'attendance'), where('date','==',dateFilter));
-      const snap = await getDocs(q);
-      let recs = snap.docs.map(d=>({id:d.id,...d.data()}));
-      recs.sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp));
-      loadEl.style.display='none';
-      const ins  = recs.filter(r=>r.type==='in').length;
-      const outs = recs.filter(r=>r.type==='out').length;
-      document.getElementById('att-total-in').textContent      = ins;
-      document.getElementById('att-total-out').textContent     = outs;
-      document.getElementById('att-total-records').textContent = recs.length;
-      if(!recs.length){
-        tableEl.innerHTML='<div style="padding:2rem;text-align:center;color:var(--muted);font-size:.85rem">No attendance records found for this date.</div>';
-        return;
-      }
-      tableEl.innerHTML=`<table class="bk-table">
-        <thead><tr>
-          <th>Type</th><th>Name</th><th>Phone</th>
-          <th>Time</th><th>Location</th><th>Note</th><th>Maps</th>
-        </tr></thead>
-        <tbody>${recs.map(r=>`
-          <tr>
-            <td><span class="status-badge ${r.type==='in'?'confirmed':'rejected'}">${r.type==='in'?'✅ CHECK IN':'🔴 CHECK OUT'}</span></td>
-            <td><strong style="color:var(--white)">${r.userName||'-'}</strong><br><span style="font-size:.72rem;color:var(--muted)">${r.userEmail||''}</span></td>
-            <td><a href="tel:${r.userPhone}" style="color:var(--gold)">${r.userPhone||'-'}</a></td>
-            <td style="white-space:nowrap">${new Date(r.timestamp).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true})}</td>
-            <td style="max-width:200px;font-size:.78rem">${r.address||'--'}<br><span style="color:var(--muted);font-size:.7rem">${r.latitude?r.latitude.toFixed(4)+', '+r.longitude.toFixed(4):''}</span></td>
-            <td style="font-size:.78rem;color:var(--muted)">${r.note||'-'}</td>
-            <td>${r.latitude?`<a href="https://www.google.com/maps?q=${r.latitude},${r.longitude}" target="_blank" style="font-family:'Rajdhani',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--blue-lt);border:1px solid var(--border2);padding:.2rem .5rem;text-decoration:none;white-space:nowrap">🗺️ Maps</a>`:'-'}</td>
-          </tr>`).join('')}
-        </tbody></table>`;
-    } catch(e){ loadEl.innerHTML='<span style="color:var(--red)">Error loading attendance.</span>'; }
-  };
-
-  // Auto load attendance when panel opens
-  const origShowPanel = window.showPanel;
-  window.showPanel = function(name, el){
-    origShowPanel(name, el);
-    if(name==='attendance') loadAttendance(true);
-  };
-
-  window.showPanel = function(name,el){
-    event?.preventDefault?.();
-    document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
-    document.querySelectorAll('.anav-item,.amt').forEach(a=>a.classList.remove('active'));
-    document.getElementById('panel-'+name).classList.add('active');
-    if(el) el.classList.add('active');
-  };
+// Helpers
+function hide(id){ const el=document.getElementById(id); if(el) el.style.display='none'; }
+function set(id,val){ const el=document.getElementById(id); if(el) el.textContent=val; }
+window.doLogout = async()=>{ try{await signOut(auth);}catch(e){} window.location.href='index.html'; };
 </script>
-
-  <!-- MADE BY CREDIT -->
-  <div style="background:#020710;border-top:1px solid rgba(224,155,26,.1);padding:.8rem max(5vw,16px) calc(.8rem + var(--sab));display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap;text-align:center;position:relative;z-index:1">
-    <span style="font-family:'Rajdhani',sans-serif;font-size:.7rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)">Designed &amp; Developed by</span>
-    <a href="https://github.com/rajg39389-source" target="_blank" rel="noopener" style="font-family:'Rajdhani',sans-serif;font-size:.74rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-decoration:none;display:inline-flex;align-items:center;gap:.3rem">
-      ⚡ Raj Gupta
-    </a>
-    <span style="font-family:'Rajdhani',sans-serif;font-size:.66rem;color:rgba(90,112,153,.5);letter-spacing:1px">· Need a website? Contact me!</span>
-  </div>
 </body>
 </html>
