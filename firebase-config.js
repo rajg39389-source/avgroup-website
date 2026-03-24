@@ -18,7 +18,15 @@ const firebaseConfig = {
    After uploading, REGISTER on the website using this exact email.
    You will automatically be sent to the Admin Dashboard.
 */
-const ADMIN_EMAIL = "guptaraj2921@gmail.com";
+/* ── ADMIN EMAILS ──
+   Both these emails have full admin access.
+   Add more emails here if needed in future.
+*/
+const ADMIN_EMAIL  = "guptaraj2921@gmail.com";       // Developer admin
+const ADMIN_EMAIL2 = "chourasiyavikas42@gmail.com";  // Client admin
+
+// Helper function — checks if any email is admin
+const isAdmin = (email) => email === ADMIN_EMAIL || email === ADMIN_EMAIL2;
 
 /* DO NOT EDIT BELOW THIS LINE */
-export { firebaseConfig, ADMIN_EMAIL };
+export { firebaseConfig, ADMIN_EMAIL, ADMIN_EMAIL2, isAdmin };
