@@ -99,32 +99,26 @@
 .att-filter-btn.sec{background:var(--card);color:var(--muted);border:1px solid var(--border2)}
 .att-filter-btn.sec:hover{border-color:var(--gold);color:var(--gold)}
 
-/* Attendance — collapsible employee rows */
-.emp-att-card{background:var(--card);border:1px solid var(--border);margin-bottom:.7rem;overflow:hidden;border-radius:2px}
-.emp-att-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.9rem 1.2rem;background:var(--navy3);flex-wrap:wrap;cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background .2s;user-select:none}
-.emp-att-head:hover{background:rgba(224,155,26,.07)}
-.emp-att-head.open{border-bottom:1px solid var(--border2)}
+/* Attendance detail card per employee */
+.emp-att-card{background:var(--card);border:1px solid var(--border);margin-bottom:1.2rem;overflow:hidden}
+.emp-att-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 1.2rem;border-bottom:1px solid var(--border2);background:var(--navy3);flex-wrap:wrap}
 .emp-att-name{font-family:'Rajdhani',sans-serif;font-size:.92rem;font-weight:700;color:var(--white)}
-.emp-att-email{font-size:.72rem;color:var(--muted);margin-top:.1rem}
-.emp-att-stats{display:flex;gap:1.2rem;flex-wrap:wrap;align-items:center}
+.emp-att-stats{display:flex;gap:1.2rem;flex-wrap:wrap}
 .emp-stat{text-align:center}
 .emp-stat .es-val{font-family:'Oswald',sans-serif;font-size:1.1rem;font-weight:700;display:block;line-height:1}
 .emp-stat .es-lbl{font-family:'Rajdhani',sans-serif;font-size:.6rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)}
 .emp-stat.green .es-val{color:var(--green)}
 .emp-stat.red .es-val{color:var(--red)}
 .emp-stat.gold .es-val{color:var(--gold)}
-.emp-chevron{font-size:.7rem;color:var(--muted);flex-shrink:0;transition:transform .3s;margin-left:.5rem}
-.emp-att-head.open .emp-chevron{transform:rotate(180deg)}
-.emp-att-body{display:none;padding:1rem 1.2rem}
-.emp-att-body.open{display:block}
+.emp-att-body{padding:1rem 1.2rem}
 .att-entry{display:flex;align-items:flex-start;gap:.8rem;padding:.55rem 0;border-bottom:1px solid var(--border2)}
 .att-entry:last-child{border-bottom:none}
 .att-entry-type{flex-shrink:0;min-width:80px}
 .att-entry-time{font-size:.8rem;color:var(--steel);font-weight:500}
 .att-entry-loc{font-size:.74rem;color:var(--muted);margin-top:.1rem}
+.att-entry-note{font-size:.72rem;color:var(--muted);font-style:italic}
 .att-map-link{font-size:.68rem;color:#60a5fa;text-decoration:none;font-family:'Rajdhani',sans-serif;letter-spacing:1px;font-weight:600}
 .att-map-link:hover{text-decoration:underline}
-.att-emp-list{display:flex;flex-direction:column;gap:.6rem}
 
 /* Toast */
 .toast{position:fixed;bottom:calc(5rem + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--green);color:#000;font-family:'Rajdhani',sans-serif;font-size:.82rem;font-weight:700;letter-spacing:1px;padding:.75rem 1.5rem;z-index:3000;display:none;white-space:nowrap;box-shadow:0 4px 20px rgba(34,197,94,.4)}
@@ -290,7 +284,7 @@ import { getAuth, onAuthStateChanged, signOut }
 import { getFirestore, collection, getDocs, addDoc, doc, updateDoc,
          deleteDoc, query, where, orderBy, serverTimestamp }
                            from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { firebaseConfig, ADMIN_EMAIL } from "./firebase-config.js";
+import { firebaseConfig, ADMIN_EMAIL, isAdmin } from "./firebase-config.js";
 
 const app  = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -300,7 +294,7 @@ let allBk=[], allSM=[], allUsers=[];
 // ── AUTH ──
 onAuthStateChanged(auth, async user=>{
   if(!user){ window.location.href='login.html'; return; }
-  if(user.email!==ADMIN_EMAIL){ window.location.href='dashboard.html'; return; }
+  if(!isAdmin(user.email)){ window.location.href='dashboard.html'; return; }
   loadAll();
 });
 
@@ -524,66 +518,48 @@ window.loadAttendance = async function(){
     });
     set('att-emp',Object.keys(byEmp).length);
 
-    // Render each employee as a COLLAPSED card — click name to expand history
-    const empEntries = Object.values(byEmp);
-    content.innerHTML = '<div class="att-emp-list">' + empEntries.map(function(emp){
-      const ins   = emp.records.filter(function(r){ return r.type==='in'; });
-      const outs  = emp.records.filter(function(r){ return r.type==='out'; });
-      let totalMs = 0;
-      ins.forEach(function(inRec, i){
-        const outRec = outs[i];
-        if(outRec){ const diff = new Date(outRec.timestamp)-new Date(inRec.timestamp); if(diff>0) totalMs+=diff; }
+    // Render each employee card
+    content.innerHTML=Object.values(byEmp).map(emp=>{
+      const ins  = emp.records.filter(r=>r.type==='in');
+      const outs = emp.records.filter(r=>r.type==='out');
+      // Calculate total hours
+      let totalMs=0;
+      ins.forEach((inRec,i)=>{
+        const outRec=outs[i];
+        if(outRec){
+          const diff=new Date(outRec.timestamp)-new Date(inRec.timestamp);
+          if(diff>0) totalMs+=diff;
+        }
       });
-      const totalHrs  = Math.floor(totalMs/3600000);
-      const totalMins = Math.floor((totalMs%3600000)/60000);
-      const hoursStr  = totalMs>0 ? totalHrs+'h '+totalMins+'m' : (ins.length>outs.length?'Active':'—');
-      // safe ID from email/uid
-      const uid = (emp.email||emp.name).replace(/[^a-zA-Z0-9]/g,'_');
-      return '<div class="emp-att-card" id="ecard-'+uid+'">'
-        + '<div class="emp-att-head" onclick="toggleEmpAtt(\''+uid+'\')" role="button" aria-expanded="false" id="ehead-'+uid+'">'
-          + '<div>'
-            + '<div class="emp-att-name">&#128100; '+emp.name+'</div>'
-            + '<div class="emp-att-email">'+emp.email+(emp.phone?' &middot; '+emp.phone:'')+'</div>'
-          + '</div>'
-          + '<div style="display:flex;align-items:center;gap:1rem">'
-            + '<div class="emp-att-stats">'
-              + '<div class="emp-stat green"><span class="es-val">'+ins.length+'</span><span class="es-lbl">Check Ins</span></div>'
-              + '<div class="emp-stat red"><span class="es-val">'+outs.length+'</span><span class="es-lbl">Check Outs</span></div>'
-              + '<div class="emp-stat gold"><span class="es-val">'+hoursStr+'</span><span class="es-lbl">Hours</span></div>'
-            + '</div>'
-            + '<span class="emp-chevron">&#9660;</span>'
-          + '</div>'
-        + '</div>'
-        + '<div class="emp-att-body" id="ebody-'+uid+'">'
-          + emp.records.map(function(r){
-              const timeStr = new Date(r.timestamp).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true});
-              const badgeCls = r.type==='in' ? 'badge-in' : 'badge-out';
-              const badgeTxt = r.type==='in' ? 'CHECK IN' : 'CHECK OUT';
-              const mapLink  = r.latitude ? '<a href="https://www.google.com/maps?q='+r.latitude+','+r.longitude+'" target="_blank" rel="noopener" class="att-map-link">&#128506; View on Google Maps</a>' : '';
-              const noteHtml = r.note ? ' &middot; <em style="color:var(--gold)">'+r.note+'</em>' : '';
-              return '<div class="att-entry">'
-                + '<div class="att-entry-type"><span class="badge '+badgeCls+'">'+badgeTxt+'</span></div>'
-                + '<div style="flex:1;min-width:0">'
-                  + '<div class="att-entry-time">&#128336; '+timeStr+'</div>'
-                  + '<div class="att-entry-loc">&#128205; '+(r.address||'Location captured')+noteHtml+'</div>'
-                  + mapLink
-                + '</div>'
-              + '</div>';
-            }).join('')
-        + '</div>'
-      + '</div>';
-    }).join('') + '</div>';
+      const totalHrs=Math.floor(totalMs/3600000);
+      const totalMins=Math.floor((totalMs%3600000)/60000);
+      const hoursStr=totalMs>0?`${totalHrs}h ${totalMins}m`:'In Progress';
 
-    // Toggle function — click employee row to expand/collapse their history
-    window.toggleEmpAtt = function(uid){
-      const head = document.getElementById('ehead-'+uid);
-      const body = document.getElementById('ebody-'+uid);
-      if(!head||!body) return;
-      const isOpen = body.classList.contains('open');
-      body.classList.toggle('open', !isOpen);
-      head.classList.toggle('open', !isOpen);
-      head.setAttribute('aria-expanded', String(!isOpen));
-    };
+      return `<div class="emp-att-card">
+        <div class="emp-att-head">
+          <div>
+            <div class="emp-att-name">👤 ${emp.name}</div>
+            <div style="font-size:.72rem;color:var(--muted)">${emp.email}${emp.phone?' · '+emp.phone:''}</div>
+          </div>
+          <div class="emp-att-stats">
+            <div class="emp-stat green"><span class="es-val">${ins.length}</span><span class="es-lbl">Check Ins</span></div>
+            <div class="emp-stat red"><span class="es-val">${outs.length}</span><span class="es-lbl">Check Outs</span></div>
+            <div class="emp-stat gold"><span class="es-val">${hoursStr}</span><span class="es-lbl">Hours Worked</span></div>
+          </div>
+        </div>
+        <div class="emp-att-body">
+          ${emp.records.map(r=>`
+            <div class="att-entry">
+              <div class="att-entry-type"><span class="badge ${r.type==='in'?'badge-in':'badge-out'}">${r.type==='in'?'CHECK IN':'CHECK OUT'}</span></div>
+              <div style="flex:1;min-width:0">
+                <div class="att-entry-time">🕐 ${new Date(r.timestamp).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true})}</div>
+                <div class="att-entry-loc">📍 ${r.address||'Location captured'}${r.note?` · <em>${r.note}</em>`:''}</div>
+                ${r.latitude?`<a href="https://www.google.com/maps?q=${r.latitude},${r.longitude}" target="_blank" rel="noopener" class="att-map-link">🗺 View on Google Maps</a>`:''}
+              </div>
+            </div>`).join('')}
+        </div>
+      </div>`;
+    }).join('');
 
   }catch(e){
     hide('attLoader');
@@ -617,32 +593,7 @@ async function loadUsers(){
           ${u.phone?`<a href="https://wa.me/${u.phone.replace(/\D/g,'')}" target="_blank" class="act-btn act-wa">💬 WhatsApp</a><a href="tel:${u.phone}" class="act-btn" style="background:var(--gold-dim);color:var(--gold);border:1px solid var(--border)">📞 Call</a>`:''}
         </div>
       </div>`).join('');
-  }catch(e){
-    console.error('Users error:',e);
-    hide('userLoader');
-    // Permission error — Firestore rules block admin from reading all users
-    if(e.code==='permission-denied'||e.message?.includes('permission')){
-      document.getElementById('usersGrid').innerHTML=`
-        <div class="no-data" style="grid-column:1/-1;text-align:left;max-width:600px">
-          <span class="nd-icon">🔒</span>
-          <strong style="color:var(--red);font-family:'Rajdhani',sans-serif;font-size:.85rem;letter-spacing:1px">FIRESTORE RULES UPDATE NEEDED</strong>
-          <p style="margin-top:.5rem;font-size:.82rem;line-height:1.8;color:var(--muted)">
-            Your Firestore rules only allow each user to read their own document.<br>
-            To let admin see all users, go to <strong style="color:var(--gold)">Firebase Console → Firestore → Rules</strong>
-            and replace the users match rule with:<br><br>
-            <code style="background:#0a0f1e;padding:.5rem .8rem;display:block;font-size:.78rem;color:#7dd3fc;line-height:1.9;border:1px solid var(--border)">
-            match /users/{userId} {<br>
-            &nbsp;&nbsp;allow read, write: if request.auth != null<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;&amp;&amp; (request.auth.uid == userId<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;|| request.auth.token.email == "guptaraj2921@gmail.com");<br>
-            }
-            </code>
-          </p>
-        </div>`;
-    } else {
-      document.getElementById('usersGrid').innerHTML=`<div class="no-data" style="color:var(--red)"><span class="nd-icon">⚠️</span>Error loading users: ${e.message}</div>`;
-    }
-  }
+  }catch(e){ console.error('Users error:',e); }
 }
 
 // Helpers
