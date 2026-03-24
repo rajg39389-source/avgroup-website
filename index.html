@@ -117,14 +117,15 @@
 }
 .hc-top { padding: 1.8rem; text-align: center; border-bottom: 1px solid var(--border2); }
 .hc-ava {
-  width: 80px; height: 80px; border-radius: 50%;
-  border: 2px solid var(--gold); box-shadow: 0 0 18px var(--gold-glow);
+  width: 90px; height: 90px; border-radius: 50%;
+  border: 3px solid var(--gold);
+  box-shadow: 0 0 0 4px rgba(224,155,26,.15), 0 0 24px var(--gold-glow);
   margin: 0 auto 1rem;
   display: flex; align-items: center; justify-content: center;
   font-family: 'Oswald', sans-serif; font-size: 1.8rem; font-weight: 700;
   color: var(--gold); background: var(--navy3); overflow: hidden;
 }
-.hc-ava img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.hc-ava img { width: 100%; height: 100%; object-fit: cover; object-position: center top; border-radius: 50%; }
 .hc-name { font-family: 'Rajdhani', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: 1px; color: var(--white); margin-bottom: .15rem; }
 .hc-role { font-family: 'Rajdhani', sans-serif; font-size: .67rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
 .hc-bot { padding: 1rem 1.6rem; }
@@ -350,7 +351,9 @@
     </div>
     <div class="hero-card fi fi-d2">
       <div class="hc-top">
-        <div class="hc-ava" aria-hidden="true">HD</div>
+        <div class="hc-ava">
+          <img src="hemant-dubey.png" alt="Hemant Dubey — CEO &amp; Founder, AV Group"/>
+        </div>
         <p class="hc-name">Hemant Dubey</p>
         <p class="hc-role">CEO &amp; Founder — AV Group</p>
       </div>
