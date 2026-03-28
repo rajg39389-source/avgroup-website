@@ -9,256 +9,294 @@
 <meta name="theme-color" content="#060d1a"/>
 <meta name="format-detection" content="telephone=no,email=no,address=no"/>
 <title>AV Group – Professional Security & Facility Services | Mumbai</title>
-<meta name="description" content="AV Group – Mumbai's trusted security company. Security guards, bouncers, VIP protection, CCTV, housekeeping & manpower. 24/7. Call: +91 80976 49810"/>
+<meta name="description" content="AV Group – Mumbai's trusted security company. Security guards, bouncers, VIP protection, CCTV, housekeeping & manpower. 24/7 service. Call: +91 80976 49810"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="style.css"/>
 <style>
 
-/* ── HERO ── */
+/* ═══════════════════════════
+   HERO
+═══════════════════════════ */
 #hero {
   min-height: 100svh;
   display: flex; align-items: center;
-  padding-top: calc(var(--nav-h) + var(--sat) + 2rem);
-  padding-bottom: clamp(3rem,6vw,5rem);
-  padding-left: max(5vw,calc(var(--sal)+16px));
-  padding-right: max(5vw,calc(var(--sar)+16px));
+  padding-top: calc(90px + var(--sat));
+  padding-bottom: clamp(4rem,8vw,6rem);
+  padding-left: max(5vw, calc(var(--sal)+16px));
+  padding-right: max(5vw, calc(var(--sar)+16px));
   position: relative; overflow: hidden;
-  background: linear-gradient(155deg,#080f20 0%,#060d1a 60%,#04090f 100%);
 }
-.hero-radial {
-  position:absolute;inset:0;
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
   background:
-    radial-gradient(ellipse 55% 65% at 78% 45%, rgba(224,155,26,.11) 0%, transparent 60%),
-    radial-gradient(ellipse 35% 40% at 5% 90%, rgba(26,117,133,.05) 0%, transparent 50%);
+    radial-gradient(ellipse 70% 60% at 70% 40%, rgba(224,155,26,.09) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 50% at 5% 85%, rgba(26,117,133,.05) 0%, transparent 50%),
+    linear-gradient(160deg, #09111f 0%, #060d1a 100%);
 }
 .hero-grid {
-  position:absolute;inset:0;
+  position: absolute; inset: 0; z-index: 0;
   background-image:
-    linear-gradient(rgba(224,155,26,.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(224,155,26,.035) 1px, transparent 1px);
-  background-size: 52px 52px;
-  -webkit-mask-image: radial-gradient(ellipse 85% 90% at 60% 35%, black 10%, transparent 70%);
-  mask-image: radial-gradient(ellipse 85% 90% at 60% 35%, black 10%, transparent 70%);
+    linear-gradient(rgba(224,155,26,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(224,155,26,.04) 1px, transparent 1px);
+  background-size: 55px 55px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 90% at 50% 40%, black 20%, transparent 75%);
+  mask-image: radial-gradient(ellipse 80% 90% at 50% 40%, black 20%, transparent 75%);
 }
-
 .hero-inner {
   position: relative; z-index: 2;
-  width: 100%; max-width: 1160px; margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: clamp(2rem,5vw,5rem);
-  align-items: center;
+  max-width: 1100px; width: 100%;
+  display: flex; align-items: center;
+  gap: clamp(2rem,5vw,5rem); flex-wrap: wrap;
 }
-@media(max-width:820px) {
-  .hero-inner { grid-template-columns: 1fr; }
-  .hero-ceo-col { display: none; }
-}
+.hero-text { flex: 1 1 340px; }
 
-/* Left text */
 .hero-eyebrow {
   display: inline-flex; align-items: center; gap: .6rem;
   font-family: 'Rajdhani', sans-serif;
-  font-size: .72rem; font-weight: 700;
-  letter-spacing: 3.5px; text-transform: uppercase;
+  font-size: clamp(.65rem,1.8vw,.72rem); font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
   color: var(--gold-lt);
   background: var(--gold-dim); border: 1px solid var(--border);
-  padding: .35rem 1rem; margin-bottom: 1.5rem;
+  padding: .38rem 1rem; margin-bottom: 1.6rem;
 }
-.hero-eyebrow .live-dot {
+.hero-eyebrow .dot {
   width: 6px; height: 6px; border-radius: 50%;
-  background: var(--gold);
-  animation: ldot-pulse 2s ease-in-out infinite;
+  background: var(--gold); animation: pDot 2s infinite;
 }
-@keyframes ldot-pulse{0%,100%{box-shadow:0 0 0 0 var(--gold-glow)}50%{box-shadow:0 0 0 6px transparent}}
+@keyframes pDot{0%,100%{box-shadow:0 0 5px var(--gold)}50%{box-shadow:0 0 14px var(--gold-lt)}}
 
 .hero-h1 {
   font-family: 'Oswald', sans-serif;
-  font-size: clamp(2.8rem,6.5vw,5.5rem);
+  font-size: clamp(2.8rem, 7vw, 5.8rem);
   font-weight: 700; line-height: 1.0;
-  letter-spacing: -1px; color: var(--white);
-  margin-bottom: 1.1rem;
+  color: var(--white); margin-bottom: .2em;
+  letter-spacing: -1px;
 }
-.hero-h1 .line-dim  { color: rgba(255,255,255,.35); font-weight: 400; display: block; }
-.hero-h1 .line-main { color: var(--white); display: block; }
-.hero-h1 .line-gold { color: var(--gold); display: block; }
+.hero-h1 .thin   { font-weight: 400; color: var(--steel); opacity: .65; display: block; }
+.hero-h1 .accent { color: var(--gold); display: block; }
 
+.hero-sub {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(.85rem,2vw,1.05rem); font-weight: 600;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 1.3rem;
+}
 .hero-desc {
-  font-size: clamp(.88rem,1.8vw,.97rem);
-  font-weight: 300; line-height: 1.9;
-  color: var(--muted); max-width: 460px;
-  margin-bottom: 2rem;
+  font-size: clamp(.88rem,2vw,.98rem); font-weight: 300;
+  line-height: 1.9; color: var(--muted);
+  max-width: 440px; margin-bottom: 2.2rem;
 }
-
 .hero-btns { display: flex; gap: .8rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
 
-/* Mini stats inside hero */
 .hero-stats {
-  display: flex; gap: 0;
+  display: flex; flex-wrap: wrap;
   border: 1px solid var(--border);
-  background: rgba(13,24,40,.75);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  max-width: 400px;
+  background: rgba(14,24,40,.7);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  max-width: 440px;
 }
-.hs { flex: 1; padding: .85rem .9rem; border-right: 1px solid var(--border); text-align: center; }
+.hs { flex: 1 1 90px; padding: .85rem 1rem; border-right: 1px solid var(--border); text-align: center; }
 .hs:last-child { border-right: none; }
-.hs-n { font-family: 'Oswald', sans-serif; font-size: clamp(1.2rem,2.5vw,1.6rem); font-weight: 700; color: var(--gold); display: block; line-height: 1; }
-.hs-l { font-family: 'Rajdhani', sans-serif; font-size: .6rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
+.hs-n { font-family: 'Oswald', sans-serif; font-size: clamp(1.3rem,3vw,1.7rem); font-weight: 700; color: var(--gold); display: block; line-height: 1; }
+.hs-l { font-family: 'Rajdhani', sans-serif; font-size: .62rem; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); }
 
-/* Right — CEO Card */
-.hero-ceo-col { flex-shrink: 0; }
-.ceo-card {
-  width: clamp(240px,22vw,310px);
-  background: var(--card);
-  border: 1px solid var(--border);
+/* CEO Card */
+.hero-card {
+  flex: 0 0 auto; width: clamp(230px,26vw,290px);
+  background: var(--card); border: 1px solid var(--border);
   position: relative; overflow: hidden;
-  animation: float 7s ease-in-out infinite;
-  will-change: transform;
+  animation: floatCard 7s ease-in-out infinite; will-change: transform;
 }
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-@media(prefers-reduced-motion:reduce){.ceo-card{animation:none}}
-.ceo-card-bar {
-  height: 3px;
-  background: linear-gradient(90deg,var(--gold-dark),var(--gold),var(--gold-lt),transparent);
+@keyframes floatCard{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@media(prefers-reduced-motion:reduce){.hero-card{animation:none}}
+.hero-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, transparent, var(--gold), var(--gold-lt), transparent);
 }
-/* Big photo */
-.ceo-photo-wrap {
-  position: relative;
-  width: 100%; padding-top: 100%; /* square */
-  background: linear-gradient(135deg,var(--navy3),#0a1624);
-  overflow: hidden;
+.hc-top { padding: 1.8rem; text-align: center; border-bottom: 1px solid var(--border2); }
+.hc-ava {
+  width: 80px; height: 80px; border-radius: 50%;
+  border: 2px solid var(--gold); box-shadow: 0 0 18px var(--gold-glow);
+  margin: 0 auto 1rem;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Oswald', sans-serif; font-size: 1.8rem; font-weight: 700;
+  color: var(--gold); background: var(--navy3); overflow: hidden;
 }
-.ceo-photo-wrap img {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover; object-position: top center;
-  display: block;
-}
-.ceo-photo-placeholder {
-  position: absolute; inset: 0;
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: .5rem;
-}
-.ceo-initials {
-  font-family: 'Oswald', sans-serif;
-  font-size: 4rem; font-weight: 700;
-  color: var(--gold); line-height: 1;
-  text-shadow: 0 0 40px var(--gold-glow);
-}
-/* Gold badge overlay at bottom of photo */
-.ceo-photo-badge {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  background: linear-gradient(to top, rgba(6,13,26,.95) 0%, transparent 100%);
-  padding: 1.5rem 1rem .8rem;
-  text-align: center;
-}
-.ceo-name { font-family: 'Oswald', sans-serif; font-size: 1.1rem; font-weight: 700; color: var(--white); display: block; }
-.ceo-role { font-family: 'Rajdhani', sans-serif; font-size: .65rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); display: block; margin-top: .1rem; }
+.hc-ava img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.hc-name { font-family: 'Rajdhani', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: 1px; color: var(--white); margin-bottom: .15rem; }
+.hc-role { font-family: 'Rajdhani', sans-serif; font-size: .67rem; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
+.hc-bot { padding: 1rem 1.6rem; }
+.hc-row { display: flex; align-items: flex-start; gap: .6rem; padding: .55rem 0; border-bottom: 1px solid var(--border2); }
+.hc-row:last-child { border-bottom: none; }
+.hc-row .ri { font-size: .88rem; flex-shrink: 0; }
+.hc-row .rt { font-size: .76rem; color: var(--muted); font-weight: 300; line-height: 1.5; }
+.hc-row .rt strong { color: var(--steel); font-weight: 500; display: block; }
+@media(max-width:500px){ .hero-card { display: none; } }
 
-/* Card bottom rows */
-.ceo-card-body { padding: 1rem; }
-.ceo-row { display: flex; align-items: center; gap: .7rem; padding: .5rem 0; border-bottom: 1px solid var(--border2); }
-.ceo-row:last-child { border-bottom: none; }
-.ceo-row-icon { font-size: .9rem; flex-shrink: 0; }
-.ceo-row-txt { font-size: .75rem; color: var(--muted); line-height: 1.5; font-weight: 300; }
-.ceo-row-txt strong { color: var(--steel); font-weight: 500; display: block; }
-
-/* ── GOLD STATS STRIP ── */
-.stats-strip {
-  background: linear-gradient(135deg,var(--gold-dark),var(--gold));
-  display: grid; grid-template-columns: repeat(4,1fr);
-}
-@media(max-width:580px){.stats-strip{grid-template-columns:repeat(2,1fr)}}
-.ss { padding: clamp(1.4rem,3vw,2rem) 1.4rem; text-align: center; border-right: 1px solid rgba(0,0,0,.15); }
-.ss:last-child { border-right: none; }
-@media(max-width:580px){ .ss:nth-child(2){border-right:none} .ss:nth-child(3){border-top:1px solid rgba(0,0,0,.15)} }
-.ss-n { font-family: 'Oswald', sans-serif; font-size: clamp(1.8rem,4vw,2.4rem); font-weight: 700; color: #000; display: block; line-height: 1; }
-.ss-l { font-family: 'Rajdhani', sans-serif; font-size: .68rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(0,0,0,.6); margin-top: .25rem; display: block; }
-
-/* ── TICKER ── */
+/* ═══════════════════════════
+   TICKER
+═══════════════════════════ */
 .ticker-wrap { overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: .85rem 0; background: var(--navy2); }
-.ticker-track { display: flex; gap: 2.5rem; animation: ticker 28s linear infinite; width: max-content; }
+.ticker-track { display: flex; gap: 2.5rem; animation: ticker 30s linear infinite; width: max-content; }
 @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @media(prefers-reduced-motion:reduce){.ticker-track{animation:none}}
-.tick { font-family: 'Rajdhani', sans-serif; font-size: .75rem; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted); white-space: nowrap; display: flex; align-items: center; gap: .9rem; }
-.tick-sep { color: var(--gold); font-size: .5rem; }
+.tick-item { font-family: 'Rajdhani', sans-serif; font-size: .78rem; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted); white-space: nowrap; display: flex; align-items: center; gap: 1rem; }
+.tick-sep { color: var(--gold); font-size: .55rem; }
 
-/* ── WHY US ── */
-.why-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(min(190px,100%),1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); }
-.why-card { background: var(--navy2); padding: 1.8rem 1.5rem; position: relative; overflow: hidden; transition: background .3s; }
+/* ═══════════════════════════
+   SECTION BASE
+   All sections use padding
+═══════════════════════════ */
+.home-sec {
+  padding: clamp(70px,10vw,110px) max(5vw,calc(var(--sal)+16px));
+  padding-right: max(5vw,calc(var(--sar)+16px));
+}
+.home-sec-alt { background: var(--navy2); }
+
+.sec-label {
+  font-family: 'Rajdhani', sans-serif; font-size: .72rem; font-weight: 700;
+  letter-spacing: 4px; text-transform: uppercase; color: var(--gold);
+  display: flex; align-items: center; gap: .8rem; margin-bottom: .9rem;
+}
+.sec-label::before { content: ''; display: block; width: 24px; height: 2px; background: var(--gold); }
+.sec-h2 {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(1.8rem,4.5vw,3rem); font-weight: 700;
+  color: var(--white); line-height: 1.05; margin-bottom: 1rem;
+}
+.sec-h2 .acc { color: var(--gold); }
+.sec-p { font-size: clamp(.88rem,2vw,.97rem); font-weight: 300; color: var(--muted); max-width: 580px; line-height: 1.9; margin-bottom: 0; }
+.u-bar { width: 50px; height: 3px; margin: 1.1rem 0 clamp(2rem,4vw,3rem); background: linear-gradient(90deg,var(--gold),transparent); }
+
+/* ═══════════════════════════
+   STATS STRIP
+═══════════════════════════ */
+.stats-strip {
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  display: grid; grid-template-columns: repeat(4,1fr);
+}
+@media(max-width:600px){ .stats-strip { grid-template-columns: repeat(2,1fr); } }
+.ss-item { padding: clamp(1.5rem,3vw,2.2rem) 1.5rem; text-align: center; border-right: 1px solid rgba(0,0,0,.15); }
+.ss-item:last-child { border-right: none; }
+@media(max-width:600px){ .ss-item:nth-child(2){border-right:none} .ss-item:nth-child(3){border-top:1px solid rgba(0,0,0,.15)} }
+.ss-num { font-family: 'Oswald', sans-serif; font-size: clamp(2rem,4vw,2.6rem); font-weight: 700; color: #000; display: block; line-height: 1; }
+.ss-lbl { font-family: 'Rajdhani', sans-serif; font-size: .7rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(0,0,0,.6); margin-top: .25rem; display: block; }
+
+/* ═══════════════════════════
+   WHY US CARDS
+═══════════════════════════ */
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(200px,100%), 1fr));
+  gap: 1px; background: var(--border);
+  border: 1px solid var(--border);
+}
+.why-card {
+  background: var(--navy2); padding: 2rem 1.6rem;
+  position: relative; overflow: hidden; transition: background .3s;
+}
 .why-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform .4s; }
 @media(hover:hover){ .why-card:hover{background:var(--card)} .why-card:hover::after{transform:scaleX(1)} }
-.why-icon { font-size: 1.7rem; margin-bottom: .8rem; display: block; }
-.why-card h4 { font-family: 'Rajdhani', sans-serif; font-size: .88rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--white); margin-bottom: .4rem; }
-.why-card p { font-size: .8rem; font-weight: 300; color: var(--muted); line-height: 1.85; }
+.why-icon { font-size: 1.8rem; margin-bottom: .9rem; display: block; }
+.why-card h4 { font-family: 'Rajdhani', sans-serif; font-size: .92rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--white); margin-bottom: .5rem; }
+.why-card p { font-size: .82rem; font-weight: 300; color: var(--muted); line-height: 1.8; }
 
-/* ── SERVICES PREVIEW ── */
-.srv-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(min(155px,100%),1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); }
-.srv-tile { background: var(--navy); padding: 1.2rem 1rem; display: flex; align-items: center; gap: .7rem; position: relative; transition: background .25s; }
+/* ═══════════════════════════
+   SERVICES PREVIEW
+═══════════════════════════ */
+.srv-preview {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(160px,100%), 1fr));
+  gap: 1px; background: var(--border); border: 1px solid var(--border);
+}
+.srv-tile {
+  background: var(--navy); padding: 1.4rem 1.2rem;
+  display: flex; flex-direction: column; gap: .4rem;
+  position: relative; transition: background .25s;
+  cursor: default;
+}
 .srv-tile::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--gold); transition: width .3s; }
 @media(hover:hover){ .srv-tile:hover{background:var(--card)} .srv-tile:hover::after{width:100%} }
-.srv-tile .si { font-size: 1.3rem; flex-shrink: 0; }
-.srv-tile .sn { font-size: .8rem; font-weight: 400; color: var(--steel); line-height: 1.3; }
+.srv-tile .si { font-size: 1.4rem; }
+.srv-tile .sn { font-size: .84rem; font-weight: 500; color: var(--steel); line-height: 1.4; }
 
-/* ── TESTIMONIALS ── */
-.test-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(min(280px,100%),1fr)); gap: 1.2rem; }
-.test-card { background: var(--card); border: 1px solid var(--border); padding: clamp(1.3rem,3vw,1.8rem); transition: border-color .3s, transform .3s; }
+/* ═══════════════════════════
+   TESTIMONIALS
+═══════════════════════════ */
+.test-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(280px,100%), 1fr)); gap: 1.2rem; }
+.test-card { background: var(--card); border: 1px solid var(--border); padding: clamp(1.4rem,3vw,2rem); transition: border-color .3s, transform .3s; }
 @media(hover:hover){ .test-card:hover{border-color:var(--gold);transform:translateY(-4px)} }
-.test-stars { color: var(--gold); font-size: .82rem; letter-spacing: 2px; margin-bottom: .5rem; }
-.test-q { font-size: 2rem; line-height: 1; color: var(--gold); font-family: 'Oswald', sans-serif; opacity: .25; margin-bottom: .3rem; }
-.test-text { font-size: clamp(.8rem,2vw,.86rem); font-weight: 300; color: var(--muted); line-height: 1.85; margin-bottom: 1.1rem; font-style: italic; }
-.test-author { display: flex; align-items: center; gap: .75rem; }
-.test-av { width: 36px; height: 36px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; font-family: 'Oswald', sans-serif; font-size: .85rem; font-weight: 700; color: #000; flex-shrink: 0; }
-.test-nm strong { display: block; font-size: .82rem; font-weight: 500; color: var(--white); }
-.test-nm span   { font-size: .7rem; color: var(--muted); }
+.test-stars { color: var(--gold); font-size: .8rem; margin-bottom: .6rem; }
+.test-q { font-size: 2.2rem; line-height: 1; color: var(--gold); font-family: 'Oswald', sans-serif; opacity: .3; margin-bottom: .4rem; }
+.test-text { font-size: clamp(.82rem,2vw,.88rem); font-weight: 300; color: var(--muted); line-height: 1.8; margin-bottom: 1.2rem; font-style: italic; }
+.test-author { display: flex; align-items: center; gap: .8rem; }
+.test-av { width: 38px; height: 38px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; font-family: 'Oswald', sans-serif; font-size: .85rem; font-weight: 700; color: #000; flex-shrink: 0; }
+.test-nm strong { display: block; font-size: .84rem; font-weight: 500; color: var(--white); }
+.test-nm span { font-size: .7rem; color: var(--muted); }
 
-/* ── BOOK STRIP ── */
-.book-strip {
-  background: var(--card);
-  border: 1px solid var(--border); border-left: 4px solid var(--gold);
-  padding: clamp(1.5rem,3.5vw,2.2rem);
-  display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+/* ═══════════════════════════
+   BOOK SECTION
+═══════════════════════════ */
+.book-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(200px,100%), 1fr));
+  gap: 1rem; margin-bottom: 2rem;
 }
-.book-strip-icon { font-size: clamp(2rem,4vw,3rem); flex-shrink: 0; }
-.book-strip-body { flex: 1; min-width: 200px; }
-.book-strip-body h3 { font-family: 'Oswald', sans-serif; font-size: clamp(1.1rem,2.5vw,1.4rem); font-weight: 700; color: var(--white); margin-bottom: .3rem; }
-.book-strip-body p  { font-size: .84rem; font-weight: 300; color: var(--muted); line-height: 1.75; }
-.book-strip-btns { display: flex; gap: .65rem; flex-wrap: wrap; flex-shrink: 0; }
+.book-step {
+  background: var(--card); border: 1px solid var(--border);
+  border-top: 3px solid var(--gold);
+  padding: 1.8rem; text-align: center;
+}
+.book-step .bs-num {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--gold); color: #000;
+  font-family: 'Oswald', sans-serif; font-size: 1.1rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto .9rem;
+}
+.book-step h4 { font-family: 'Rajdhani', sans-serif; font-size: .9rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--white); margin-bottom: .4rem; }
+.book-step p  { font-size: .8rem; font-weight: 300; color: var(--muted); line-height: 1.7; }
 
-/* ── CTA BANNER ── */
+.book-cta {
+  background: var(--card); border: 1px solid var(--border);
+  border-left: 4px solid var(--gold);
+  padding: clamp(1.5rem,3vw,2.2rem);
+  display: flex; align-items: center;
+  gap: 1.5rem; flex-wrap: wrap;
+}
+.book-cta-icon { font-size: 2.5rem; flex-shrink: 0; }
+.book-cta-body { flex: 1; min-width: 200px; }
+.book-cta-body h3 { font-family: 'Oswald', sans-serif; font-size: clamp(1.1rem,2.5vw,1.4rem); font-weight: 700; color: var(--white); margin-bottom: .3rem; }
+.book-cta-body p  { font-size: .85rem; font-weight: 300; color: var(--muted); line-height: 1.7; }
+.book-cta-btns { display: flex; gap: .7rem; flex-wrap: wrap; flex-shrink: 0; }
+
+/* ═══════════════════════════
+   CTA BANNER
+═══════════════════════════ */
 .cta-banner {
   background: linear-gradient(135deg,#0d1a0a,#091520);
   border: 1px solid var(--border); border-top: 3px solid var(--gold);
   padding: clamp(1.8rem,4vw,3rem);
-  display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;
+  display: flex; align-items: center;
+  gap: 2rem; flex-wrap: wrap;
   position: relative; overflow: hidden;
 }
-.cta-banner::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 60% 80% at 85% 50%,rgba(224,155,26,.06),transparent); }
-.cta-icon { font-size: clamp(2rem,4vw,2.8rem); flex-shrink: 0; position: relative; }
-.cta-body { flex: 1; min-width: 200px; position: relative; }
-.cta-body h3 { font-family: 'Oswald', sans-serif; font-size: clamp(1.2rem,3vw,1.6rem); font-weight: 700; color: var(--white); margin-bottom: .3rem; }
-.cta-body p  { font-size: .86rem; font-weight: 300; color: var(--muted); line-height: 1.8; max-width: 480px; }
-.cta-btns { display: flex; gap: .75rem; flex-wrap: wrap; flex-shrink: 0; position: relative; }
-
-/* Section wrapper */
-.home-sec { padding: clamp(60px,9vw,100px) max(5vw,calc(var(--sal)+16px)); padding-right: max(5vw,calc(var(--sar)+16px)); }
-.home-sec-alt { background: var(--navy2); }
-.sec-lbl { font-family: 'Rajdhani', sans-serif; font-size: .7rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: .7rem; margin-bottom: .8rem; }
-.sec-lbl::before { content:''; display:block; width:22px; height:2px; background:var(--gold); }
-.sec-h2 { font-family: 'Oswald', sans-serif; font-size: clamp(1.7rem,4.5vw,2.8rem); font-weight: 700; color: var(--white); line-height: 1.05; margin-bottom: .9rem; }
-.sec-h2 .acc { color: var(--gold); }
-.sec-p { font-size: clamp(.86rem,2vw,.95rem); font-weight: 300; color: var(--muted); max-width: 580px; line-height: 1.9; }
-.ubar { width: 46px; height: 3px; margin: .9rem 0 2.3rem; background: linear-gradient(90deg,var(--gold),transparent); }
+.cta-banner::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 80% at 85% 50%, rgba(224,155,26,.06), transparent); }
+.cta-banner-icon { font-size: clamp(2.2rem,4vw,3rem); flex-shrink: 0; position: relative; }
+.cta-banner-body { flex: 1; position: relative; min-width: 200px; }
+.cta-banner-body h3 { font-family: 'Oswald', sans-serif; font-size: clamp(1.2rem,3vw,1.6rem); font-weight: 700; color: var(--white); margin-bottom: .4rem; }
+.cta-banner-body p  { font-size: .88rem; font-weight: 300; color: var(--muted); line-height: 1.8; max-width: 480px; }
+.cta-banner-btns { display: flex; gap: .8rem; flex-wrap: wrap; flex-shrink: 0; position: relative; }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
+<!-- ═══ NAV ═══ -->
 <nav id="navbar">
   <a href="index.html" class="nav-logo" aria-label="AV Group Home">
-    <img src="Logo.jpeg" class="nav-logo-img" alt="AV Group"/>
+    <img src="Logo.jpeg" class="nav-logo-img" alt="AV Group Logo"/>
     <span class="nav-logo-text"><span class="logo-av">AV GROUP</span><span class="logo-grp">SECURITY</span></span>
   </a>
   <ul class="nav-links">
@@ -285,113 +323,83 @@
   <a href="contact.html" class="mob-cta" onclick="closeMob()">Get a Free Quote →</a>
 </div>
 
-<!-- ══════════════════════════════
-     HERO
-══════════════════════════════ -->
+<!-- ═══ HERO ═══ -->
 <section id="hero" aria-label="Hero">
-  <div class="hero-radial" aria-hidden="true"></div>
-  <div class="hero-grid"   aria-hidden="true"></div>
-
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-grid" aria-hidden="true"></div>
   <div class="hero-inner">
-
-    <!-- Left Text -->
-    <div class="hero-text-col">
-      <div class="hero-eyebrow fi"><span class="live-dot" aria-hidden="true"></span>Mumbai's Trusted Security Partner</div>
-
-      <h1 class="hero-h1 fi fi-d1">
-        <span class="line-dim">SECURITY</span>
-        <span class="line-main">YOU CAN</span>
-        <span class="line-gold">TRUST.</span>
+    <div class="hero-text">
+      <div class="hero-eyebrow"><span class="dot" aria-hidden="true"></span>Mumbai's Trusted Security Partner</div>
+      <h1 class="hero-h1">
+        <span class="thin">SECURITY</span>
+        <span>YOU CAN</span>
+        <span class="accent">TRUST.</span>
       </h1>
-
-      <p class="hero-desc fi fi-d2">
-        AV Group delivers trained security guards, bouncers, VIP protection, CCTV, and facility management to businesses across Mumbai — 24 hours, 7 days a week.
-      </p>
-
-      <div class="hero-btns fi fi-d3">
+      <p class="hero-sub">Professional Security &amp; Facility Services</p>
+      <p class="hero-desc">AV Group delivers trained security guards, bouncers, VIP protection, CCTV, and facility management to businesses across Mumbai — 24 hours, 7 days a week.</p>
+      <div class="hero-btns">
         <a href="services.html" class="btn-blue">Explore Services →</a>
-        <a href="tel:+918097649810" class="btn-ghost">📞 +91 80976 49810</a>
+        <a href="tel:+918097649810" class="btn-ghost">📞 Call Now</a>
       </div>
-
-      <div class="hero-stats fi fi-d3">
-        <div class="hs"><span class="hs-n" data-target="500">0</span><span class="hs-l">Guards</span></div>
-        <div class="hs"><span class="hs-n" data-target="8">0</span><span class="hs-l">Services</span></div>
-        <div class="hs"><span class="hs-n" data-target="50">0</span><span class="hs-l">Clients</span></div>
+      <div class="hero-stats">
+        <div class="hs"><span class="hs-n">500+</span><span class="hs-l">Guards</span></div>
+        <div class="hs"><span class="hs-n">8+</span><span class="hs-l">Services</span></div>
+        <div class="hs"><span class="hs-n">50+</span><span class="hs-l">Clients</span></div>
         <div class="hs"><span class="hs-n">24/7</span><span class="hs-l">Available</span></div>
       </div>
     </div>
-
-    <!-- Right — CEO Card with BIG photo -->
-    <div class="hero-ceo-col fi fi-d2">
-      <div class="ceo-card">
-        <div class="ceo-card-bar"></div>
-
-        <!-- LARGE PHOTO AREA -->
-        <div class="ceo-photo-wrap">
-          <!-- If Hemant Dubey has a real photo, put the URL below -->
-          <!-- <img src="URL_TO_HEMANT_PHOTO" alt="Hemant Dubey — CEO AV Group"/> -->
-          <!-- Placeholder shown until real photo is added -->
-          <div class="ceo-photo-placeholder">
-            <span class="ceo-initials">HD</span>
-            <span style="font-family:'Rajdhani',sans-serif;font-size:.65rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Add Photo</span>
-          </div>
-          <div class="ceo-photo-badge">
-            <span class="ceo-name">Hemant Dubey</span>
-            <span class="ceo-role">CEO &amp; Founder — AV Group</span>
-          </div>
-        </div>
-
-        <!-- Bottom info rows -->
-        <div class="ceo-card-body">
-          <div class="ceo-row"><span class="ceo-row-icon">🎖️</span><span class="ceo-row-txt"><strong>Trained Personnel</strong>Ex-servicemen &amp; certified guards</span></div>
-          <div class="ceo-row"><span class="ceo-row-icon">📋</span><span class="ceo-row-txt"><strong>PSARA Licensed</strong>Fully authorized operations</span></div>
-          <div class="ceo-row"><span class="ceo-row-icon">🕐</span><span class="ceo-row-txt"><strong>24 × 7 Response</strong>Always on duty for you</span></div>
-        </div>
+    <div class="hero-card fi fi-d2">
+      <div class="hc-top">
+        <div class="hc-ava" aria-hidden="true">HD</div>
+        <p class="hc-name">Hemant Dubey</p>
+        <p class="hc-role">CEO &amp; Founder — AV Group</p>
+      </div>
+      <div class="hc-bot">
+        <div class="hc-row"><span class="ri">🎖️</span><span class="rt"><strong>Trained Personnel</strong>Ex-servicemen &amp; certified guards</span></div>
+        <div class="hc-row"><span class="ri">📋</span><span class="rt"><strong>PSARA Licensed</strong>Fully authorized operations</span></div>
+        <div class="hc-row"><span class="ri">🕐</span><span class="rt"><strong>24 × 7 Response</strong>Always on duty for you</span></div>
       </div>
     </div>
-
   </div>
 </section>
 
-<!-- ══ TICKER ══ -->
-<div class="ticker-wrap" aria-hidden="true">
-  <div class="ticker-track">
-    <span class="tick">Security Guards<span class="tick-sep">◆</span></span>
-    <span class="tick">Bouncers<span class="tick-sep">◆</span></span>
-    <span class="tick">VIP Protection<span class="tick-sep">◆</span></span>
-    <span class="tick">CCTV Services<span class="tick-sep">◆</span></span>
-    <span class="tick">Housekeeping<span class="tick-sep">◆</span></span>
-    <span class="tick">Manpower Supply<span class="tick-sep">◆</span></span>
-    <span class="tick">Corporate Security<span class="tick-sep">◆</span></span>
-    <span class="tick">Event Security<span class="tick-sep">◆</span></span>
-    <span class="tick">Ex-Servicemen<span class="tick-sep">◆</span></span>
-    <span class="tick">Risk Assessment<span class="tick-sep">◆</span></span>
-    <span class="tick">Security Guards<span class="tick-sep">◆</span></span>
-    <span class="tick">Bouncers<span class="tick-sep">◆</span></span>
-    <span class="tick">VIP Protection<span class="tick-sep">◆</span></span>
-    <span class="tick">CCTV Services<span class="tick-sep">◆</span></span>
-    <span class="tick">Housekeeping<span class="tick-sep">◆</span></span>
-    <span class="tick">Manpower Supply<span class="tick-sep">◆</span></span>
-    <span class="tick">Corporate Security<span class="tick-sep">◆</span></span>
-    <span class="tick">Event Security<span class="tick-sep">◆</span></span>
-    <span class="tick">Ex-Servicemen<span class="tick-sep">◆</span></span>
-    <span class="tick">Risk Assessment<span class="tick-sep">◆</span></span>
-  </div>
+<!-- ═══ TICKER ═══ -->
+<div class="ticker-wrap" aria-hidden="true"><div class="ticker-track">
+  <span class="tick-item">Security Guards<span class="tick-sep">◆</span></span>
+  <span class="tick-item">Bouncers<span class="tick-sep">◆</span></span>
+  <span class="tick-item">VIP Protection<span class="tick-sep">◆</span></span>
+  <span class="tick-item">CCTV Services<span class="tick-sep">◆</span></span>
+  <span class="tick-item">Housekeeping<span class="tick-sep">◆</span></span>
+  <span class="tick-item">Manpower Supply<span class="tick-sep">◆</span></span>
+  <span class="tick-item">Corporate Security<span class="tick-sep">◆</span></span>
+  <span class="tick-item">Event Security<span class="tick-sep">◆</span></span>
+  <span class="tick-item">Ex-Servicemen<span class="tick-sep">◆</span></span>
+  <span class="tick-item">Risk Assessment<span class="tick-sep">◆</span></span>
+  <span class="tick-item">Security Guards<span class="tick-sep">◆</span></span>
+  <span class="tick-item">Bouncers<span class="tick-sep">◆</span></span>
+  <span class="tick-item">VIP Protection<span class="tick-sep">◆</span></span>
+  <span class="tick-item">CCTV Services<span class="tick-sep">◆</span></span>
+  <span class="tick-item">Housekeeping<span class="tick-sep">◆</span></span>
+  <span class="tick-item">Manpower Supply<span class="tick-sep">◆</span></span>
+  <span class="tick-item">Corporate Security<span class="tick-sep">◆</span></span>
+  <span class="tick-item">Event Security<span class="tick-sep">◆</span></span>
+  <span class="tick-item">Ex-Servicemen<span class="tick-sep">◆</span></span>
+  <span class="tick-item">Risk Assessment<span class="tick-sep">◆</span></span>
+</div></div>
+
+<!-- ═══ STATS ═══ -->
+<div class="stats-strip" id="stats-strip" role="region" aria-label="Stats">
+  <div class="ss-item fi"><span class="ss-num" data-target="500">0</span><span class="ss-lbl">Guards Deployed</span></div>
+  <div class="ss-item fi fi-d1"><span class="ss-num" data-target="8">0</span><span class="ss-lbl">Service Categories</span></div>
+  <div class="ss-item fi fi-d2"><span class="ss-num" data-target="50">0</span><span class="ss-lbl">Happy Clients</span></div>
+  <div class="ss-item fi fi-d3"><span class="ss-num" data-target="5">0</span><span class="ss-lbl">Years Experience</span></div>
 </div>
 
-<!-- ══ STATS STRIP ══ -->
-<div class="stats-strip" role="region" aria-label="Company stats">
-  <div class="ss fi"><span class="ss-n" data-target="500">0</span><span class="ss-l">Guards Deployed</span></div>
-  <div class="ss fi fi-d1"><span class="ss-n" data-target="8">0</span><span class="ss-l">Service Categories</span></div>
-  <div class="ss fi fi-d2"><span class="ss-n" data-target="50">0</span><span class="ss-l">Happy Clients</span></div>
-  <div class="ss fi fi-d3"><span class="ss-n" data-target="5">0</span><span class="ss-l">Years Experience</span></div>
-</div>
-
-<!-- ══ WHY CHOOSE US ══ -->
-<section class="home-sec home-sec-alt" aria-labelledby="why-h">
-  <div class="sec-lbl">Why AV Group</div>
-  <h2 class="sec-h2" id="why-h">Why Clients <span class="acc">Choose Us</span></h2>
-  <div class="ubar"></div>
+<!-- ═══ WHY US ═══ -->
+<section class="home-sec home-sec-alt" aria-labelledby="why-title">
+  <div class="sec-label">Why AV Group</div>
+  <h2 class="sec-h2" id="why-title">Why Clients <span class="acc">Choose Us</span></h2>
+  <div class="u-bar"></div>
   <div class="why-grid fi">
     <div class="why-card"><span class="why-icon">🎖️</span><h4>Trained &amp; Verified</h4><p>Every guard is background-verified, physically screened, and professionally trained before deployment.</p></div>
     <div class="why-card"><span class="why-icon">⚡</span><h4>Rapid Deployment</h4><p>Emergency requirement? We can mobilize trained security within hours to any location in Mumbai.</p></div>
@@ -402,13 +410,13 @@
   </div>
 </section>
 
-<!-- ══ SERVICES PREVIEW ══ -->
-<section class="home-sec" aria-labelledby="srv-h">
-  <div class="sec-lbl">What We Offer</div>
-  <h2 class="sec-h2" id="srv-h">Our <span class="acc">Services</span></h2>
-  <div class="ubar"></div>
-  <p class="sec-p" style="margin-bottom:2rem">From security guards to CCTV, housekeeping to manpower — AV Group is your complete facility and security partner in Mumbai.</p>
-  <div class="srv-grid fi">
+<!-- ═══ SERVICES ═══ -->
+<section class="home-sec" aria-labelledby="srv-title">
+  <div class="sec-label">What We Offer</div>
+  <h2 class="sec-h2" id="srv-title">Our <span class="acc">Services</span></h2>
+  <div class="u-bar"></div>
+  <p class="sec-p" style="margin-bottom:2rem">From security guards and bouncers to CCTV, housekeeping, and manpower — AV Group is your complete security and facility partner in Mumbai.</p>
+  <div class="srv-preview fi">
     <div class="srv-tile"><span class="si">👮</span><span class="sn">Security Guard</span></div>
     <div class="srv-tile"><span class="si">💪</span><span class="sn">Bouncer</span></div>
     <div class="srv-tile"><span class="si">👑</span><span class="sn">VIP Protection</span></div>
@@ -424,34 +432,56 @@
   </div>
   <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap">
     <a href="services.html" class="btn-blue fi">View All 30+ Services →</a>
-    <a href="contact.html" class="btn-ghost fi fi-d1">Get a Free Quote</a>
+    <a href="contact.html" class="btn-ghost fi fi-d1">Get a Quote</a>
   </div>
 </section>
 
-<!-- ══ BOOK ONLINE ══ -->
-<section class="home-sec home-sec-alt" aria-labelledby="book-h">
-  <div class="sec-lbl">Book Online</div>
-  <h2 class="sec-h2" id="book-h">Book a <span class="acc">Serviceman</span></h2>
-  <div class="ubar"></div>
-  <p class="sec-p" style="margin-bottom:2rem">Browse trained personnel with prices and book directly online — confirmed within 2–4 hours.</p>
-  <div class="book-strip fi">
-    <span class="book-strip-icon">🛡️</span>
-    <div class="book-strip-body">
-      <h3>Browse &amp; Book in 3 Simple Steps</h3>
-      <p>Browse profiles free → Click Book Now → Register in 1 minute → Admin confirms your booking within 2–4 hours via call or WhatsApp.</p>
+<!-- ═══ BOOK ONLINE ═══ -->
+<section class="home-sec home-sec-alt" aria-labelledby="book-title">
+  <div class="sec-label">Book Online</div>
+  <h2 class="sec-h2" id="book-title">Book a <span class="acc">Serviceman</span></h2>
+  <div class="u-bar"></div>
+  <p class="sec-p" style="margin-bottom:2rem">Browse our trained security personnel with prices and book directly online. Fast, easy, and confirmed within 2–4 hours.</p>
+  <div class="book-steps fi">
+    <div class="book-step">
+      <div class="bs-num">1</div>
+      <h4>Browse Free</h4>
+      <p>See all available servicemen with photos and prices — no login needed.</p>
     </div>
-    <div class="book-strip-btns">
-      <a href="dashboard.html" class="btn-blue">Browse Servicemen →</a>
+    <div class="book-step">
+      <div class="bs-num">2</div>
+      <h4>Click Book Now</h4>
+      <p>Select your serviceman and fill in date, shift, and location details.</p>
+    </div>
+    <div class="book-step">
+      <div class="bs-num">3</div>
+      <h4>Quick Register</h4>
+      <p>Create a free account in 1 minute to confirm your booking.</p>
+    </div>
+    <div class="book-step">
+      <div class="bs-num">4</div>
+      <h4>Confirmed!</h4>
+      <p>Admin reviews and confirms your booking within 2–4 hours.</p>
+    </div>
+  </div>
+  <div class="book-cta fi">
+    <span class="book-cta-icon">🛡️</span>
+    <div class="book-cta-body">
+      <h3>Browse Available Servicemen</h3>
+      <p>See security guards, bouncers, gunmen &amp; more — with prices, experience, and availability shown upfront.</p>
+    </div>
+    <div class="book-cta-btns">
+      <a href="dashboard.html" class="btn-blue">Browse &amp; Book →</a>
       <a href="https://wa.me/918097649810" target="_blank" rel="noopener" class="btn-green">💬 WhatsApp</a>
     </div>
   </div>
 </section>
 
-<!-- ══ TESTIMONIALS ══ -->
-<section class="home-sec" aria-labelledby="test-h">
-  <div class="sec-lbl">Client Feedback</div>
-  <h2 class="sec-h2" id="test-h">What Clients <span class="acc">Say</span></h2>
-  <div class="ubar"></div>
+<!-- ═══ TESTIMONIALS ═══ -->
+<section class="home-sec" aria-labelledby="test-title">
+  <div class="sec-label">Client Feedback</div>
+  <h2 class="sec-h2" id="test-title">What Clients <span class="acc">Say</span></h2>
+  <div class="u-bar"></div>
   <div class="test-grid fi">
     <article class="test-card">
       <div class="test-stars">★★★★★</div>
@@ -462,28 +492,28 @@
     <article class="test-card">
       <div class="test-stars">★★★★★</div>
       <div class="test-q">"</div>
-      <p class="test-text">We hired AV Group for our annual conference. Their bouncers managed the crowd perfectly. Disciplined, professional, and very responsive throughout the event.</p>
+      <p class="test-text">We hired AV Group for our annual conference. Their bouncers managed the crowd perfectly. Disciplined, professional, and very responsive throughout.</p>
       <div class="test-author"><div class="test-av">PK</div><div class="test-nm"><strong>Priya Kapoor</strong><span>Event Organiser, Thane</span></div></div>
     </article>
     <article class="test-card">
       <div class="test-stars">★★★★★</div>
       <div class="test-q">"</div>
-      <p class="test-text">Their CCTV installation was fast and professional. The monitoring service gives complete peace of mind for our warehouse in Navi Mumbai. Excellent team.</p>
+      <p class="test-text">Their CCTV installation was fast and professional. The monitoring service gives complete peace of mind for our warehouse operations in Navi Mumbai.</p>
       <div class="test-author"><div class="test-av">AS</div><div class="test-nm"><strong>Anil Sharma</strong><span>Industrial Unit, Navi Mumbai</span></div></div>
     </article>
   </div>
-  <p style="text-align:center;margin-top:1.1rem;font-size:.74rem;color:var(--muted)">* Sample testimonials — real reviews will be added once provided.</p>
+
 </section>
 
-<!-- ══ FINAL CTA ══ -->
+<!-- ═══ FINAL CTA ═══ -->
 <section class="home-sec home-sec-alt">
   <div class="cta-banner fi">
-    <span class="cta-icon">🛡️</span>
-    <div class="cta-body">
+    <span class="cta-banner-icon">🛡️</span>
+    <div class="cta-banner-body">
       <h3>Ready to Secure Your Business?</h3>
-      <p>Get in touch today. We'll assess your requirements and provide a customized security solution — competitive pricing, trained staff, fast deployment.</p>
+      <p>Get in touch today. We'll assess your needs and provide a customized security and facility solution — competitive pricing, trained staff, fast deployment.</p>
     </div>
-    <div class="cta-btns">
+    <div class="cta-banner-btns">
       <a href="contact.html" class="btn-blue">Get Free Quote →</a>
       <a href="https://wa.me/918097649810" target="_blank" rel="noopener" class="btn-green">💬 WhatsApp</a>
     </div>
@@ -492,32 +522,27 @@
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-grid">
+  <div class="footer-top">
     <div class="f-brand">
       <div class="f-logo-wrap"><img src="Logo.jpeg" class="f-logo-img" alt="AV Group"/><div class="f-logo-text">AV GROUP<span>SECURITY</span></div></div>
       <p>Professional Security &amp; Facility Services. Trusted by businesses across Mumbai for trained, certified, and reliable security.</p>
       <a href="tel:+918097649810" class="f-phone">+91 80976 49810</a>
+      <span style="font-size:.76rem;color:var(--muted)">AV Group Management</span>
     </div>
     <div class="f-col"><h5>Quick Links</h5><ul>
-      <li><a href="index.html">Home</a></li>
-      <li><a href="about.html">About Us</a></li>
-      <li><a href="services.html">Services</a></li>
-      <li><a href="clients.html">Clients</a></li>
+      <li><a href="index.html">Home</a></li><li><a href="about.html">About Us</a></li>
+      <li><a href="services.html">Services</a></li><li><a href="clients.html">Clients</a></li>
       <li><a href="contact.html">Contact Us</a></li>
     </ul></div>
     <div class="f-col"><h5>Security</h5><ul>
-      <li><a href="services.html">Security Guards</a></li>
-      <li><a href="services.html">Bouncers</a></li>
-      <li><a href="services.html">VIP Protection</a></li>
-      <li><a href="services.html">Corporate Security</a></li>
-      <li><a href="services.html">Event Security</a></li>
+      <li><a href="services.html#panel-sec">Security Guards</a></li><li><a href="services.html#panel-sec">Bouncers</a></li>
+      <li><a href="services.html#panel-pro">VIP Protection</a></li><li><a href="services.html#panel-pro">Corporate Security</a></li>
+      <li><a href="services.html#panel-pro">Event Security</a></li>
     </ul></div>
     <div class="f-col"><h5>Other Services</h5><ul>
-      <li><a href="services.html">CCTV Services</a></li>
-      <li><a href="services.html">Housekeeping</a></li>
-      <li><a href="services.html">Manpower Supply</a></li>
-      <li><a href="services.html">Investigation</a></li>
-      <li><a href="services.html">Construction</a></li>
+      <li><a href="services.html#panel-cctv">CCTV Services</a></li><li><a href="services.html#panel-hk">Housekeeping</a></li>
+      <li><a href="services.html#panel-hr">Manpower Supply</a></li><li><a href="services.html#panel-intel">Investigation</a></li>
+      <li><a href="services.html#panel-con">Construction</a></li>
     </ul></div>
   </div>
   <div class="footer-bottom">
@@ -525,12 +550,14 @@
     <div class="f-badges"><span class="f-badge">24 × 7</span><span class="f-badge">Licensed</span><span class="f-badge">Trained Staff</span></div>
   </div>
 </footer>
-
-<div class="credit-bar">
-  <span>Designed &amp; Developed by</span>
-  <a href="https://github.com/rajg39389-source" target="_blank" rel="noopener">⚡ Raj Gupta</a>
-  <span>· Need a website? Contact me!</span>
-</div>
+  <!-- MADE BY CREDIT -->
+  <div style="background:#020710;border-top:1px solid rgba(224,155,26,.1);padding:.9rem max(5vw,16px);display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap;text-align:center">
+    <span style="font-family:'Rajdhani',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted)">Designed &amp; Developed by</span>
+    <a href="https://github.com/rajg39389-source" target="_blank" rel="noopener" style="font-family:'Rajdhani',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);text-decoration:none;display:inline-flex;align-items:center;gap:.4rem;transition:opacity .3s" onmouseover="this.style.opacity='.7'" onmouseout="this.style.opacity='1'">
+      ⚡ Raj Gupta
+    </a>
+    <span style="font-family:'Rajdhani',sans-serif;font-size:.68rem;color:rgba(90,112,153,.5);letter-spacing:1px">· Need a website? Contact me!</span>
+  </div>
 
 <a href="https://wa.me/918097649810" target="_blank" rel="noopener" id="wa-float" aria-label="Chat on WhatsApp">💬</a>
 <button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
