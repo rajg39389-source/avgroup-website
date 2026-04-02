@@ -502,10 +502,19 @@ window.loadAttendance = async function(){
   set('att-ci','-'); set('att-co','-'); set('att-emp','-'); set('att-total','-');
 
   try{
-    const q=query(collection(db,'attendance'), where('date','==',dateVal));
-    const snap=await getDocs(q);
-    let recs=snap.docs.map(d=>({id:d.id,...d.data()}));
-    recs.sort((a,b)=>new Date(a.timestamp)-new Date(b.timestamp));
+    // Simple date-based query — no composite index needed
+    const q = query(collection(db,'attendance'), where('date','==',dateVal));
+    let snap, recs = [];
+    try {
+      snap = await getDocs(q);
+      recs = snap.docs.map(d=>({id:d.id,...d.data()}));
+      recs.sort((a,b)=>new Date(a.timestamp)-new Date(b.timestamp));
+    } catch(qErr) {
+      console.error('Attendance query error:', qErr.code, qErr.message);
+      hide('attLoader');
+      content.innerHTML = '<div class="no-data" style="color:var(--red)"><span class="nd-icon">⚠️</span>Error loading attendance: ' + qErr.message + '<br><span style="font-size:.78rem">Check Firebase Rules allow admin to read attendance.</span></div>';
+      return;
+    }
     hide('attLoader');
 
     const checkIns  = recs.filter(r=>r.type==='in').length;

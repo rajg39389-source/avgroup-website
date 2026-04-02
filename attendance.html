@@ -244,20 +244,37 @@ window.markAtt = async function(type){
     const now=new Date();
     const todayStr=now.toISOString().split('T')[0];
 
-    await addDoc(collection(db,'attendance'),{
-      userId:     currentUser.uid,
-      userName:   userProfile?.fullName||currentUser.displayName||currentUser.email,
-      userEmail:  currentUser.email,
-      userPhone:  userProfile?.phone||'',
+    // Save to Firestore — with error handling
+    const attData = {
+      userId:    currentUser.uid,
+      userName:  userProfile?.fullName || currentUser.displayName || currentUser.email,
+      userEmail: currentUser.email,
+      userPhone: userProfile?.phone || '',
       type,
-      timestamp:  now.toISOString(),
-      date:       todayStr,
-      latitude:   lat,
-      longitude:  lng,
-      address:    address||'',
-      note:       note||'',
-      createdAt:  serverTimestamp()
-    });
+      timestamp: now.toISOString(),
+      date:      todayStr,
+      latitude:  lat,
+      longitude: lng,
+      address:   address || '',
+      note:      note || '',
+      createdAt: serverTimestamp()
+    };
+    
+    let saveSuccess = false;
+    try {
+      await addDoc(collection(db,'attendance'), attData);
+      saveSuccess = true;
+    } catch(saveErr) {
+      console.error('Firestore save error:', saveErr.code, saveErr.message);
+      // Try saving to localStorage as backup
+      try {
+        const local = JSON.parse(localStorage.getItem('att_backup')||'[]');
+        local.push({...attData, createdAt: now.toISOString()});
+        localStorage.setItem('att_backup', JSON.stringify(local.slice(-50)));
+        console.log('Saved to localStorage backup');
+      } catch(le){}
+      throw new Error('Could not save attendance. Check your internet connection and try again. Error: ' + saveErr.code);
+    }
 
     const timeStr=now.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true});
 
@@ -295,10 +312,23 @@ async function loadTodayRecords(){
   if(!currentUser) return;
   const today=new Date().toISOString().split('T')[0];
   try{
-    const q=query(collection(db,'attendance'),where('userId','==',currentUser.uid),where('date','==',today));
-    const snap=await getDocs(q);
-    let recs=snap.docs.map(d=>({id:d.id,...d.data()}));
-    recs.sort((a,b)=>new Date(b.timestamp)-new Date(a.timestamp));
+    // Query without orderBy to avoid needing a Firestore composite index
+    const q = query(
+      collection(db,'attendance'),
+      where('userId','==', currentUser.uid),
+      where('date','==', today)
+    );
+    let snap, recs = [];
+    try {
+      snap = await getDocs(q);
+      recs = snap.docs.map(d=>({id:d.id,...d.data()}));
+      // Sort client-side (newest first) — avoids needing Firestore composite index
+      recs.sort((a,b)=> new Date(a.timestamp) - new Date(b.timestamp));
+    } catch(qErr) {
+      console.error('Query error:', qErr.code, qErr.message);
+      hist.innerHTML='<div class="no-data" style="padding:1rem;color:var(--red)">Could not load history. Check internet and refresh.</div>';
+      return;
+    }
     const hist=document.getElementById('histList');
     if(!recs.length){ hist.innerHTML='<div class="no-data" style="padding:1rem;font-size:.8rem">No attendance records today yet.</div>'; return; }
 
