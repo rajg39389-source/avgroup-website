@@ -246,19 +246,18 @@
 
     <!-- ══ ATTENDANCE ══ -->
     <div class="panel" id="panel-attendance">
-      <div class="admin-sec-head"><h2>GPS <span>Attendance</span></h2><p>View daily check-in/check-out records with hours worked per employee.</p></div>
+      <div class="admin-sec-head"><h2>GPS <span>Attendance</span></h2><p>All employee attendance history. Click any employee to see their full records by date.</p></div>
 
-      <!-- Date filter -->
-      <div class="filter-row" style="margin-bottom:1.5rem">
-        <input type="date" class="att-date-input" id="attDate"/>
-        <button class="att-filter-btn" onclick="loadAttendance()">Filter Date →</button>
-        <button class="att-filter-btn sec" onclick="loadAttendanceToday()">Today</button>
+      <!-- Search bar -->
+      <div style="position:relative;max-width:400px;margin-bottom:1.5rem">
+        <input type="text" id="attSearch" placeholder="🔍  Search employee name or email..." oninput="filterAttEmployees(this.value)"
+          style="width:100%;background:var(--card);border:1px solid var(--border);color:var(--steel);padding:.75rem 1rem .75rem 1rem;font-size:16px;font-family:'DM Sans',sans-serif;outline:none;border-radius:0;-webkit-appearance:none;transition:border-color .3s;min-height:var(--touch)"/>
       </div>
 
       <!-- Summary stats -->
       <div class="stats-grid" style="margin-bottom:1.5rem">
-        <div class="stat-box green"><span class="stat-num" id="att-ci">-</span><span class="stat-lbl">Check Ins</span></div>
-        <div class="stat-box red"><span class="stat-num" id="att-co">-</span><span class="stat-lbl">Check Outs</span></div>
+        <div class="stat-box green"><span class="stat-num" id="att-ci">-</span><span class="stat-lbl">Total Check Ins</span></div>
+        <div class="stat-box red"><span class="stat-num" id="att-co">-</span><span class="stat-lbl">Total Check Outs</span></div>
         <div class="stat-box"><span class="stat-num" id="att-emp">-</span><span class="stat-lbl">Employees</span></div>
         <div class="stat-box"><span class="stat-num" id="att-total">-</span><span class="stat-lbl">Total Records</span></div>
       </div>
@@ -486,115 +485,145 @@ document.getElementById('addForm').addEventListener('submit', async e=>{
   btn.disabled=false; btn.innerHTML='Add Serviceman →';
 });
 
-// ── ATTENDANCE ──
-window.loadAttendanceToday = function(){
-  const today=new Date().toISOString().split('T')[0];
-  document.getElementById('attDate').value=today;
-  loadAttendance();
-};
+// ── ATTENDANCE — Load ALL records, group by employee ──
+let allAttRecs = []; // global cache
 
-window.loadAttendance = async function(){
-  const dateVal=document.getElementById('attDate').value;
-  if(!dateVal){ toast('Please select a date',true); return; }
-  const loader=document.getElementById('attLoader');
-  const content=document.getElementById('attContent');
-  loader.style.display='flex'; content.innerHTML='';
+window.loadAttendanceToday = window.loadAttendance = async function(){
+  const loader  = document.getElementById('attLoader');
+  const cont    = document.getElementById('attContent');
+  if(loader) loader.style.display='flex';
+  if(cont)   cont.innerHTML='';
   set('att-ci','-'); set('att-co','-'); set('att-emp','-'); set('att-total','-');
 
-  try{
-    // Simple date-based query — no composite index needed
-    const q = query(collection(db,'attendance'), where('date','==',dateVal));
-    let snap, recs = [];
-    try {
-      snap = await getDocs(q);
-      recs = snap.docs.map(d=>({id:d.id,...d.data()}));
-      recs.sort((a,b)=>new Date(a.timestamp)-new Date(b.timestamp));
-    } catch(qErr) {
-      console.error('Attendance query error:', qErr.code, qErr.message);
-      hide('attLoader');
-      content.innerHTML = '<div class="no-data" style="color:var(--red)"><span class="nd-icon">⚠️</span>Error loading attendance: ' + qErr.message + '<br><span style="font-size:.78rem">Check Firebase Rules allow admin to read attendance.</span></div>';
-      return;
-    }
+  try {
+    // Load ALL attendance records — no date filter, no orderBy needed
+    const snap = await getDocs(collection(db,'attendance'));
+    allAttRecs = snap.docs.map(d=>({id:d.id,...d.data()}));
+    allAttRecs.sort((a,b)=>new Date(a.timestamp)-new Date(b.timestamp));
     hide('attLoader');
-
-    const checkIns  = recs.filter(r=>r.type==='in').length;
-    const checkOuts = recs.filter(r=>r.type==='out').length;
-    set('att-ci',checkIns); set('att-co',checkOuts); set('att-total',recs.length);
-
-    if(!recs.length){
-      content.innerHTML='<div class="no-data"><span class="nd-icon">📍</span>No attendance records for this date.<br><span style="font-size:.78rem">Servicemen need to check in via the attendance page on their phone.</span></div>';
-      set('att-emp',0); return;
-    }
-
-    // Group by employee
-    const byEmp={};
-    recs.forEach(r=>{
-      const key=r.userId||r.userEmail;
-      if(!byEmp[key]) byEmp[key]={name:r.userName||r.userEmail,email:r.userEmail,phone:r.userPhone||'',records:[]};
-      byEmp[key].records.push(r);
-    });
-    set('att-emp',Object.keys(byEmp).length);
-
-    // Render each employee card — collapsible
-    content.innerHTML=Object.values(byEmp).map((emp,idx)=>{
-      const ins  = emp.records.filter(r=>r.type==='in');
-      const outs = emp.records.filter(r=>r.type==='out');
-      // Calculate total hours
-      let totalMs=0;
-      ins.forEach((inRec,i)=>{
-        const outRec=outs[i];
-        if(outRec){
-          const diff=new Date(outRec.timestamp)-new Date(inRec.timestamp);
-          if(diff>0) totalMs+=diff;
-        }
-      });
-      const totalHrs=Math.floor(totalMs/3600000);
-      const totalMins=Math.floor((totalMs%3600000)/60000);
-      const hoursStr=totalMs>0?`${totalHrs}h ${totalMins}m`:'In Progress';
-      const cardId='emp-card-'+idx;
-
-      return `<div class="emp-att-card" id="${cardId}">
-        <div class="emp-att-head" onclick="toggleEmp('${cardId}')" title="Click to expand/collapse">
-          <div class="emp-att-left">
-            <div>
-              <div class="emp-att-name">👤 ${emp.name}</div>
-              <div class="emp-att-email">${emp.email}${emp.phone?' · '+emp.phone:''}</div>
-            </div>
-          </div>
-          <div class="emp-att-stats">
-            <div class="emp-stat green"><span class="es-val">${ins.length}</span><span class="es-lbl">In</span></div>
-            <div class="emp-stat red"><span class="es-val">${outs.length}</span><span class="es-lbl">Out</span></div>
-            <div class="emp-stat gold"><span class="es-val">${hoursStr}</span><span class="es-lbl">Hours</span></div>
-            <span class="emp-chevron">▾</span>
-          </div>
-        </div>
-        <div class="emp-att-body">
-          <div class="emp-att-inner">
-          ${emp.records.map(r=>`
-            <div class="att-entry">
-              <div class="att-entry-type"><span class="badge ${r.type==='in'?'badge-in':'badge-out'}">${r.type==='in'?'CHECK IN':'CHECK OUT'}</span></div>
-              <div style="flex:1;min-width:0">
-                <div class="att-entry-time">🕐 ${new Date(r.timestamp).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true})}</div>
-                <div class="att-entry-loc">📍 ${r.address||'Location captured'}${r.note?` · <em style="color:var(--gold-lt)">${r.note}</em>`:''}</div>
-                ${r.latitude?`<a href="https://www.google.com/maps?q=${r.latitude},${r.longitude}" target="_blank" rel="noopener" class="att-map-link">🗺 View on Google Maps</a>`:''}
-              </div>
-            </div>`).join('')}
-          </div>
-        </div>
-      </div>`;
-    }).join('');
-
-    // Toggle function
-    window.toggleEmp = function(id){
-      const card=document.getElementById(id);
-      if(card) card.classList.toggle('open');
-    };
-
-  }catch(e){
+    renderAttContent(allAttRecs);
+  } catch(e) {
     hide('attLoader');
-    content.innerHTML=`<div class="no-data" style="color:var(--red)"><span class="nd-icon">⚠️</span>Error loading attendance: ${e.message}</div>`;
+    if(cont) cont.innerHTML=`<div class="no-data" style="color:var(--red)"><span class="nd-icon">⚠️</span>Error: ${e.message}</div>`;
     console.error('Attendance error:',e);
   }
+};
+
+function renderAttContent(recs) {
+  const cont = document.getElementById('attContent');
+  if(!cont) return;
+
+  const checkIns  = recs.filter(r=>r.type==='in').length;
+  const checkOuts = recs.filter(r=>r.type==='out').length;
+  set('att-ci', checkIns); set('att-co', checkOuts); set('att-total', recs.length);
+
+  if(!recs.length){
+    cont.innerHTML='<div class="no-data"><span class="nd-icon">📍</span>No attendance records yet.<br><span style="font-size:.78rem">Employees need to check in via the attendance page on their phone.</span></div>';
+    set('att-emp',0); return;
+  }
+
+  // Group by employee
+  const byEmp = {};
+  recs.forEach(r=>{
+    const key = r.userId || r.userEmail;
+    if(!byEmp[key]) byEmp[key]={name:r.userName||r.userEmail||'Unknown',email:r.userEmail||'',phone:r.userPhone||'',records:[]};
+    byEmp[key].records.push(r);
+  });
+  set('att-emp', Object.keys(byEmp).length);
+
+  // For each employee group records by date
+  cont.innerHTML = Object.values(byEmp).map((emp,idx)=>{
+    const totalIns  = emp.records.filter(r=>r.type==='in').length;
+    const totalOuts = emp.records.filter(r=>r.type==='out').length;
+
+    // Calculate total hours across ALL dates
+    let totalMs = 0;
+    const ins  = emp.records.filter(r=>r.type==='in');
+    const outs = emp.records.filter(r=>r.type==='out');
+    ins.forEach((inRec,i)=>{
+      const outRec = outs[i];
+      if(outRec){ const d=new Date(outRec.timestamp)-new Date(inRec.timestamp); if(d>0) totalMs+=d; }
+    });
+    const totalHrs  = Math.floor(totalMs/3600000);
+    const totalMins = Math.floor((totalMs%3600000)/60000);
+    const hoursStr  = totalMs>0 ? `${totalHrs}h ${totalMins}m` : totalIns>totalOuts ? 'Active' : '—';
+
+    // Group this employee's records by date
+    const byDate = {};
+    emp.records.forEach(r=>{
+      const d = r.date || r.timestamp?.split('T')[0] || '—';
+      if(!byDate[d]) byDate[d]=[];
+      byDate[d].push(r);
+    });
+    const dates = Object.keys(byDate).sort((a,b)=>b.localeCompare(a)); // newest date first
+
+    const cardId = 'emp-'+idx;
+    return `<div class="emp-att-card" id="${cardId}" data-name="${emp.name.toLowerCase()} ${emp.email.toLowerCase()}">
+      <div class="emp-att-head" onclick="toggleEmp('${cardId}')" title="Click to see full history">
+        <div class="emp-att-left">
+          <div>
+            <div class="emp-att-name">👤 ${emp.name}</div>
+            <div class="emp-att-email">${emp.email}${emp.phone?' · '+emp.phone:''}</div>
+          </div>
+        </div>
+        <div class="emp-att-stats">
+          <div class="emp-stat green"><span class="es-val">${totalIns}</span><span class="es-lbl">Check Ins</span></div>
+          <div class="emp-stat red"><span class="es-val">${totalOuts}</span><span class="es-lbl">Check Outs</span></div>
+          <div class="emp-stat gold"><span class="es-val">${hoursStr}</span><span class="es-lbl">Total Hrs</span></div>
+          <div class="emp-stat" style="min-width:36px;text-align:center"><span class="es-val" style="color:var(--muted)">${dates.length}</span><span class="es-lbl">Days</span></div>
+          <span class="emp-chevron">▾</span>
+        </div>
+      </div>
+      <div class="emp-att-body">
+        <div class="emp-att-inner">
+          ${dates.map(date=>{
+            const dayRecs = byDate[date].sort((a,b)=>new Date(a.timestamp)-new Date(b.timestamp));
+            const dayIns  = dayRecs.filter(r=>r.type==='in');
+            const dayOuts = dayRecs.filter(r=>r.type==='out');
+            let dayMs=0;
+            dayIns.forEach((ir,i)=>{ const or=dayOuts[i]; if(or){const d=new Date(or.timestamp)-new Date(ir.timestamp);if(d>0)dayMs+=d;} });
+            const dh=Math.floor(dayMs/3600000), dm=Math.floor((dayMs%3600000)/60000);
+            const dayHrs = dayMs>0 ? `${dh}h ${dm}m` : dayIns.length>dayOuts.length?'In Progress':'—';
+            const dateObj = new Date(date+'T00:00:00');
+            const dayName = dateObj.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'short',year:'numeric'});
+            return `<div style="margin-bottom:1rem">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:.5rem;background:var(--navy2);border:1px solid var(--border2);padding:.55rem .9rem;margin-bottom:.4rem;flex-wrap:wrap">
+                <div style="font-family:'Rajdhani',sans-serif;font-size:.8rem;font-weight:700;letter-spacing:1px;color:var(--white)">📅 ${dayName}</div>
+                <div style="display:flex;gap:1rem;align-items:center">
+                  <span style="font-family:'Rajdhani',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--green)">${dayIns.length} In</span>
+                  <span style="font-family:'Rajdhani',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--red)">${dayOuts.length} Out</span>
+                  <span style="font-family:'Rajdhani',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gold)">${dayHrs}</span>
+                </div>
+              </div>
+              ${dayRecs.map(r=>`
+              <div class="att-entry">
+                <div class="att-entry-type"><span class="badge ${r.type==='in'?'badge-in':'badge-out'}">${r.type==='in'?'CHECK IN':'CHECK OUT'}</span></div>
+                <div style="flex:1;min-width:0">
+                  <div class="att-entry-time">🕐 ${new Date(r.timestamp).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true})}</div>
+                  <div class="att-entry-loc">📍 ${r.address||'Location captured'}${r.note?` · <em style="color:var(--gold-lt)">${r.note}</em>`:''}</div>
+                  ${r.latitude?`<a href="https://www.google.com/maps?q=${r.latitude},${r.longitude}" target="_blank" rel="noopener" class="att-map-link">🗺 View on Google Maps</a>`:''}
+                </div>
+              </div>`).join('')}
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  window.toggleEmp = function(id){
+    const card=document.getElementById(id);
+    if(card) card.classList.toggle('open');
+  };
+}
+
+// ── SEARCH ──
+window.filterAttEmployees = function(val){
+  const q = val.toLowerCase().trim();
+  document.querySelectorAll('#attContent .emp-att-card').forEach(card=>{
+    const name = card.getAttribute('data-name')||'';
+    card.style.display = (!q || name.includes(q)) ? '' : 'none';
+  });
 };
 
 // ── USERS ──

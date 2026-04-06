@@ -299,6 +299,7 @@ window.markAtt = async function(type){
     }
 
     document.getElementById('attNote').value='';
+    // Reload records to correctly update button state
     await loadTodayRecords();
 
   }catch(err){
@@ -310,42 +311,69 @@ window.markAtt = async function(type){
 
 async function loadTodayRecords(){
   if(!currentUser) return;
-  const today=new Date().toISOString().split('T')[0];
+  const today = new Date().toISOString().split('T')[0];
+  const hist  = document.getElementById('histList');
   try{
-    // Query without orderBy to avoid needing a Firestore composite index
     const q = query(
       collection(db,'attendance'),
-      where('userId','==', currentUser.uid),
-      where('date','==', today)
+      where('userId','==',currentUser.uid),
+      where('date','==',today)
     );
     let snap, recs = [];
     try {
       snap = await getDocs(q);
       recs = snap.docs.map(d=>({id:d.id,...d.data()}));
-      // Sort client-side (newest first) — avoids needing Firestore composite index
-      recs.sort((a,b)=> new Date(a.timestamp) - new Date(b.timestamp));
+      recs.sort((a,b)=> new Date(a.timestamp) - new Date(b.timestamp)); // oldest first
     } catch(qErr) {
       console.error('Query error:', qErr.code, qErr.message);
-      hist.innerHTML='<div class="no-data" style="padding:1rem;color:var(--red)">Could not load history. Check internet and refresh.</div>';
+      if(hist) hist.innerHTML='<div class="no-data" style="padding:1rem;color:var(--red)">Could not load history. Check internet and refresh.</div>';
       return;
     }
-    const hist=document.getElementById('histList');
-    if(!recs.length){ hist.innerHTML='<div class="no-data" style="padding:1rem;font-size:.8rem">No attendance records today yet.</div>'; return; }
 
-    // Check if last record is check-in (no checkout yet)
-    const lastRec=recs[0];
-    if(lastRec.type==='in' && document.getElementById('btnOut').style.display==='none'){
-      checkinTime=new Date(lastRec.timestamp);
-      document.getElementById('infoCheckin').textContent=new Date(lastRec.timestamp).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true});
-      document.getElementById('scIcon').textContent='✅';
-      document.getElementById('currStatus').className='att-curr in';
-      document.getElementById('currText').textContent='✅ Shift Active';
-      document.getElementById('btnIn').style.display='none';
-      document.getElementById('btnOut').style.display='flex';
-      document.getElementById('btnOut').disabled=false;
+    if(!recs.length){
+      // No records — reset to fresh check-in state
+      document.getElementById('btnIn').style.display  = 'flex';
+      document.getElementById('btnOut').style.display = 'none';
+      document.getElementById('btnIn').disabled = false;
+      document.getElementById('scIcon').textContent = '📋';
+      document.getElementById('currStatus').className = 'att-curr off';
+      document.getElementById('currText').textContent  = 'Not Checked In';
+      document.getElementById('infoCheckin').textContent = '--';
+      document.getElementById('infoHours').textContent   = '--';
+      checkinTime = null;
+      if(hist) hist.innerHTML='<div class="no-data" style="padding:1rem;font-size:.8rem">No attendance records today yet.</div>';
+      return;
     }
 
-    hist.innerHTML=recs.map(r=>`
+    // ── Determine current state from LAST record ──
+    const lastRec = recs[recs.length - 1]; // most recent
+
+    if(lastRec.type === 'in') {
+      // Currently checked in — show CHECK OUT button
+      checkinTime = new Date(lastRec.timestamp);
+      document.getElementById('infoCheckin').textContent = new Date(lastRec.timestamp).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true});
+      document.getElementById('scIcon').textContent      = '✅';
+      document.getElementById('currStatus').className    = 'att-curr in';
+      document.getElementById('currText').textContent    = '✅ Shift Active — Click Check Out when done';
+      document.getElementById('btnIn').style.display     = 'none';
+      document.getElementById('btnOut').style.display    = 'flex';
+      document.getElementById('btnOut').disabled         = false;
+    } else {
+      // Last action was CHECK OUT — show CHECK IN for new shift
+      checkinTime = null;
+      document.getElementById('scIcon').textContent      = '🔴';
+      document.getElementById('currStatus').className    = 'att-curr out';
+      document.getElementById('currText').textContent    = '🔴 Last shift ended — tap Check In to start new shift';
+      document.getElementById('btnOut').style.display    = 'none';
+      document.getElementById('btnIn').style.display     = 'flex';
+      document.getElementById('btnIn').disabled          = false;
+      document.getElementById('btnIn').textContent       = '✅ CHECK IN — Start New Shift';
+      document.getElementById('infoHours').textContent   = '--';
+    }
+
+    // Render history (newest first for display)
+    const displayRecs = [...recs].reverse();
+    if(hist) hist.innerHTML = displayRecs.map(r=>`
       <div class="hist-item">
         <div class="hist-badge"><span class="badge ${r.type==='in'?'badge-in':'badge-out'}">${r.type==='in'?'IN':'OUT'}</span></div>
         <div class="hist-info">
@@ -354,6 +382,7 @@ async function loadTodayRecords(){
           ${r.latitude?`<a href="https://www.google.com/maps?q=${r.latitude},${r.longitude}" target="_blank" rel="noopener" class="hist-map">🗺 View on Maps</a>`:''}
         </div>
       </div>`).join('');
+
   }catch(e){ console.error('History error:',e); }
 }
 
